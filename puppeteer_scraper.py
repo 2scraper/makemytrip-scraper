@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
 """
-binance-scraper — pyppeteer edition (secondary engine)
-======================================================
+makemytrip-scraper — pyppeteer edition (secondary engine)
+=========================================================
 
 The same scrape as playwright_scraper.py, driven through pyppeteer. It must
 agree with its twins on exit codes, run status, and whether a run crashes or
 spends money. The fetch loop that decides all three lives in page_flow.py
 and is shared, so this file is browser plumbing and nothing else: how
-pyppeteer navigates, reads a document, issues a fetch() and sets a cookie.
+pyppeteer navigates, reads a document and issues a fetch().
 
-    --mode p2p            (default)  the P2P order book for --asset/--fiat
-    --mode copytrading               Futures copy-trading lead portfolios
-    --mode announcements             one announcement catalogue
+    --mode hotels    (the only mode)  a city's hotel listing
 
-See playwright_scraper.py's header for why every request is a same-origin
-fetch() from a landed endpoint rather than a rendered page.
+See playwright_scraper.py's header for why every request is a fetch() from
+a landed page rather than a rendered listing, and why a datacentre run needs
+--cdp-endpoint.
 
 Two things to know before choosing this engine:
 
@@ -26,7 +25,8 @@ Two things to know before choosing this engine:
 
 Usage
 -----
-    python puppeteer_scraper.py --asset USDT --fiat EUR --pages 3
+    python puppeteer_scraper.py --city Goa --pages 3 \\
+        --cdp-endpoint "$MAKEMYTRIP_CDP_ENDPOINT"
 
 Requires: pip install -r requirements.txt -r requirements-puppeteer.txt
           (pyppeteer downloads its own Chromium on first run)
@@ -36,13 +36,11 @@ import argparse
 import asyncio
 import concurrent.futures
 import logging
-import queue
 import re
 import sys
 import threading
 import time
 from typing import Optional
-from urllib.parse import urlparse
 
 # At module level, deliberately, and not inside the launch path. The offline
 # suite guards `import puppeteer_scraper` behind try/except ImportError and
@@ -51,13 +49,13 @@ from urllib.parse import urlparse
 # (CLAUDE.md §10).
 from pyppeteer import launch, connect
 
-from captcha_solver import detect_aws_waf, solve_recaptcha, AWS_WAF_COOKIE
-from product_parser import (ANN_CATALOGS, COPY_SORTS, COPY_TIME_RANGES,
-                            DEFAULT_ANN_CATALOG, DEFAULT_COPY_SORT, P2P_SIDES)
+from captcha_solver import (detect_recaptcha_v3, detect_recaptcha_in_page,
+                            reconcile_detections, solve_recaptcha,
+                            INJECT_TOKEN_JS)
 from output_writer import EXIT_API_ERROR
 import page_flow
-from proxy_pool import (from_args as proxy_pool_from_args, mask, ROTATE_MODES,
-                        ProxyError, split_credentials)
+from proxy_pool import (from_args as proxy_pool_from_args, mask, ProxyError,
+                        split_credentials)
 import env_config
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -84,21 +82,19 @@ _PROXY_ERROR_MARKERS = (
 # pyppeteer's dialect of the fetch() in playwright_scraper.FETCH_JS: the
 # arguments arrive POSITIONALLY rather than as one array. Same body, same
 # return shape, same AbortController timeout (§8), same `credentials:
-# "include"` so a solved aws-waf-token rides along.
+# "include"` and the same headers the site's own front end sends.
 FETCH_JS = """
-async (url, method, body, timeoutMs) => {
+async (url, method, body, headers, timeoutMs) => {
   const ctl = new AbortController();
   const timer = setTimeout(() => ctl.abort(), timeoutMs);
   try {
     const init = {method, credentials: "include", signal: ctl.signal,
-                  headers: {"accept": "application/json, text/plain, */*"}};
+                  headers: Object.assign({"accept": "application/json"}, headers || {})};
     if (body !== null) {
-      init.headers["content-type"] = "application/json";
       init.body = body;
     }
     const r = await fetch(url, init);
-    return {status: r.status, text: await r.text(),
-            waf: r.headers.get("x-amzn-waf-action")};
+    return {status: r.status, text: await r.text(), waf: null};
   } catch (e) {
     return {status: 0, text: "", waf: null, error: String(e)};
   } finally {
@@ -106,8 +102,6 @@ async (url, method, body, timeoutMs) => {
   }
 }
 """
-
-BODY_TEXT_JS = "() => document.body ? document.body.innerText : ''"
 
 
 class _AsyncBridge:
@@ -203,13 +197,6 @@ def _proxy_failure(text) -> str:
     return ""
 
 
-def _proxy_for_task(args, pool) -> Optional[str]:
-    """The exit an AmazonTask should solve from, or None over CDP."""
-    if args.cdp_endpoint or not pool:
-        return None
-    return pool.current
-
-
 class _Ops:
     """One pyppeteer browser + page, exposed as page_flow's named operations.
 
@@ -231,9 +218,16 @@ class _Ops:
             err = None
             for attempt in range(1, page_flow.CDP_CONNECT_ATTEMPTS + 1):
                 try:
+                    # No `ignoreHTTPSErrors` here. With it, pyppeteer 2.0.0's
+                    # connect() never returned from a Scraping Browser
+                    # profile (40 s, then the bridge's timeout), and without
+                    # it the same profile connected in 1.7 s, twice, in one
+                    # session on 2026-09-24. The sibling this engine was
+                    # copied from passed it and was measured on an older
+                    # pyppeteer. A remote browser's certificates are not
+                    # ours to overrule anyway.
                     self.browser = self.bridge.run(
-                        connect(browserWSEndpoint=self.args.cdp_endpoint,
-                                ignoreHTTPSErrors=True),
+                        connect(browserWSEndpoint=self.args.cdp_endpoint),
                         timeout=page_flow.CDP_CONNECT_TIMEOUT_S)
                     err = None
                     break
@@ -299,10 +293,10 @@ class _Ops:
 
     def _enable_autosolve(self):
         """The Scraping Browser API's own CAPTCHA domain, as the Playwright
-        engine enables it: if the WAF ever puts its CAPTCHA in front of the
-        landing, the extension can clear it before the local solver gets a
-        turn. Absent from this engine until the first live run over
-        --cdp-endpoint showed the difference."""
+        engine enables it: if a captcha ever appears in front of the landing,
+        the extension can clear it before the local solver gets a turn. It
+        was missing from this engine in a sibling repo until a live run over
+        --cdp-endpoint showed the difference (CLAUDE.md §26)."""
         async def _enable():
             # One coroutine for both calls: pyppeteer's CDPSession.send
             # returns a Future rather than a coroutine, and the bridge's
@@ -348,33 +342,25 @@ class _Ops:
             raise page_flow.TransportError(_mask_credentials(str(e))) from None
         if resp is None:
             return None, None
-        headers = resp.headers or {}
-        return resp.status, headers.get("x-amzn-waf-action")
+        return resp.status, None
 
     def document_text(self) -> str:
         try:
-            text = self.bridge.run(self.page.evaluate(BODY_TEXT_JS)) or ""
+            return self.bridge.run(self.page.content()) or ""
         except Exception:  # noqa: BLE001
-            text = ""
-        if text.lstrip().startswith("{"):
-            return text
-        try:
-            return self.bridge.run(self.page.content())
-        except Exception:  # noqa: BLE001
-            return text
+            return ""
 
     def wait_ms(self, ms: int) -> None:
         time.sleep(ms / 1000.0)
 
     def solve_captcha(self) -> bool:
-        return handle_captcha_if_present(self, self.args,
-                                         _proxy_for_task(self.args, self.pool))
+        return handle_captcha_if_present(self, self.args)
 
     def fetch(self, req, timeout_ms: int = page_flow.FETCH_TIMEOUT_MS):
         try:
             got = self.bridge.run(self.page.evaluate(
-                FETCH_JS, req.url, req.method, req.body_json, timeout_ms),
-                timeout=timeout_ms / 1000 + 15)
+                FETCH_JS, req.url, req.method, req.body_json, req.headers,
+                timeout_ms), timeout=timeout_ms / 1000 + 15)
         except Exception as e:  # noqa: BLE001
             return None, "", None, _mask_credentials(str(e))
         if not isinstance(got, dict):
@@ -387,13 +373,12 @@ class _Ops:
         return _proxy_failure(text)
 
     def relaunch(self):
+        """A fresh browser, or a fresh connection to the remote one: after a
+        refused connection the Scraping Browser served the reconnect from a
+        different Indian exit (2026-09-24)."""
+        self.close()
         if self.remote:
-            self.landed = False
-            return
-        try:
-            self.bridge.run(self.browser.close(), timeout=30)
-        except Exception as e:  # noqa: BLE001
-            logger.debug("Ignoring error while closing browser: %s", e)
+            time.sleep(page_flow.CDP_LOCKED_WAIT_S)
         self.open()
 
     def close(self):
@@ -411,88 +396,44 @@ class _Ops:
             logger.debug("Ignoring error during browser teardown: %s", e)
 
 
-def handle_captcha_if_present(ops, args, proxy: Optional[str] = None) -> bool:
-    """Solve an AWS WAF CAPTCHA on the current document. Mirrors
-    playwright_scraper.handle_captcha_if_present: nothing is paid for a page
-    with no widget, a solver error is a warning, and the token goes into the
-    `aws-waf-token` cookie on the registrable domain."""
+def handle_captcha_if_present(ops, args) -> bool:
+    """Detect and solve a reCAPTCHA on the current document. Mirrors
+    playwright_scraper.handle_captcha_if_present: called only for a landing
+    classified as `challenge`, which has not been observed on this site;
+    nothing is paid without a widget; a solver error is a warning."""
     try:
         html = ops.bridge.run(ops.page.content())
     except Exception:  # noqa: BLE001
         return False
-    challenge = detect_aws_waf(html, ops.page.url)
-    if challenge is None:
+    html_challenge = detect_recaptcha_v3(html, ops.page.url)
+    runtime_challenge = detect_recaptcha_in_page(
+        lambda js: ops.bridge.run(ops.page.evaluate(js)), page_url=ops.page.url)
+    challenge = reconcile_detections(html_challenge, runtime_challenge)
+    if not challenge:
+        logger.warning("The landing carries a captcha loader, but no widget "
+                       "this repo implements was found on it — not sending "
+                       "anything to the solver.")
         return False
-    if not challenge.has_captcha_widget:
-        logger.info("AWS WAF %s action and no CAPTCHA widget on the page — "
-                    "not sending it to the solver; there is no puzzle to buy "
-                    "an answer to.", challenge.aws_waf_action)
-        return False
-    logger.warning("AWS WAF CAPTCHA on %s — attempting to solve (AmazonTask%s).",
-                   ops.page.url, "" if proxy else "Proxyless")
+    logger.warning("%s detected via %s (sitekey=%s) — attempting to solve.",
+                   challenge.kind, challenge.source, challenge.sitekey)
     if not args.twocaptcha_key:
         logger.warning("No 2captcha API key — cannot solve it. Set "
-                       "TWOCAPTCHA_KEY in .env, or use a residential exit "
-                       "(--proxy), which the WAF may not challenge at all.")
+                       "TWOCAPTCHA_KEY in .env.")
         return False
     try:
         token = solve_recaptcha(challenge, args.twocaptcha_key,
                                 api_version=args.captcha_api,
-                                min_score=args.min_score, proxy=proxy)
+                                min_score=args.min_score)
     except Exception as e:  # noqa: BLE001 — a solver error is a warning (§8)
-        logger.error("Solving the AWS WAF CAPTCHA failed (%s) — continuing.",
+        logger.error("Solving the captcha failed (%s) — continuing.",
                      _mask_credentials(str(e)))
         return False
-    domain = page_flow.cookie_domain(urlparse(ops.page.url).hostname, html)
-    ops.bridge.run(ops.page.setCookie({"name": AWS_WAF_COOKIE, "value": token,
-                                       "domain": domain, "path": "/"}))
-    logger.info("Set %s for %s — reloading to let the WAF re-check.",
-                AWS_WAF_COOKIE, domain)
+    ops.bridge.run(ops.page.evaluate(INJECT_TOKEN_JS, token))
+    logger.info("Token injected. Reloading the landing.")
     time.sleep(1.5)
     ops.bridge.run(ops.page.reload(waitUntil="domcontentloaded", timeout=60000),
                    timeout=90)
     return True
-
-
-def _fetch_pages_concurrently(args, pool, query, page_nums, concurrency: int):
-    """Fetch `page_nums` across `concurrency` workers. Each owns its own event
-    loop, browser and exit; the page loop is page_flow.worker_loop."""
-    work = queue.Queue()
-    for n in page_nums:
-        work.put(n)
-    results, results_lock = [], threading.Lock()
-    exhausted = threading.Event()
-
-    def worker(index: int):
-        name = f"worker-{index + 1}"
-        bridge = _AsyncBridge()
-        try:
-            ops = _Ops(bridge, args, page_flow.worker_pool(pool, index)).open()
-            try:
-                page_flow.worker_loop(ops, args, query, work, results,
-                                      results_lock, exhausted, name,
-                                      _mask_credentials)
-            finally:
-                ops.close()
-        except Exception:  # noqa: BLE001 — a dead worker must not hang the run
-            logger.exception("[%s] died; its pages will be reported as failed.", name)
-        finally:
-            bridge.close()
-
-    threads = [threading.Thread(target=worker, args=(i,), name=f"page-worker-{i + 1}")
-               for i in range(concurrency)]
-    for t in threads:
-        t.start()
-    for t in threads:
-        t.join()
-
-    unattempted = []
-    while True:
-        try:
-            unattempted.append(work.get_nowait())
-        except queue.Empty:
-            break
-    return results, sorted(unattempted), exhausted.is_set()
 
 
 def scrape(args) -> int:
@@ -502,150 +443,20 @@ def scrape(args) -> int:
                        "remote browser has its own exit, and layering a second "
                        "proxy on top would contradict it.")
         pool = None
-    concurrency = page_flow.concurrency_for(args, pool)
     bridge = _AsyncBridge()
     try:
         return page_flow.run_pages(
             lambda: _Ops(bridge, args, pool).open(),
             lambda ops: ops.close(),
-            lambda pages: _fetch_pages_concurrently(args, pool, args.query,
-                                                    pages, concurrency),
-            args, pool, args.query, concurrency, _mask_credentials)
+            args, pool, args.query, _mask_credentials)
     finally:
         bridge.close()
 
 
 def parse_args(argv=None):
     p = argparse.ArgumentParser(
-        description="binance.com scraper — P2P adverts, copy-trading lead "
-                    "portfolios and announcements (pyppeteer edition)")
-    p.add_argument("--mode", choices=["p2p", "copytrading", "announcements"],
-                   default=None,
-                   help="p2p (default): the P2P order book for --asset/--fiat. "
-                        "copytrading: Futures copy-trading lead portfolios. "
-                        "announcements: one announcement catalogue, newest "
-                        "first. Inferred from --url when that is given.")
-    p.add_argument("--url", default=None,
-                   help="A binance.com page to read the query from instead of "
-                        "the flags: a P2P trade page "
-                        "(p2p.binance.com/en/trade/all-payments/USDT?fiat=EUR, "
-                        "…/trade/sell/BTC?fiat=TRY), /en/copy-trading, or "
-                        "/en/support/announcement/list/{id}. The page itself "
-                        "is never fetched — it is behind AWS WAF — only the "
-                        "query in it is read. Also read from BINANCE_URL.")
-    g = p.add_argument_group("p2p")
-    g.add_argument("--asset", default=None,
-                   help="The crypto asset (default USDT).")
-    g.add_argument("--fiat", default=None,
-                   help="The fiat currency, ISO 4217 (default USD).")
-    g.add_argument("--side", choices=P2P_SIDES, default=None,
-                   help="buy (default): adverts you could BUY the asset from. "
-                        "Those adverts are marked SELL by the site, because "
-                        "an advert carries the maker's side; the row keeps "
-                        "both as `side` and `advertiser_side`.")
-    g.add_argument("--pay-type", action="append", default=None, metavar="ID",
-                   help="Only adverts taking this payment method, by the "
-                        "site's identifier (SEPAinstant, Wise, BANK, …). "
-                        "Repeatable. Checked against the site's own list for "
-                        "the fiat before the search runs: the search answers "
-                        "an unknown one with an EMPTY result, not an error.")
-    g.add_argument("--amount", type=float, default=None,
-                   help="Only adverts whose limits admit an order of this much "
-                        "fiat.")
-    g = p.add_argument_group("copytrading")
-    g.add_argument("--time-range", choices=COPY_TIME_RANGES, default=None,
-                   help="The period ROI, PnL and drawdown cover (default 30D).")
-    g.add_argument("--sort-by", choices=sorted(COPY_SORTS), default=None,
-                   help="Ordering (default %s). Not cosmetic: a capped run "
-                        "holds the first N portfolios by this key, so it "
-                        "decides WHICH portfolios are in the file. `sharpe` "
-                        "also filters: portfolios without a Sharpe ratio are "
-                        "left out. Win rate is not offered: the API gave a "
-                        "nonsense key the same answer." % DEFAULT_COPY_SORT)
-    g.add_argument("--order", choices=["desc", "asc"], default=None,
-                   help="desc (default) or asc.")
-    g.add_argument("--hide-full", action="store_true",
-                   help="Leave out portfolios with no copier seat free.")
-    g = p.add_argument_group("announcements")
-    g.add_argument("--category", default=None,
-                   help="The announcement catalogue: %s, or a numeric "
-                        "catalogue id (default %s)."
-                        % (", ".join(ANN_CATALOGS), DEFAULT_ANN_CATALOG))
-    p.add_argument("--pages", type=int, default=1,
-                   help="Pages to fetch (20 adverts, 30 portfolios or 50 "
-                        "announcements each). Planned against the total the "
-                        "site states on page 1, so asking for more than exist "
-                        "fetches all of them.")
-    p.add_argument("--delay", type=float, default=1.0,
-                   help="Delay between pages, seconds (default %(default)s)")
-    p.add_argument("--concurrency", type=int, default=1, metavar="N",
-                   help="Fetch pages through N parallel workers (default 1). "
-                        "Each worker runs its own browser and holds its own "
-                        "proxy exit. Ignored with --cdp-endpoint.")
-    p.add_argument("--retries", type=int, default=3,
-                   help="Attempts per page on a transport failure (default 3). "
-                        "The pause doubles each time. A request the endpoint "
-                        "REFUSED is not retried: its parameters would be "
-                        "refused again.")
-    p.add_argument("--retry-delay", type=float, default=2.0,
-                   help="Seconds before the first retry, doubling thereafter.")
-    p.add_argument("--format", choices=["json", "csv", "both"], default="both")
-    p.add_argument("--out", default="binance_rows", help="Output file prefix")
-    p.add_argument("--locale", default="en-US",
-                   help="Browser locale (default en-US). It changes nothing in "
-                        "the data: the endpoints answer in English whatever "
-                        "the browser claims.")
-    p.add_argument("--proxy", default=None,
-                   help="Proxy URL, e.g. http://ACCOUNT:PASSWORD@HOST:9999 "
-                        "(2captcha.com/proxy)")
-    p.add_argument("--proxy-file", default=None,
-                   help="File with one proxy URL per line to rotate across. "
-                        "Wins over --proxy.")
-    p.add_argument("--proxy-rotate", choices=list(ROTATE_MODES), default="per-run",
-                   help="per-run (default): one exit for the whole run. "
-                        "per-page: a new exit, and a fresh browser, per page.")
-    p.add_argument("--proxy-shuffle", action="store_true",
-                   help="Shuffle the pool at startup.")
-    p.add_argument("--proxy-block-retries", type=int, default=2,
-                   help="When a page is refused (403, 451, AWS WAF), retry it "
-                        "from this many OTHER exits (default 2). Needs a pool "
-                        "of more than one.")
-    p.add_argument("--twocaptcha-key", default=None, help="2captcha.com API key")
-    p.add_argument("--allow-empty", action="store_true",
-                   help="Write output files even when 0 rows were found.")
-    p.add_argument("--fingerprint", action="store_true",
-                   help="Apply a browser fingerprint from 2captcha's "
-                        "Fingerprint API. Needs --twocaptcha-key. Ignored with "
-                        "--cdp-endpoint.")
-    p.add_argument("--fp-tags", default="Windows",
-                   help="ONE OS-family tag for the fingerprint filter: "
-                        "Windows, Microsoft Windows or Android. NOT a list — "
-                        "Chrome, Desktop and Mobile are each rejected by the "
-                        "API with 400. (default: Windows)")
-    p.add_argument("--fp-country", default=None,
-                   help="Fingerprint country, ISO 3166-1 alpha-2. Match it to "
-                        "your proxy's exit country.")
-    p.add_argument("--captcha-api", choices=["v2", "v1"], default="v2",
-                   help="Which 2captcha solver API to use (v2: createTask, "
-                        "which AmazonTask needs).")
-    p.add_argument("--solve-captcha", choices=["when-blocked", "always"],
-                   default="when-blocked",
-                   help="when-blocked (default): solve an AWS WAF CAPTCHA only "
-                        "when it stands between the run and the data. No data "
-                        "path here renders one to an unchallenged session, so "
-                        "'always' behaves the same.")
-    p.add_argument("--min-score", type=float, default=0.7,
-                   help="reCAPTCHA v3 minimum score (0.3, 0.7 or 0.9). Kept "
-                        "for parity with the family; AWS WAF has no score.")
-    p.add_argument("--cdp-endpoint", default=None,
-                   help="Connect to an already-running browser over CDP "
-                        "instead of launching Chromium, e.g. the Scraping "
-                        "Browser API endpoint ws://user:pass@host:port. "
-                        "--proxy and --headless/--headful are ignored.")
-    p.add_argument("--dump-html", default=None, metavar="PATH",
-                   help="Save the exact response the parser is given, on "
-                        "success as well as failure. It is JSON; the flag "
-                        "keeps the family's name.")
+        description="makemytrip.com hotel listing scraper (pyppeteer edition)")
+    page_flow.add_arguments(p, engine="puppeteer")
     p.add_argument("--chromium-path", default=None, metavar="PATH",
                    help="Browser executable to drive, instead of the Chromium "
                         "pyppeteer downloads for itself. Needed where that "
@@ -654,10 +465,10 @@ def parse_args(argv=None):
                         "Rosetta far enough to print --version and then fails "
                         "to open its DevTools socket. Point it at a Chrome or "
                         "Chromium of your own — Playwright's, if installed.")
-    p.add_argument("--headless", action="store_true", default=True)
-    p.add_argument("--headful", dest="headless", action="store_false")
     args = p.parse_args(argv)
     env_config.apply(args)
+    if args.category is not None:
+        p.error("--category: this site has no category to pick; pass --city.")
     args.query = page_flow.build_query(args, p.error)
     args.mode = args.query.mode
     return args

@@ -1,0 +1,3175 @@
+{
+ "search_goa_p1": {
+  "response": {
+   "hotelCount": 10,
+   "noMoreHotels": false,
+   "personalizedSections": [
+    {
+     "name": "RECOMMENDED_HOTELS",
+     "heading": "Showing Properties in Goa",
+     "hotelCardType": "default",
+     "orientation": "V",
+     "hotelCount": 10,
+     "hotels": [
+      {
+       "id": "202410211734063978",
+       "name": "Ginger Goa, Candolim",
+       "maskedPropertyName": false,
+       "propertyType": "Hotel",
+       "propertyLabel": "Hotel",
+       "stayType": "Hotel",
+       "starRating": 4,
+       "halalFoodAvailable": false,
+       "starRatingType": "STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": true,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 1943,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": false,
+       "totalImageCount": 23,
+       "travellerImageCount": 1865,
+       "categories": [
+        "Chain",
+        "Couple Friendly",
+        "wow_weekend26",
+        "DERBY_SPECIAL",
+        "GCDC_Tag",
+        "Flyer Deal",
+        "Mid_High_DH_DTB",
+        "VKO_26"
+       ],
+       "locationPersuasion": [
+        "Candolim",
+        "8 minutes walk to Candolim Beach"
+       ],
+       "media": [
+        {
+         "url": "https://r1imghtlak.mmtcdn.com/0f00d12b-9701-420b-b944-7cf35bc4d064.jpg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 3884.0,
+        "price": 4499.0,
+        "priceWithTax": 5129.0,
+        "discountedPrice": 3884.0,
+        "discountedPriceWithTax": 4514.0,
+        "totalTax": 630.0,
+        "coupon": {
+         "code": "MMTSMARTSAVING",
+         "description": "Great Discounts for You. Get INR615 Off",
+         "promoIcon": "https://promos.makemytrip.com/Growth/Images/B2C/generic_offer_icon_dh.png",
+         "specialPromo": false,
+         "type": "ECOUPON",
+         "couponAmount": 615.0,
+         "autoApplicable": false,
+         "bnplAllowed": false,
+         "disabled": false,
+         "bankOffer": false,
+         "binCheckEnabledOffer": false,
+         "noCostEmiApplicable": false,
+         "giftCardAllowed": false
+        },
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990581161650",
+        "discountedPriceWithTaxAndFees": 4514.0,
+        "totalTaxWithFees": 630.0,
+        "totalAdditionalFees": 0.0
+       },
+       "partnerDetails": {
+        "price": 4499.0,
+        "priceWithTax": 5129.0,
+        "discountedPrice": 3884.0,
+        "discountedPriceWithTax": 4514.0
+       },
+       "reviewSummary": {
+        "source": "MMT",
+        "cumulativeRating": 4.2,
+        "totalReviewCount": 1962,
+        "totalRatingCount": 3941,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Very Good",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "3.9K Ratings"
+       },
+       "locationDetail": {
+        "id": "CTGOI",
+        "name": "Goa",
+        "type": "city",
+        "countryId": "IN",
+        "countryName": "India"
+       },
+       "geoLocation": {
+        "latitude": 15.52459,
+        "longitude": 73.76756
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=202410211734063978&checkin=10152026&checkout=10162026&country=IN&city=CTGOI&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTGOI&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 1,
+       "sponsored": false,
+       "newType": false,
+       "similarHotelsRequired": false,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": false,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "oneCircleProperty": false,
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "isWishListed": false
+      },
+      {
+       "id": "202410121919144277",
+       "name": "Gateway Goa, Palolem (A Taj InnerCircle Hotel)",
+       "maskedPropertyName": false,
+       "propertyType": "Resort",
+       "propertyLabel": "Resort",
+       "stayType": "Resort",
+       "starRating": 5,
+       "halalFoodAvailable": false,
+       "starRatingType": "STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": false,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 459,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": false,
+       "totalImageCount": 22,
+       "travellerImageCount": 378,
+       "categories": [
+        "Chain",
+        "DH_Premium",
+        "taj_gc",
+        "Premium_context",
+        "wow_weekend26",
+        "Monsoon",
+        "GCDC_Tag",
+        "Flyer Deal",
+        "VKO_26"
+       ],
+       "locationPersuasion": [
+        "Palolem",
+        "1.1 km drive to Patnem Beach"
+       ],
+       "media": [
+        {
+         "url": "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/202410121919144277-3f4177f6-4b83-4e28-8a4d-537980429252.jpg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 6250.0,
+        "price": 6250.0,
+        "priceWithTax": 6563.0,
+        "discountedPrice": 6250.0,
+        "discountedPriceWithTax": 6563.0,
+        "totalTax": 313.0,
+        "coupon": {
+         "code": "MMTTAJA11",
+         "description": "Get Taj Gift Card worth INR 500 for Dining & Spa",
+         "promoIcon": "https://promos.makemytrip.com/Growth/Images/B2C/generic_offer_icon_dh.png",
+         "specialPromo": true,
+         "type": "DEALCODE",
+         "couponAmount": 505.0,
+         "autoApplicable": false,
+         "bnplAllowed": false,
+         "disabled": false,
+         "bankOffer": false,
+         "binCheckEnabledOffer": false,
+         "noCostEmiApplicable": false,
+         "giftCardAllowed": false
+        },
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990583084782",
+        "discountedPriceWithTaxAndFees": 6563.0,
+        "totalTaxWithFees": 313.0,
+        "totalAdditionalFees": 0.0
+       },
+       "partnerDetails": {
+        "price": 6250.0,
+        "priceWithTax": 6563.0,
+        "discountedPrice": 6250.0,
+        "discountedPriceWithTax": 6563.0
+       },
+       "reviewSummary": {
+        "source": "MMT",
+        "cumulativeRating": 4.7,
+        "totalReviewCount": 272,
+        "totalRatingCount": 682,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Excellent",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "682 Ratings"
+       },
+       "locationDetail": {
+        "id": "CTGOI",
+        "name": "Goa",
+        "type": "city",
+        "countryId": "IN",
+        "countryName": "India"
+       },
+       "geoLocation": {
+        "latitude": 14.99538,
+        "longitude": 74.04094
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=202410121919144277&checkin=10152026&checkout=10162026&country=IN&city=CTGOI&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTGOI&locusType=city&region=in&viewType=PREMIUM&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 1,
+       "trackingInfo": {
+        "ad_id": "1",
+        "campaign_id": "145298",
+        "advertiser_id": "6050",
+        "request_id": "P4MMCK6UMYHNM_dHJhY2tlcixTTCxsaW5lSXRlbUlkOzE0NTI5OCxhZEl0ZW1JZDtudWxsLDE4MzMxMTYxMA==",
+        "tracking_reqd": true,
+        "tracking_node": {
+         "click_url": "https://adenginehsl.makemytrip.com/ext/user/track?type=CLICK&trackingId=P4MMCK6UMYHNM_dHJhY2tlcixTTCxsaW5lSXRlbUlkOzE0NTI5OCxhZEl0ZW1JZDtudWxsLDE4MzMxMTYxMA==",
+         "view_url": "https://adenginehsl.makemytrip.com/ext/user/track?type=VIEW&trackingId=P4MMCK6UMYHNM_dHJhY2tlcixTTCxsaW5lSXRlbUlkOzE0NTI5OCxhZEl0ZW1JZDtudWxsLDE4MzMxMTYxMA==",
+         "viewTrckgReqd": true,
+         "clickTrckgReqd": true
+        },
+        "metadata": {
+         "tagType": "SPONSORED"
+        }
+       },
+       "sponsored": false,
+       "newType": false,
+       "mmtHotelCategory": "PREMIUM",
+       "similarHotelsRequired": false,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": false,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "oneCircleProperty": false,
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "isWishListed": false
+      },
+      {
+       "id": "202306071757558261",
+       "name": "Panjim City Dorms",
+       "maskedPropertyName": false,
+       "propertyType": "Hostel",
+       "propertyLabel": "Hostel",
+       "stayType": "Beds in a Hostel",
+       "starRating": 0,
+       "halalFoodAvailable": false,
+       "starRatingType": "LIKE_STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": false,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 181,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": true,
+       "totalImageCount": 14,
+       "travellerImageCount": 167,
+       "categories": [
+        "Beachfront",
+        "gohomes",
+        "Villas & Homestays",
+        "Amazing Deals",
+        "myBizAltAcco"
+       ],
+       "locationPersuasion": [
+        "Panjim",
+        "8 minutes walk to Deltin Royale"
+       ],
+       "media": [
+        {
+         "url": "https://r1imghtlak.mmtcdn.com/ec18da9e052d11eebee30a58a9feac02.jpeg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 616.0,
+        "price": 1236.0,
+        "priceWithTax": 1322.0,
+        "discountedPrice": 616.0,
+        "discountedPriceWithTax": 702.0,
+        "totalTax": 86.0,
+        "coupon": {
+         "code": "MMTSMARTDEAL",
+         "description": "Great Discounts for You. Get INR98 Off",
+         "promoIcon": "https://promos.makemytrip.com/Growth/Images/B2C/generic_offer_icon_dh.png",
+         "specialPromo": false,
+         "type": "ECOUPON",
+         "couponAmount": 98.0,
+         "autoApplicable": false,
+         "bnplAllowed": false,
+         "disabled": false,
+         "bankOffer": false,
+         "binCheckEnabledOffer": false,
+         "noCostEmiApplicable": false,
+         "giftCardAllowed": false
+        },
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990580180891",
+        "discountedPriceWithTaxAndFees": 702.0,
+        "totalTaxWithFees": 86.0,
+        "totalAdditionalFees": 0.0
+       },
+       "partnerDetails": {
+        "price": 1236.0,
+        "priceWithTax": 1322.0,
+        "discountedPrice": 616.0,
+        "discountedPriceWithTax": 702.0
+       },
+       "reviewSummary": {
+        "source": "MMT",
+        "cumulativeRating": 3.5,
+        "totalReviewCount": 227,
+        "totalRatingCount": 845,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Very Good",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "845 Ratings"
+       },
+       "locationDetail": {
+        "id": "CTGOI",
+        "name": "Goa",
+        "type": "city",
+        "countryId": "IN",
+        "countryName": "India"
+       },
+       "geoLocation": {
+        "latitude": 15.49803,
+        "longitude": 73.82336
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=202306071757558261&checkin=10152026&checkout=10162026&country=IN&city=CTGOI&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTGOI&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 2,
+       "sponsored": false,
+       "newType": false,
+       "calendarCriteria": {
+        "available": true,
+        "maxDate": "2026-12-24",
+        "advanceDays": 90,
+        "mlos": 1
+       },
+       "similarHotelsRequired": true,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": true,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "oneCircleProperty": false,
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "isWishListed": false
+      },
+      {
+       "id": "202411151512575626",
+       "name": "The Hosteller Goa, Anjuna",
+       "maskedPropertyName": false,
+       "propertyType": "Hostel",
+       "propertyLabel": "Hostel",
+       "stayType": "Beds in a Hostel",
+       "starRating": 3,
+       "halalFoodAvailable": false,
+       "starRatingType": "LIKE_STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": false,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 229,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "propertyInfo": {
+        "chainId": "942",
+        "hostId": 10895
+       },
+       "chainPropertiesHeader": "Other properties by this host in Goa",
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": true,
+       "totalImageCount": 22,
+       "travellerImageCount": 146,
+       "categories": [
+        "gohomes",
+        "Villas & Homestays",
+        "Couple Friendly",
+        "myBizAltAcco"
+       ],
+       "locationPersuasion": [
+        "Arpora",
+        "3.4 km drive to Baga Beach"
+       ],
+       "media": [
+        {
+         "url": "https://r1imghtlak.mmtcdn.com/f3189514-5697-466b-b4a6-2b5e5c695c3e.jpg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 1412.0,
+        "price": 2172.0,
+        "priceWithTax": 2365.0,
+        "discountedPrice": 1412.0,
+        "discountedPriceWithTax": 1605.0,
+        "totalTax": 193.0,
+        "coupon": {
+         "code": "MMTSMARTDEAL",
+         "description": "Great Discounts for You. Get INR195 Off",
+         "promoIcon": "https://promos.makemytrip.com/Growth/Images/B2C/generic_offer_icon_dh.png",
+         "specialPromo": false,
+         "type": "ECOUPON",
+         "couponAmount": 195.0,
+         "autoApplicable": false,
+         "bnplAllowed": false,
+         "disabled": false,
+         "bankOffer": false,
+         "binCheckEnabledOffer": false,
+         "noCostEmiApplicable": false,
+         "giftCardAllowed": false
+        },
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990581218689",
+        "discountedPriceWithTaxAndFees": 1605.0,
+        "totalTaxWithFees": 193.0,
+        "totalAdditionalFees": 0.0
+       },
+       "partnerDetails": {
+        "price": 2172.0,
+        "priceWithTax": 2365.0,
+        "discountedPrice": 1412.0,
+        "discountedPriceWithTax": 1605.0
+       },
+       "reviewSummary": {
+        "source": "MMT",
+        "cumulativeRating": 4.3,
+        "totalReviewCount": 168,
+        "totalRatingCount": 575,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Excellent",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "575 Ratings"
+       },
+       "locationDetail": {
+        "id": "CTGOI",
+        "name": "Goa",
+        "type": "city",
+        "countryId": "IN",
+        "countryName": "India"
+       },
+       "geoLocation": {
+        "latitude": 15.57199,
+        "longitude": 73.763
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=202411151512575626&checkin=10152026&checkout=10162026&country=IN&city=CTGOI&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTGOI&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 2,
+       "sponsored": false,
+       "newType": false,
+       "similarHotelsRequired": true,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": false,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "oneCircleProperty": false,
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "isWishListed": false
+      }
+     ],
+     "showMore": false,
+     "cardInsertionAllowed": true,
+     "premium": false,
+     "showIndex": false,
+     "sponsored": false
+    }
+   ],
+   "locationDetail": {
+    "id": "CTGOI",
+    "name": "Goa",
+    "type": "city",
+    "countryId": "IN",
+    "countryName": "India"
+   },
+   "cityLocationDetail": {
+    "id": "CTGOI",
+    "name": "Goa",
+    "type": "city"
+   },
+   "sortCriteria": {
+    "field": "S_hsq910_Q",
+    "order": "asc",
+    "accessPoint": false
+   },
+   "lastHotelId": "200812111249585713",
+   "lastFetchedWindowInfo": "000000000000000000000000000000#0#30#false",
+   "currency": "INR"
+  },
+  "correlationKey": "fixture-correlation-key"
+ },
+ "search_goa_p2": {
+  "response": {
+   "hotelCount": 8,
+   "noMoreHotels": false,
+   "personalizedSections": [
+    {
+     "name": "RECOMMENDED_HOTELS",
+     "heading": "Showing Properties in Goa",
+     "hotelCardType": "default",
+     "orientation": "V",
+     "hotelCount": 8,
+     "hotels": [
+      {
+       "id": "201011301738118288",
+       "name": "Resort Primo Bom Terra Verde",
+       "maskedPropertyName": false,
+       "propertyType": "Resort",
+       "propertyLabel": "Resort",
+       "stayType": "Resort",
+       "starRating": 3,
+       "halalFoodAvailable": false,
+       "starRatingType": "STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": false,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 1503,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": false,
+       "totalImageCount": 20,
+       "travellerImageCount": 1344,
+       "categories": [
+        "Couple Friendly",
+        "Inmarket"
+       ],
+       "locationPersuasion": [
+        "Baga",
+        "1.1 km drive to Baga Beach"
+       ],
+       "media": [
+        {
+         "url": "//r1imghtlak.mmtcdn.com/aeb54e39-6c05-46b0-81a6-0a693546c81c.png?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 1364.0,
+        "price": 3649.0,
+        "priceWithTax": 3870.0,
+        "discountedPrice": 1364.0,
+        "discountedPriceWithTax": 1585.0,
+        "totalTax": 221.0,
+        "coupon": {
+         "code": "MMTMAXDROP",
+         "description": "Best Ever Offer! Get INR 475  Off",
+         "promoIcon": "https://promos.makemytrip.com/Growth/Images/B2C/generic_offer_icon_dh.png",
+         "specialPromo": false,
+         "type": "ECOUPON",
+         "couponAmount": 475.0,
+         "autoApplicable": false,
+         "bnplAllowed": false,
+         "disabled": false,
+         "bankOffer": false,
+         "binCheckEnabledOffer": false,
+         "noCostEmiApplicable": false,
+         "giftCardAllowed": false
+        },
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990579686956",
+        "discountedPriceWithTaxAndFees": 1585.0,
+        "totalTaxWithFees": 221.0,
+        "totalAdditionalFees": 0.0
+       },
+       "partnerDetails": {
+        "price": 3649.0,
+        "priceWithTax": 3870.0,
+        "discountedPrice": 1364.0,
+        "discountedPriceWithTax": 1585.0
+       },
+       "reviewSummary": {
+        "source": "MMT",
+        "cumulativeRating": 3.9,
+        "totalReviewCount": 1781,
+        "totalRatingCount": 3678,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Very Good",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "3.7K Ratings"
+       },
+       "locationDetail": {
+        "id": "CTGOI",
+        "name": "Goa",
+        "type": "city",
+        "countryId": "IN",
+        "countryName": "India"
+       },
+       "geoLocation": {
+        "latitude": 15.55682,
+        "longitude": 73.7608
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=201011301738118288&checkin=10152026&checkout=10162026&country=IN&city=CTGOI&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTGOI&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 1,
+       "sponsored": false,
+       "newType": false,
+       "calendarCriteria": {
+        "available": true,
+        "maxDate": "2026-12-24",
+        "advanceDays": 90,
+        "mlos": 1
+       },
+       "similarHotelsRequired": true,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": true,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "oneCircleLoyaltyDetails": {
+        "oneCircleApplicable": true,
+        "earnDetails": {
+         "points": 183.0,
+         "enabled": true,
+         "selected": false
+        },
+        "balance": 0.0
+       },
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "oneCircleProperty": true,
+       "isWishListed": false
+      },
+      {
+       "id": "200801291751075638",
+       "name": "DoubleTree by Hilton Hotel Goa-Arpora- Baga",
+       "maskedPropertyName": false,
+       "propertyType": "Hotel",
+       "propertyLabel": "Hotel",
+       "stayType": "Hotel",
+       "starRating": 5,
+       "halalFoodAvailable": false,
+       "starRatingType": "STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": false,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 554,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": false,
+       "totalImageCount": 21,
+       "travellerImageCount": 473,
+       "categories": [
+        "Chain",
+        "Couple Friendly",
+        "Special Sale"
+       ],
+       "locationPersuasion": [
+        "Arpora",
+        "4 km drive to Baga Beach"
+       ],
+       "media": [
+        {
+         "url": "https://r1imghtlak.mmtcdn.com/e407fdbeee9011eab93f0242ac110005.jpg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 6409.0,
+        "price": 6409.0,
+        "priceWithTax": 6729.0,
+        "discountedPrice": 6409.0,
+        "discountedPriceWithTax": 6729.0,
+        "totalTax": 320.0,
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990581766318",
+        "discountedPriceWithTaxAndFees": 6729.0,
+        "totalTaxWithFees": 320.0,
+        "totalAdditionalFees": 0.0
+       },
+       "partnerDetails": {
+        "price": 6409.0,
+        "priceWithTax": 6729.0,
+        "discountedPrice": 6409.0,
+        "discountedPriceWithTax": 6729.0
+       },
+       "reviewSummary": {
+        "source": "MMT",
+        "cumulativeRating": 4.1,
+        "totalReviewCount": 426,
+        "totalRatingCount": 970,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Very Good",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "970 Ratings"
+       },
+       "locationDetail": {
+        "id": "CTGOI",
+        "name": "Goa",
+        "type": "city",
+        "countryId": "IN",
+        "countryName": "India"
+       },
+       "geoLocation": {
+        "latitude": 15.57555,
+        "longitude": 73.76176
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=200801291751075638&checkin=10152026&checkout=10162026&country=IN&city=CTGOI&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTGOI&locusType=city&region=in&viewType=PREMIUM&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 1,
+       "trackingInfo": {
+        "ad_id": "1",
+        "campaign_id": "145675",
+        "advertiser_id": "18339",
+        "request_id": "PY55CGJUO6T4G_dHJhY2tlcixTTCxsaW5lSXRlbUlkOzE0NTY3NSxhZEl0ZW1JZDtudWxsLDkwNTE3NDYxNg==",
+        "tracking_reqd": true,
+        "tracking_node": {
+         "click_url": "https://adenginehsl.makemytrip.com/ext/user/track?type=CLICK&trackingId=PY55CGJUO6T4G_dHJhY2tlcixTTCxsaW5lSXRlbUlkOzE0NTY3NSxhZEl0ZW1JZDtudWxsLDkwNTE3NDYxNg==",
+         "view_url": "https://adenginehsl.makemytrip.com/ext/user/track?type=VIEW&trackingId=PY55CGJUO6T4G_dHJhY2tlcixTTCxsaW5lSXRlbUlkOzE0NTY3NSxhZEl0ZW1JZDtudWxsLDkwNTE3NDYxNg==",
+         "viewTrckgReqd": true,
+         "clickTrckgReqd": true
+        },
+        "metadata": {
+         "tagType": "SPONSORED"
+        }
+       },
+       "sponsored": false,
+       "newType": false,
+       "mmtHotelCategory": "PREMIUM",
+       "calendarCriteria": {
+        "available": true,
+        "maxDate": "2026-12-24",
+        "advanceDays": 90,
+        "mlos": 1
+       },
+       "similarHotelsRequired": false,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": true,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "oneCircleProperty": false,
+       "isWishListed": false
+      },
+      {
+       "id": "20080802125928557",
+       "name": "Ginger Goa, Panjim",
+       "maskedPropertyName": false,
+       "propertyType": "Hotel",
+       "propertyLabel": "Hotel",
+       "stayType": "Hotel",
+       "starRating": 3,
+       "halalFoodAvailable": false,
+       "starRatingType": "STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": true,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 1072,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": false,
+       "totalImageCount": 22,
+       "travellerImageCount": 988,
+       "categories": [
+        "MMT OFFER",
+        "clean rooms",
+        "Festive Weekend Deals",
+        "Chain",
+        "Mid_Low_DH_DTB",
+        "budget_hotels",
+        "Great Indian Travel Sale",
+        "Vistara Deal",
+        "DERBY_SPECIAL",
+        "GCDC_Tag",
+        "Inmarket",
+        "Flyer Deal",
+        "VKO_26",
+        "Beachfront",
+        "Hills",
+        "Couple Friendly",
+        "MyBiz_Assured",
+        "kids_stay_free",
+        "Same Day Deals"
+       ],
+       "locationPersuasion": [
+        "Panjim",
+        "4 minutes walk to Panaji Bus Stand"
+       ],
+       "media": [
+        {
+         "url": "https://r1imghtlak.mmtcdn.com/b8976a14fc3b11e88c030242ac110003.jpg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 5865.0,
+        "price": 6799.0,
+        "priceWithTax": 7751.0,
+        "discountedPrice": 5865.0,
+        "discountedPriceWithTax": 6817.0,
+        "totalTax": 952.0,
+        "coupon": {
+         "code": "MMTSMARTSAVING",
+         "description": "Great Discounts for You. Get INR934 Off",
+         "promoIcon": "https://promos.makemytrip.com/Growth/Images/B2C/generic_offer_icon_dh.png",
+         "specialPromo": false,
+         "type": "ECOUPON",
+         "couponAmount": 934.0,
+         "autoApplicable": false,
+         "bnplAllowed": false,
+         "disabled": false,
+         "bankOffer": false,
+         "binCheckEnabledOffer": false,
+         "noCostEmiApplicable": false,
+         "giftCardAllowed": false
+        },
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990001032865",
+        "discountedPriceWithTaxAndFees": 6817.0,
+        "totalTaxWithFees": 952.0,
+        "totalAdditionalFees": 0.0
+       },
+       "partnerDetails": {
+        "price": 6799.0,
+        "priceWithTax": 7751.0,
+        "discountedPrice": 5865.0,
+        "discountedPriceWithTax": 6817.0
+       },
+       "reviewSummary": {
+        "source": "MMT",
+        "cumulativeRating": 3.8,
+        "totalReviewCount": 4042,
+        "totalRatingCount": 7105,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Very Good",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "7.1K Ratings"
+       },
+       "locationDetail": {
+        "id": "CTGOI",
+        "name": "Goa",
+        "type": "city",
+        "countryId": "IN",
+        "countryName": "India"
+       },
+       "geoLocation": {
+        "latitude": 15.49499,
+        "longitude": 73.83447
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=20080802125928557&checkin=10152026&checkout=10162026&country=IN&city=CTGOI&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTGOI&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 1,
+       "sponsored": false,
+       "newType": false,
+       "calendarCriteria": {
+        "available": true,
+        "maxDate": "2026-12-24",
+        "advanceDays": 90,
+        "mlos": 1
+       },
+       "similarHotelsRequired": false,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": true,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "oneCircleProperty": false,
+       "isWishListed": false
+      }
+     ],
+     "showMore": false,
+     "cardInsertionAllowed": true,
+     "premium": false,
+     "showIndex": false,
+     "sponsored": false
+    }
+   ],
+   "locationDetail": {
+    "id": "CTGOI",
+    "name": "Goa",
+    "type": "city",
+    "countryId": "IN",
+    "countryName": "India"
+   },
+   "cityLocationDetail": {
+    "id": "CTGOI",
+    "name": "Goa",
+    "type": "city"
+   },
+   "sortCriteria": {
+    "field": "S_hsq910_Q",
+    "order": "asc",
+    "accessPoint": false
+   },
+   "lastHotelId": "201110121338012845",
+   "lastFetchedWindowInfo": "000000000000000000000000000000#10#40#false",
+   "currency": "INR"
+  },
+  "correlationKey": "fixture-correlation-key"
+ },
+ "search_goa_price_asc": {
+  "response": {
+   "hotelCount": 10,
+   "noMoreHotels": false,
+   "personalizedSections": [
+    {
+     "name": "RECOMMENDED_HOTELS",
+     "heading": "Showing Properties in Goa",
+     "hotelCardType": "default",
+     "orientation": "V",
+     "hotelCount": 10,
+     "hotels": [
+      {
+       "id": "202509131552173102",
+       "name": "The Royale Retreat1Bhk Apt|Tata Rio De Goa|Zennova",
+       "maskedPropertyName": false,
+       "propertyType": "Apartment",
+       "propertyLabel": "Apartment",
+       "stayType": "Entire Serviced Apartment",
+       "starRating": 0,
+       "halalFoodAvailable": false,
+       "starRatingType": "LIKE_STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": false,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 31,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "propertyInfo": {
+        "chainId": "1224",
+        "hostId": 92818
+       },
+       "chainPropertiesHeader": "Other properties by this host in Goa",
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": true,
+       "totalImageCount": 20,
+       "travellerImageCount": 0,
+       "categories": [
+        "gohomes",
+        "Villas & Homestays",
+        "Couple Friendly",
+        "Special Sale"
+       ],
+       "locationPersuasion": [
+        "Mormugao",
+        "3.7 km drive to Goa Dabolim International Airport"
+       ],
+       "media": [
+        {
+         "url": "https://r1imghtlak.mmtcdn.com/405c379e-142b-4510-9cdb-f8eff3853001.jpeg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 609.0,
+        "price": 1000.0,
+        "priceWithTax": 1086.0,
+        "discountedPrice": 609.0,
+        "discountedPriceWithTax": 695.0,
+        "totalTax": 86.0,
+        "coupon": {
+         "code": "NEWHOMESTAY",
+         "description": "Exclusive Discount of INR 111 applied, for first 5 bookings of this property",
+         "promoIcon": "https://promos.makemytrip.com/Growth/Images/B2C/generic_offer_icon_dh.png",
+         "specialPromo": true,
+         "type": "ECOUPON",
+         "couponAmount": 111.0,
+         "autoApplicable": false,
+         "bnplAllowed": false,
+         "disabled": false,
+         "bankOffer": false,
+         "binCheckEnabledOffer": false,
+         "noCostEmiApplicable": false,
+         "giftCardAllowed": false
+        },
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990581763174",
+        "discountedPriceWithTaxAndFees": 695.0,
+        "totalTaxWithFees": 86.0,
+        "totalAdditionalFees": 0.0
+       },
+       "partnerDetails": {
+        "price": 1000.0,
+        "priceWithTax": 1086.0,
+        "discountedPrice": 609.0,
+        "discountedPriceWithTax": 695.0
+       },
+       "reviewSummary": {
+        "source": "EXT",
+        "cumulativeRating": 4.1,
+        "totalReviewCount": 0,
+        "totalRatingCount": 27,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Very Good",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "27 Ratings"
+       },
+       "locationDetail": {
+        "id": "CTGOI",
+        "name": "Goa",
+        "type": "city",
+        "countryId": "IN",
+        "countryName": "India"
+       },
+       "geoLocation": {
+        "latitude": 15.39622,
+        "longitude": 73.86684
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=202509131552173102&checkin=10152026&checkout=10162026&country=IN&city=CTGOI&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTGOI&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 1,
+       "sponsored": false,
+       "newType": false,
+       "similarHotelsRequired": true,
+       "isABSO": false,
+       "isRTB": true,
+       "isMLOS": false,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "oneCircleProperty": false,
+       "isWishListed": false
+      },
+      {
+       "id": "202306071757558261",
+       "name": "Panjim City Dorms",
+       "maskedPropertyName": false,
+       "propertyType": "Hostel",
+       "propertyLabel": "Hostel",
+       "stayType": "Beds in a Hostel",
+       "starRating": 0,
+       "halalFoodAvailable": false,
+       "starRatingType": "LIKE_STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": false,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 181,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": true,
+       "totalImageCount": 14,
+       "travellerImageCount": 167,
+       "categories": [
+        "Beachfront",
+        "gohomes",
+        "Villas & Homestays",
+        "Amazing Deals",
+        "myBizAltAcco"
+       ],
+       "locationPersuasion": [
+        "Panjim",
+        "8 minutes walk to Deltin Royale"
+       ],
+       "media": [
+        {
+         "url": "https://r1imghtlak.mmtcdn.com/ec18da9e052d11eebee30a58a9feac02.jpeg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 616.0,
+        "price": 1236.0,
+        "priceWithTax": 1322.0,
+        "discountedPrice": 616.0,
+        "discountedPriceWithTax": 702.0,
+        "totalTax": 86.0,
+        "coupon": {
+         "code": "MMTSMARTDEAL",
+         "description": "Great Discounts for You. Get INR98 Off",
+         "promoIcon": "https://promos.makemytrip.com/Growth/Images/B2C/generic_offer_icon_dh.png",
+         "specialPromo": false,
+         "type": "ECOUPON",
+         "couponAmount": 98.0,
+         "autoApplicable": false,
+         "bnplAllowed": false,
+         "disabled": false,
+         "bankOffer": false,
+         "binCheckEnabledOffer": false,
+         "noCostEmiApplicable": false,
+         "giftCardAllowed": false
+        },
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990580180891",
+        "discountedPriceWithTaxAndFees": 702.0,
+        "totalTaxWithFees": 86.0,
+        "totalAdditionalFees": 0.0
+       },
+       "partnerDetails": {
+        "price": 1236.0,
+        "priceWithTax": 1322.0,
+        "discountedPrice": 616.0,
+        "discountedPriceWithTax": 702.0
+       },
+       "reviewSummary": {
+        "source": "MMT",
+        "cumulativeRating": 3.5,
+        "totalReviewCount": 227,
+        "totalRatingCount": 845,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Very Good",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "845 Ratings"
+       },
+       "locationDetail": {
+        "id": "CTGOI",
+        "name": "Goa",
+        "type": "city",
+        "countryId": "IN",
+        "countryName": "India"
+       },
+       "geoLocation": {
+        "latitude": 15.49803,
+        "longitude": 73.82336
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=202306071757558261&checkin=10152026&checkout=10162026&country=IN&city=CTGOI&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTGOI&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 2,
+       "sponsored": false,
+       "newType": false,
+       "calendarCriteria": {
+        "available": true,
+        "maxDate": "2026-12-24",
+        "advanceDays": 90,
+        "mlos": 1
+       },
+       "similarHotelsRequired": true,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": true,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "oneCircleProperty": false,
+       "isWishListed": false
+      },
+      {
+       "id": "202206021141434334",
+       "name": "Hippie Hostel",
+       "maskedPropertyName": false,
+       "propertyType": "Hostel",
+       "propertyLabel": "Hostel",
+       "stayType": "Beds in a Hostel",
+       "starRating": 0,
+       "halalFoodAvailable": false,
+       "starRatingType": "LIKE_STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": false,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 61,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": true,
+       "totalImageCount": 20,
+       "travellerImageCount": 2,
+       "categories": [
+        "Beachfront",
+        "gohomes",
+        "Villas & Homestays",
+        "Couple Friendly",
+        "Amazing Deals",
+        "myBizAltAcco"
+       ],
+       "locationPersuasion": [
+        "Anjuna",
+        "About a minute walk to Anjuna Beach"
+       ],
+       "media": [
+        {
+         "url": "//r1imghtlak.mmtcdn.com/f4bf9a4c3eb811ee86280a58a9feac02.jpg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 655.0,
+        "price": 1050.0,
+        "priceWithTax": 1141.0,
+        "discountedPrice": 655.0,
+        "discountedPriceWithTax": 746.0,
+        "totalTax": 91.0,
+        "coupon": {
+         "code": "MMTSMARTDEAL",
+         "description": "Great Discounts for You. Get INR104 Off",
+         "promoIcon": "https://promos.makemytrip.com/Growth/Images/B2C/generic_offer_icon_dh.png",
+         "specialPromo": false,
+         "type": "ECOUPON",
+         "couponAmount": 104.0,
+         "autoApplicable": false,
+         "bnplAllowed": false,
+         "disabled": false,
+         "bankOffer": false,
+         "binCheckEnabledOffer": false,
+         "noCostEmiApplicable": false,
+         "giftCardAllowed": false
+        },
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990579658940",
+        "discountedPriceWithTaxAndFees": 746.0,
+        "totalTaxWithFees": 91.0,
+        "totalAdditionalFees": 0.0
+       },
+       "partnerDetails": {
+        "price": 1050.0,
+        "priceWithTax": 1141.0,
+        "discountedPrice": 655.0,
+        "discountedPriceWithTax": 746.0
+       },
+       "reviewSummary": {
+        "source": "MMT",
+        "cumulativeRating": 3.3,
+        "totalReviewCount": 10,
+        "totalRatingCount": 15,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Good",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "15 Ratings"
+       },
+       "locationDetail": {
+        "id": "CTGOI",
+        "name": "Goa",
+        "type": "city",
+        "countryId": "IN",
+        "countryName": "India"
+       },
+       "geoLocation": {
+        "latitude": 15.57949,
+        "longitude": 73.73918
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=202206021141434334&checkin=10152026&checkout=10162026&country=IN&city=CTGOI&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTGOI&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 2,
+       "sponsored": false,
+       "newType": false,
+       "calendarCriteria": {
+        "available": true,
+        "maxDate": "2026-12-24",
+        "advanceDays": 90,
+        "mlos": 1
+       },
+       "similarHotelsRequired": true,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": true,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "oneCircleProperty": false,
+       "isWishListed": false
+      }
+     ],
+     "showMore": false,
+     "cardInsertionAllowed": true,
+     "premium": false,
+     "showIndex": false,
+     "sponsored": false
+    }
+   ],
+   "locationDetail": {
+    "id": "CTGOI",
+    "name": "Goa",
+    "type": "city",
+    "countryId": "IN",
+    "countryName": "India"
+   },
+   "cityLocationDetail": {
+    "id": "CTGOI",
+    "name": "Goa",
+    "type": "city"
+   },
+   "sortCriteria": {
+    "field": "price",
+    "order": "asc",
+    "accessPoint": false
+   },
+   "lastHotelId": "202603051512288679",
+   "lastFetchedWindowInfo": "000000000000000000000000000000#0#30#false",
+   "currency": "INR"
+  },
+  "correlationKey": "fixture-correlation-key"
+ },
+ "search_dubai": {
+  "response": {
+   "hotelCount": 30,
+   "noMoreHotels": false,
+   "personalizedSections": [
+    {
+     "name": "RECOMMENDED_HOTELS",
+     "heading": "Showing Properties in Dubai",
+     "hotelCardType": "default",
+     "orientation": "V",
+     "hotelCount": 30,
+     "hotels": [
+      {
+       "id": "4190725563792793",
+       "name": "Citymax Hotel Bur Dubai",
+       "maskedPropertyName": false,
+       "propertyType": "Hotel",
+       "propertyLabel": "Hotel",
+       "stayType": "Hotel",
+       "starRating": 3,
+       "halalFoodAvailable": false,
+       "starRatingType": "STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": false,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 791,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": false,
+       "totalImageCount": 20,
+       "travellerImageCount": 740,
+       "categories": [
+        "Valentine Sale",
+        "SIMPLYWOW Deals",
+        "Certified Hygienic Properties",
+        "Business HotelsValentine Sale",
+        "Kid Stays Free",
+        "Budget Business Traveler",
+        "Staycation Deals",
+        "LongStay2020",
+        "Family Rooms",
+        "Family Special",
+        "Daily Dhamaka",
+        "Value For Money",
+        "Curated Staycations",
+        "GCC Focussed",
+        "gi_ring_fence",
+        "Kid Friendly",
+        "Same Day Deals",
+        "ihblackValentine Sale",
+        "Business Hotels",
+        "SEO_UAE_priority_hotels",
+        "GREAT DEALS",
+        "Airport ShuttleGREAT DEALS",
+        "Best For Indians",
+        "Price Drop",
+        "Long Stays",
+        "intlhotel",
+        "IH_Invest",
+        "gcc_earn",
+        "Indian food at the property",
+        "Airport Shuttle",
+        "Kid Friendly_Dubai",
+        "gi_earn",
+        "Super Deals",
+        "Metro Connectivity",
+        "myp_cat_b",
+        "IHORCSEP18",
+        "Couple Friendly",
+        "Travel Assist"
+       ],
+       "locationPersuasion": [
+        "Bur Dubai",
+        "1.3 km drive to Meena Bazaar",
+        "1.2 km drive to a metro station"
+       ],
+       "media": [
+        {
+         "url": "//r1imghtlak.mmtcdn.com/72e036ac65e011eb83ec0242ac110003.jpg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 4444.0,
+        "price": 4444.0,
+        "priceWithTax": 5444.0,
+        "discountedPrice": 4444.0,
+        "discountedPriceWithTax": 5444.0,
+        "totalTax": 1000.0,
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990001631158",
+        "discountedPriceWithTaxAndFees": 5705.0,
+        "totalTaxWithFees": 1261.0,
+        "totalAdditionalFees": 261.0,
+        "displayPriceBreakup": [
+         {
+          "section": "PAY ON MAKEMYTRIP",
+          "details": [
+           {
+            "title": "Price Before Taxes & Fees",
+            "amount": 4444.0
+           },
+           {
+            "title": "Taxes & Service Fees",
+            "amount": 1000.0,
+            "breakup": [
+             {
+              "title": "Hotel Taxes",
+              "amount": 1000.0
+             }
+            ]
+           }
+          ],
+          "totalDue": {
+           "title": "Due on MakeMyTrip",
+           "amount": 5444.0
+          }
+         },
+         {
+          "section": "PAY AT PROPERTY",
+          "details": [
+           {
+            "title": "City Tax",
+            "subTitle": "City Tax collected by the Dubai municipality",
+            "amount": 261.0,
+            "hotelierCurrency": "AED",
+            "hotelierCurrencyAmount": 10.0
+           }
+          ],
+          "totalDue": {
+           "title": "Due at Property (Mandatory)",
+           "subTitle": "To be paid in local currency",
+           "amount": 261.0,
+           "hotelierCurrency": "AED",
+           "hotelierCurrencyAmount": 10.0
+          }
+         }
+        ]
+       },
+       "partnerDetails": {
+        "price": 4444.0,
+        "priceWithTax": 5444.0,
+        "discountedPrice": 4444.0,
+        "discountedPriceWithTax": 5444.0
+       },
+       "reviewSummary": {
+        "source": "MMT_EXP",
+        "cumulativeRating": 3.9,
+        "totalReviewCount": 2326,
+        "totalRatingCount": 6132,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Very Good",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "6.1K Ratings"
+       },
+       "locationDetail": {
+        "id": "CTDUB",
+        "name": "Dubai",
+        "type": "city",
+        "countryId": "UNI",
+        "countryName": "United Arab Emirates"
+       },
+       "geoLocation": {
+        "latitude": 25.25085,
+        "longitude": 55.29174
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=4190725563792793&checkin=10152026&checkout=10162026&country=UNI&city=CTDUB&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTDUB&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 1,
+       "sponsored": false,
+       "newType": false,
+       "similarHotelsRequired": false,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": false,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "lovedByIndians": true,
+       "serviceApartment": false,
+       "oneCircleProperty": false,
+       "isWishListed": false
+      },
+      {
+       "id": "4190725563792661",
+       "name": "Montreal Barsha Hotel",
+       "maskedPropertyName": false,
+       "propertyType": "Hotel",
+       "propertyLabel": "Hotel",
+       "stayType": "Hotel",
+       "starRating": 4,
+       "halalFoodAvailable": false,
+       "starRatingType": "STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": false,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 313,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": false,
+       "totalImageCount": 24,
+       "travellerImageCount": 170,
+       "categories": [
+        "Valentine Sale",
+        "SEO_UAE_priority_hotels",
+        "Kid Stays Free",
+        "Budget Business Traveler",
+        "Extra Value Deals",
+        "Family Rooms",
+        "LongStay2020",
+        "Long Stays",
+        "IH_Invest",
+        "Family Special",
+        "gcc_earn",
+        "Indian food at the property",
+        "Airport Shuttle",
+        "Value For Money",
+        "JUNE_HILTON_SALE_2025",
+        "Metro Connectivity",
+        "Couple Friendly",
+        "gi_ring_fence",
+        "Kid Friendly",
+        "MAX SAVINGS ALERT"
+       ],
+       "locationPersuasion": [
+        "Al Barsha",
+        "1.3 km drive to Mall of Emirates"
+       ],
+       "media": [
+        {
+         "url": "https://r1imghtlak.mmtcdn.com/0029b0361c5a11eb97a60242ac110002.jpg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 5721.0,
+        "price": 5721.0,
+        "priceWithTax": 7008.0,
+        "discountedPrice": 5721.0,
+        "discountedPriceWithTax": 7008.0,
+        "totalTax": 1287.0,
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990581805480",
+        "discountedPriceWithTaxAndFees": 7399.0,
+        "totalTaxWithFees": 1678.0,
+        "totalAdditionalFees": 391.0,
+        "displayPriceBreakup": [
+         {
+          "section": "PAY ON MAKEMYTRIP",
+          "details": [
+           {
+            "title": "Price Before Taxes & Fees",
+            "amount": 5721.0
+           },
+           {
+            "title": "Taxes & Service Fees",
+            "amount": 1287.0,
+            "breakup": [
+             {
+              "title": "Hotel Taxes",
+              "amount": 1287.0
+             }
+            ]
+           }
+          ],
+          "totalDue": {
+           "title": "Due on MakeMyTrip",
+           "amount": 7008.0
+          }
+         },
+         {
+          "section": "PAY AT PROPERTY",
+          "details": [
+           {
+            "title": "City Tax",
+            "subTitle": "City Tax collected by the Dubai municipality",
+            "amount": 391.0,
+            "hotelierCurrency": "AED",
+            "hotelierCurrencyAmount": 15.0
+           }
+          ],
+          "totalDue": {
+           "title": "Due at Property (Mandatory)",
+           "subTitle": "To be paid in local currency",
+           "amount": 391.0,
+           "hotelierCurrency": "AED",
+           "hotelierCurrencyAmount": 15.0
+          }
+         }
+        ]
+       },
+       "partnerDetails": {
+        "price": 5721.0,
+        "priceWithTax": 7008.0,
+        "discountedPrice": 5721.0,
+        "discountedPriceWithTax": 7008.0
+       },
+       "reviewSummary": {
+        "source": "MMT_BKG",
+        "cumulativeRating": 3.6,
+        "totalReviewCount": 442,
+        "totalRatingCount": 3265,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Very Good",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "3.3K Ratings"
+       },
+       "locationDetail": {
+        "id": "CTDUB",
+        "name": "Dubai",
+        "type": "city",
+        "countryId": "UNI",
+        "countryName": "United Arab Emirates"
+       },
+       "geoLocation": {
+        "latitude": 25.10854,
+        "longitude": 55.20377
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=4190725563792661&checkin=10152026&checkout=10162026&country=UNI&city=CTDUB&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTDUB&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 1,
+       "trackingInfo": {
+        "ad_id": "1",
+        "campaign_id": "150297",
+        "advertiser_id": "28486",
+        "request_id": "P4MMCK6UMYHNM_dHJhY2tlcixTTCxsaW5lSXRlbUlkOzE1MDI5NyxhZEl0ZW1JZDtudWxsLDk0NjY1NzU5MA==",
+        "tracking_reqd": true,
+        "tracking_node": {
+         "click_url": "https://adenginehsl.makemytrip.com/ext/user/track?type=CLICK&trackingId=P4MMCK6UMYHNM_dHJhY2tlcixTTCxsaW5lSXRlbUlkOzE1MDI5NyxhZEl0ZW1JZDtudWxsLDk0NjY1NzU5MA==",
+         "view_url": "https://adenginehsl.makemytrip.com/ext/user/track?type=VIEW&trackingId=P4MMCK6UMYHNM_dHJhY2tlcixTTCxsaW5lSXRlbUlkOzE1MDI5NyxhZEl0ZW1JZDtudWxsLDk0NjY1NzU5MA==",
+         "viewTrckgReqd": true,
+         "clickTrckgReqd": true
+        },
+        "metadata": {
+         "tagType": "SPONSORED"
+        }
+       },
+       "sponsored": false,
+       "newType": false,
+       "similarHotelsRequired": false,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": false,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "oneCircleProperty": false,
+       "isWishListed": false
+      },
+      {
+       "id": "4190725563792527",
+       "name": "Grand Excelsior Hotel Bur Dubai",
+       "maskedPropertyName": false,
+       "propertyType": "Hotel",
+       "propertyLabel": "Hotel",
+       "stayType": "Hotel",
+       "starRating": 4,
+       "halalFoodAvailable": false,
+       "starRatingType": "STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": false,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 697,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "trackingMap": {
+        "m_c54": "family_friendly_property"
+       },
+       "isAltAcco": false,
+       "totalImageCount": 20,
+       "travellerImageCount": 552,
+       "categories": [
+        "Valentine Sale",
+        "SIMPLYWOW Deals",
+        "Certified Hygienic Properties",
+        "Business HotelsValentine Sale",
+        "Kid Stays Free",
+        "Budget Business Traveler",
+        "Staycation Deals",
+        "LongStay2020",
+        "Family Rooms",
+        "Family Special",
+        "Daily Dhamaka",
+        "Travel Sale",
+        "Value For Money",
+        "Curated Staycations",
+        "Family Friendly",
+        "GCC Focussed",
+        "gi_ring_fence",
+        "Kid Friendly",
+        "Early Check-in Available",
+        "Same Day Deals",
+        "ihblackValentine Sale",
+        "Business Hotels",
+        "SEO_UAE_priority_hotels",
+        "GREAT DEALS",
+        "Airport ShuttleGREAT DEALS",
+        "Best For Indians",
+        "Price Drop",
+        "Long Stays",
+        "intlhotel",
+        "IH_Invest",
+        "gcc_earn",
+        "Indian food at the property",
+        "Airport Shuttle",
+        "Kid Friendly_Dubai",
+        "gi_earn",
+        "Super Deals",
+        "Water Villa",
+        "Metro Connectivity",
+        "myp_cat_b",
+        "IHORCSEP18",
+        "Couple Friendly",
+        "Big Deal Sale",
+        "Travel Assist",
+        "IH_TAC1",
+        "MAX SAVINGS ALERT"
+       ],
+       "locationPersuasion": [
+        "Bur Dubai",
+        "1.3 km drive to Meena Bazaar",
+        "1.2 km drive to a metro station"
+       ],
+       "media": [
+        {
+         "url": "//r1imghtlak.mmtcdn.com/41ece70651f911ec962c0a58a9feac02.jpg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 4639.0,
+        "price": 6253.0,
+        "priceWithTax": 8223.0,
+        "discountedPrice": 4639.0,
+        "discountedPriceWithTax": 6609.0,
+        "totalTax": 1970.0,
+        "coupon": {
+         "code": "GRABNOWOFFER",
+         "description": "Great Discounts for You. Get INR1614 Off",
+         "promoIcon": "https://promos.makemytrip.com/Growth/Images/B2C/generic_offer_icon_dh.png",
+         "specialPromo": false,
+         "type": "ECOUPON",
+         "couponAmount": 1614.0,
+         "autoApplicable": false,
+         "bnplAllowed": false,
+         "disabled": false,
+         "bankOffer": false,
+         "binCheckEnabledOffer": false,
+         "noCostEmiApplicable": false,
+         "giftCardAllowed": false
+        },
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990584460501",
+        "discountedPriceWithTaxAndFees": 7000.0,
+        "totalTaxWithFees": 2361.0,
+        "totalAdditionalFees": 391.0,
+        "displayPriceBreakup": [
+         {
+          "section": "PAY ON MAKEMYTRIP",
+          "details": [
+           {
+            "title": "Price Before Taxes & Fees",
+            "amount": 4639.0
+           },
+           {
+            "title": "Taxes & Service Fees",
+            "amount": 1970.0,
+            "breakup": [
+             {
+              "title": "Hotel Taxes",
+              "amount": 1407.0
+             },
+             {
+              "title": "Service Fees",
+              "amount": 563.0
+             }
+            ]
+           }
+          ],
+          "totalDue": {
+           "title": "Due on MakeMyTrip",
+           "amount": 6609.0
+          }
+         },
+         {
+          "section": "PAY AT PROPERTY",
+          "details": [
+           {
+            "title": "City Tax",
+            "subTitle": "City Tax collected by the Dubai municipality",
+            "amount": 391.0,
+            "hotelierCurrency": "AED",
+            "hotelierCurrencyAmount": 15.0
+           }
+          ],
+          "totalDue": {
+           "title": "Due at Property (Mandatory)",
+           "subTitle": "To be paid in local currency",
+           "amount": 391.0,
+           "hotelierCurrency": "AED",
+           "hotelierCurrencyAmount": 15.0
+          }
+         }
+        ]
+       },
+       "partnerDetails": {
+        "price": 6253.0,
+        "priceWithTax": 8223.0,
+        "discountedPrice": 4639.0,
+        "discountedPriceWithTax": 6609.0
+       },
+       "reviewSummary": {
+        "source": "MMT_EXP",
+        "cumulativeRating": 3.8,
+        "totalReviewCount": 1035,
+        "totalRatingCount": 2456,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Very Good",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "2.5K Ratings"
+       },
+       "locationDetail": {
+        "id": "CTDUB",
+        "name": "Dubai",
+        "type": "city",
+        "countryId": "UNI",
+        "countryName": "United Arab Emirates"
+       },
+       "geoLocation": {
+        "latitude": 25.25092,
+        "longitude": 55.2923
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=4190725563792527&checkin=10152026&checkout=10162026&country=UNI&city=CTDUB&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTDUB&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 1,
+       "sponsored": false,
+       "newType": false,
+       "similarHotelsRequired": false,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": false,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "lovedByIndians": true,
+       "serviceApartment": false,
+       "oneCircleProperty": false,
+       "isWishListed": false
+      }
+     ],
+     "showMore": false,
+     "cardInsertionAllowed": true,
+     "premium": false,
+     "showIndex": false,
+     "sponsored": false
+    }
+   ],
+   "locationDetail": {
+    "id": "CTDUB",
+    "name": "Dubai",
+    "type": "city",
+    "countryId": "UNI",
+    "countryName": "United Arab Emirates"
+   },
+   "cityLocationDetail": {
+    "id": "CTDUB",
+    "name": "Dubai",
+    "type": "city"
+   },
+   "sortCriteria": {
+    "field": "S_hsq9_BR",
+    "order": "asc",
+    "accessPoint": false
+   },
+   "lastHotelId": "201812271631136804",
+   "lastFetchedWindowInfo": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000#0#90#false",
+   "currency": "INR"
+  },
+  "correlationKey": "fixture-correlation-key"
+ },
+ "search_lehra_nearby": {
+  "response": {
+   "hotelCount": 7,
+   "noMoreHotels": true,
+   "personalizedSections": [
+    {
+     "name": "NEARBY_HOTELS",
+     "heading": "No more properties in Lehra matching your search",
+     "subHeading": "Explore similar options nearby",
+     "hotelCardType": "default",
+     "orientation": "V",
+     "hotelCount": 7,
+     "hotels": [
+      {
+       "id": "202603301911119762",
+       "name": "ROYAL PALM HOTEL AND RESORT",
+       "maskedPropertyName": false,
+       "propertyType": "Hotel",
+       "propertyLabel": "Hotel",
+       "stayType": "Hotel",
+       "starRating": 4,
+       "halalFoodAvailable": false,
+       "starRatingType": "STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": false,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 52,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": false,
+       "totalImageCount": 20,
+       "travellerImageCount": 1,
+       "categories": [
+        "Couple Friendly",
+        "Inside BD"
+       ],
+       "locationPersuasion": [
+        "23.0 km from Lehra"
+       ],
+       "media": [
+        {
+         "url": "//r1imghtlak.mmtcdn.com/c06f4f84-fd96-43a4-9536-828b6cb047d3.jpeg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 2626.0,
+        "price": 3000.0,
+        "priceWithTax": 3360.0,
+        "discountedPrice": 2626.0,
+        "discountedPriceWithTax": 2986.0,
+        "totalTax": 360.0,
+        "coupon": {
+         "code": "MMTSMARTDEAL",
+         "description": "Great Discounts for You. Get INR374 Off",
+         "promoIcon": "https://promos.makemytrip.com/Growth/Images/B2C/generic_offer_icon_dh.png",
+         "specialPromo": false,
+         "type": "ECOUPON",
+         "couponAmount": 374.0,
+         "autoApplicable": false,
+         "bnplAllowed": false,
+         "disabled": false,
+         "bankOffer": false,
+         "binCheckEnabledOffer": false,
+         "noCostEmiApplicable": false,
+         "giftCardAllowed": false
+        },
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990583122956",
+        "discountedPriceWithTaxAndFees": 2986.0,
+        "totalTaxWithFees": 360.0,
+        "totalAdditionalFees": 0.0
+       },
+       "partnerDetails": {
+        "price": 3000.0,
+        "priceWithTax": 3360.0,
+        "discountedPrice": 2626.0,
+        "discountedPriceWithTax": 2986.0
+       },
+       "reviewSummary": {
+        "source": "MMT",
+        "cumulativeRating": 4.2,
+        "totalReviewCount": 2,
+        "totalRatingCount": 6,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Very Good",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "6 Ratings"
+       },
+       "locationDetail": {
+        "id": "CTPATR",
+        "name": "Patran",
+        "type": "city",
+        "countryId": "IN",
+        "countryName": "India"
+       },
+       "geoLocation": {
+        "latitude": 29.93169,
+        "longitude": 76.07638
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=202603301911119762&checkin=10152026&checkout=10162026&country=IN&city=CTLEH&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTLEH&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 1,
+       "sponsored": false,
+       "newType": false,
+       "similarHotelsRequired": true,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": false,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "oneCircleProperty": false,
+       "isWishListed": false
+      },
+      {
+       "id": "202401140745017245",
+       "name": "A M Suites",
+       "maskedPropertyName": false,
+       "propertyType": "Hotel",
+       "propertyLabel": "Hotel",
+       "stayType": "Hotel",
+       "starRating": 2,
+       "halalFoodAvailable": false,
+       "starRatingType": "STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": false,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 10,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": false,
+       "totalImageCount": 8,
+       "travellerImageCount": 2,
+       "categories": [
+        "Inmarket"
+       ],
+       "locationPersuasion": [
+        "22.5 km from Lehra",
+        "7 minutes walk to Tohana Railway Station"
+       ],
+       "media": [
+        {
+         "url": "//r1imghtlak.mmtcdn.com/b8e47d42-dd62-4ccf-a277-dd0242fc93ef.jpeg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 1100.0,
+        "price": 1100.0,
+        "priceWithTax": 1232.0,
+        "discountedPrice": 1100.0,
+        "discountedPriceWithTax": 1232.0,
+        "totalTax": 132.0,
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990584495232",
+        "discountedPriceWithTaxAndFees": 1232.0,
+        "totalTaxWithFees": 132.0,
+        "totalAdditionalFees": 0.0
+       },
+       "partnerDetails": {
+        "price": 1100.0,
+        "priceWithTax": 1232.0,
+        "discountedPrice": 1100.0,
+        "discountedPriceWithTax": 1232.0
+       },
+       "reviewSummary": {
+        "source": "MMT",
+        "cumulativeRating": 4.6,
+        "totalReviewCount": 4,
+        "totalRatingCount": 18,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Excellent",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "18 Ratings"
+       },
+       "locationDetail": {
+        "id": "CTTOH",
+        "name": "Tohana",
+        "type": "city",
+        "countryId": "IN",
+        "countryName": "India"
+       },
+       "geoLocation": {
+        "latitude": 29.72172,
+        "longitude": 75.90203
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=202401140745017245&checkin=10152026&checkout=10162026&country=IN&city=CTLEH&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTLEH&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 1,
+       "sponsored": false,
+       "newType": false,
+       "similarHotelsRequired": true,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": false,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "oneCircleLoyaltyDetails": {
+        "oneCircleApplicable": true,
+        "earnDetails": {
+         "points": 110.0,
+         "enabled": true,
+         "selected": false
+        },
+        "balance": 0.0
+       },
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "oneCircleProperty": true,
+       "isWishListed": false
+      },
+      {
+       "id": "201701171737034602",
+       "name": "hotel pink stone",
+       "maskedPropertyName": false,
+       "propertyType": "Hotel",
+       "propertyLabel": "Hotel",
+       "stayType": "Hotel",
+       "starRating": 0,
+       "halalFoodAvailable": false,
+       "starRatingType": "STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": false,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 34,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": false,
+       "totalImageCount": 20,
+       "travellerImageCount": 1,
+       "categories": [
+        "Mid_Low_DH_DTB",
+        "budget_hotels",
+        "MyBiz_Assured",
+        "kids_stay_free",
+        "Inside BD",
+        "Great Indian Travel Sale",
+        "Same Day Deals",
+        "Inmarket",
+        "GI_Focus"
+       ],
+       "locationPersuasion": [
+        "Patel Nagar",
+        "23.3 km from Lehra"
+       ],
+       "media": [
+        {
+         "url": "//r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/201701171737034602-926c2e96e04211e58a72daf4768ad8d9.jpg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "priceDetail": {
+        "displayPrice": 3064.0,
+        "price": 3500.0,
+        "priceWithTax": 3920.0,
+        "discountedPrice": 3064.0,
+        "discountedPriceWithTax": 3484.0,
+        "totalTax": 420.0,
+        "coupon": {
+         "code": "MMTSMARTDEAL",
+         "description": "Great Discounts for You. Get INR436 Off",
+         "promoIcon": "https://promos.makemytrip.com/Growth/Images/B2C/generic_offer_icon_dh.png",
+         "specialPromo": false,
+         "type": "ECOUPON",
+         "couponAmount": 436.0,
+         "autoApplicable": false,
+         "bnplAllowed": false,
+         "disabled": false,
+         "bankOffer": false,
+         "binCheckEnabledOffer": false,
+         "noCostEmiApplicable": false,
+         "giftCardAllowed": false
+        },
+        "pricingKey": "DEFAULT",
+        "ratePlanCode": "990001404412",
+        "discountedPriceWithTaxAndFees": 3484.0,
+        "totalTaxWithFees": 420.0,
+        "totalAdditionalFees": 0.0
+       },
+       "partnerDetails": {
+        "price": 3500.0,
+        "priceWithTax": 3920.0,
+        "discountedPrice": 3064.0,
+        "discountedPriceWithTax": 3484.0
+       },
+       "reviewSummary": {
+        "source": "MMT",
+        "cumulativeRating": 3.8,
+        "totalReviewCount": 14,
+        "totalRatingCount": 41,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Very Good",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "41 Ratings"
+       },
+       "locationDetail": {
+        "id": "CTTOH",
+        "name": "Tohana",
+        "type": "city",
+        "countryId": "IN",
+        "countryName": "India"
+       },
+       "geoLocation": {
+        "latitude": 29.71409,
+        "longitude": 75.90411
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=201701171737034602&checkin=10152026&checkout=10162026&country=IN&city=CTLEH&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTLEH&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 1,
+       "sponsored": false,
+       "newType": false,
+       "similarHotelsRequired": false,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": false,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "oneCircleLoyaltyDetails": {
+        "oneCircleApplicable": true,
+        "earnDetails": {
+         "points": 350.0,
+         "enabled": true,
+         "selected": false
+        },
+        "balance": 0.0
+       },
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "oneCircleProperty": true,
+       "isWishListed": false
+      }
+     ],
+     "showMore": false,
+     "cardInsertionAllowed": true,
+     "premium": false,
+     "showIndex": false,
+     "sponsored": false
+    }
+   ],
+   "locationDetail": {
+    "id": "CTLEH",
+    "name": "Lehra",
+    "type": "city",
+    "countryId": "IN",
+    "countryName": "India"
+   },
+   "cityLocationDetail": {
+    "id": "CTPATR",
+    "name": "Patran",
+    "type": "city"
+   },
+   "sortCriteria": {
+    "field": "hsq101",
+    "order": "asc",
+    "accessPoint": false
+   },
+   "lastFetchedWindowInfo": "00000000#0#8#true",
+   "currency": "INR"
+  },
+  "correlationKey": "fixture-correlation-key"
+ },
+ "search_no_expdata": {
+  "response": {
+   "hotelCount": 30,
+   "noMoreHotels": false,
+   "personalizedSections": [
+    {
+     "name": "RECOMMENDED_HOTELS",
+     "heading": "Showing Properties in Goa",
+     "hotelCardType": "default",
+     "orientation": "V",
+     "hotelCount": 30,
+     "hotels": [
+      {
+       "id": "202410211734063978",
+       "name": "Ginger Goa, Candolim",
+       "maskedPropertyName": false,
+       "propertyType": "Hotel",
+       "propertyLabel": "Hotel",
+       "stayType": "Hotel",
+       "starRating": 4,
+       "halalFoodAvailable": false,
+       "starRatingType": "STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": true,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 1943,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": false,
+       "totalImageCount": 23,
+       "travellerImageCount": 1865,
+       "categories": [
+        "Chain",
+        "Couple Friendly",
+        "wow_weekend26",
+        "DERBY_SPECIAL",
+        "GCDC_Tag",
+        "Flyer Deal",
+        "Mid_High_DH_DTB",
+        "VKO_26"
+       ],
+       "locationPersuasion": [
+        "Candolim",
+        "8 minutes walk to Candolim Beach"
+       ],
+       "media": [
+        {
+         "url": "https://r1imghtlak.mmtcdn.com/0f00d12b-9701-420b-b944-7cf35bc4d064.jpg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "reviewSummary": {
+        "source": "MMT",
+        "cumulativeRating": 4.2,
+        "totalReviewCount": 1962,
+        "totalRatingCount": 3941,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Very Good",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "3.9K Ratings"
+       },
+       "locationDetail": {
+        "id": "CTGOI",
+        "name": "Goa",
+        "type": "city",
+        "countryId": "IN",
+        "countryName": "India"
+       },
+       "geoLocation": {
+        "latitude": 15.52459,
+        "longitude": 73.76756
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=202410211734063978&checkin=11102026&checkout=11122026&country=IN&city=CTGOI&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTGOI&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 1,
+       "sponsored": false,
+       "newType": false,
+       "similarHotelsRequired": true,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": false,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "oneCircleProperty": false,
+       "isWishListed": false
+      },
+      {
+       "id": "200710051600151728",
+       "name": "Heritage Village Resort & Spa Goa",
+       "maskedPropertyName": false,
+       "propertyType": "Resort",
+       "propertyLabel": "Resort",
+       "stayType": "Resort",
+       "starRating": 5,
+       "halalFoodAvailable": false,
+       "starRatingType": "STAR",
+       "highSellingAltAcco": false,
+       "spotlightApplicable": false,
+       "soldOut": false,
+       "showCallToBook": false,
+       "hotelMediaCount": 832,
+       "showSimilarChainProperty": false,
+       "lmnbProperty": false,
+       "groupBookingHotel": false,
+       "groupBookingPrice": false,
+       "isAltAcco": false,
+       "totalImageCount": 23,
+       "travellerImageCount": 664,
+       "categories": [
+        "Festive Weekend Deals",
+        "PREMIND",
+        "Couple",
+        "suite_surprises",
+        "Child Friendly",
+        "Premium Value Packages",
+        "luxury_hotels",
+        "HighFiveV2_NonChain_NonTarget",
+        "Inmarket",
+        "Flyer Deal",
+        "MySafety-Third Party Reviewed",
+        "Beachfront",
+        "Premium_context",
+        "Couple Friendly",
+        "Pet Friendly",
+        "100% Vaccinated Staff",
+        "MyBiz_Assured",
+        "Premium Properties",
+        "DH_SuperPremium",
+        "package_hotels",
+        "Last Minute Deals",
+        "Award-winning Properties",
+        "goa_premium_10kplus"
+       ],
+       "locationPersuasion": [
+        "Mormugao",
+        "6 minutes walk to Arossim Beach"
+       ],
+       "media": [
+        {
+         "url": "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/200710051600151728-e6fcc36c411d11eb9af40242ac110002.jpg?output-quality=75&downsize=243:162&output-format=webp",
+         "mediaType": "IMAGE"
+        }
+       ],
+       "reviewSummary": {
+        "source": "MMT",
+        "cumulativeRating": 4.5,
+        "totalReviewCount": 845,
+        "totalRatingCount": 1431,
+        "chatGPTSummaryExists": false,
+        "ratingText": "Excellent",
+        "preferredOTA": true,
+        "showUpvote": false,
+        "mmtReviewCount": 0,
+        "recentReview": false,
+        "formattedRatingText": "1.4K Ratings"
+       },
+       "locationDetail": {
+        "id": "CTGOI",
+        "name": "Goa",
+        "type": "city",
+        "countryId": "IN",
+        "countryName": "India"
+       },
+       "geoLocation": {
+        "latitude": 15.33568,
+        "longitude": 73.89687
+       },
+       "detailDeeplinkUrl": "https://www.makemytrip.com/hotels/hotel-details?hotelId=200710051600151728&checkin=11102026&checkout=11122026&country=IN&city=CTGOI&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTGOI&locusType=city&region=in&viewType=LUXE&funnelName=HOTELS&rsc=1e2e&mpn=false",
+       "isABO": false,
+       "shortList": false,
+       "totalRoomCount": 1,
+       "trackingInfo": {
+        "ad_id": "1",
+        "campaign_id": "146177",
+        "advertiser_id": "4652",
+        "request_id": "P4MMCK6UMYHNM_dHJhY2tlcixTTCxsaW5lSXRlbUlkOzE0NjE3NyxhZEl0ZW1JZDtudWxsLDQxNTIxMzM1Mw==",
+        "tracking_reqd": true,
+        "tracking_node": {
+         "click_url": "https://adenginehsl.makemytrip.com/ext/user/track?type=CLICK&trackingId=P4MMCK6UMYHNM_dHJhY2tlcixTTCxsaW5lSXRlbUlkOzE0NjE3NyxhZEl0ZW1JZDtudWxsLDQxNTIxMzM1Mw==",
+         "view_url": "https://adenginehsl.makemytrip.com/ext/user/track?type=VIEW&trackingId=P4MMCK6UMYHNM_dHJhY2tlcixTTCxsaW5lSXRlbUlkOzE0NjE3NyxhZEl0ZW1JZDtudWxsLDQxNTIxMzM1Mw==",
+         "viewTrckgReqd": true,
+         "clickTrckgReqd": true
+        },
+        "metadata": {
+         "tagType": "SPONSORED"
+        }
+       },
+       "sponsored": false,
+       "newType": false,
+       "mmtHotelCategory": "LUXE",
+       "heroImage": "https://promos.makemytrip.com/Hotels_product/Luxe/Hero/Heritage%20Village%20Resort%20%26%20Spa%20Goa%20-%20200710051600151728.webp",
+       "calendarCriteria": {
+        "available": true,
+        "maxDate": "2026-12-24",
+        "advanceDays": 90,
+        "mlos": 1
+       },
+       "similarHotelsRequired": true,
+       "isABSO": false,
+       "isRTB": false,
+       "isMLOS": true,
+       "myBizAssured": false,
+       "hotelType": "HOTEL",
+       "showMlosPrice": false,
+       "priceDisplayMsg": "Per Night",
+       "videoMetaData": [
+        {
+         "mediaType": "video",
+         "thumbnailUrl": "https://juggler.makemytrip.com/juggler/stream/key/513ad875-248e-423c-b4ad-558a96fe59cd/thumbnails/360_640.jpg",
+         "title": "Family-friendly Stay",
+         "url": "https://juggler.makemytrip.com/juggler/stream/key/513ad875-248e-423c-b4ad-558a96fe59cd/master.m3u8"
+        }
+       ],
+       "lovedByIndians": false,
+       "serviceApartment": false,
+       "oneCircleProperty": false,
+       "isWishListed": false
+      }
+     ],
+     "showMore": false,
+     "cardInsertionAllowed": true,
+     "premium": false,
+     "showIndex": false,
+     "sponsored": false
+    }
+   ],
+   "locationDetail": {
+    "id": "CTGOI",
+    "name": "Goa",
+    "type": "city",
+    "countryId": "IN",
+    "countryName": "India"
+   },
+   "cityLocationDetail": {
+    "id": "CTGOI",
+    "name": "Goa",
+    "type": "city"
+   },
+   "sortCriteria": {
+    "field": "S_hsq910_Q",
+    "order": "asc",
+    "accessPoint": false
+   },
+   "lastHotelId": "202409270832259390",
+   "lastFetchedWindowInfo": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000#0#90#false",
+   "currency": "INR"
+  },
+  "correlationKey": "fixture-correlation-key"
+ },
+ "search_no_hotels": {
+  "error": {
+   "code": "400814",
+   "message": "You Just Missed It",
+   "alternateMessage": "No Hotels Found (after nearby search) due to SINGULARITY"
+  },
+  "correlationKey": "036d80c7-2531-496a-8367-175283193db0"
+ },
+ "search_bad_sort": {
+  "error": {
+   "code": "400108",
+   "message": "You Just Missed It",
+   "alternateMessage": "field name is not supported"
+  },
+  "correlationKey": "21de6938-1700-4141-9bd3-e063cc27bbc3"
+ },
+ "suggest_goa": [
+  {
+   "cityCode": "CTGOI",
+   "displayName": "Goa, India",
+   "timezone": {
+    "offset": 19800,
+    "name": "Asia/Calcutta"
+   },
+   "type": "city",
+   "htype": "City",
+   "cityName": "Goa",
+   "stateName": "Goa",
+   "countryCode": "IN",
+   "hierarchical": true,
+   "iconType": "City",
+   "context": {
+    "name": "Goa",
+    "id": "CTGOI",
+    "type": "city"
+   },
+   "id": "CTGOI",
+   "searchRegion": "in",
+   "sw": {
+    "lng": 73.65459,
+    "lat": 14.87291
+   },
+   "contextField": [
+    "STGOA",
+    "IN",
+    "RGGOI"
+   ],
+   "centre": {
+    "lng": 74.10478,
+    "lat": 15.35216
+   },
+   "contextId": {
+    "city": "CTGOI"
+   },
+   "isTest": false,
+   "ne": {
+    "lng": 74.34165,
+    "lat": 15.80021
+   },
+   "name": "Goa",
+   "stateCode": "STGOA",
+   "countryName": "India",
+   "breakable": true,
+   "isPivot": false,
+   "htlCount": 9209,
+   "altAccoCount": 7449,
+   "nonAltAccoCount": 1760,
+   "maxAltAccoPropertyType": "Apartment",
+   "maxAltAccoPropertyCount": 2855,
+   "hostelCount": 180
+  },
+  {
+   "cityCode": "CTGOI",
+   "displayName": "North Goa, Goa",
+   "timezone": {
+    "offset": 19800,
+    "name": "Asia/Calcutta"
+   },
+   "type": "area",
+   "htype": "Area",
+   "cityName": "Goa",
+   "countryCode": "IN",
+   "hierarchical": true,
+   "iconType": "Area",
+   "context": {
+    "name": "Goa",
+    "id": "CTGOI",
+    "type": "city"
+   },
+   "id": "ARNOR",
+   "searchRegion": "in",
+   "sw": {
+    "lng": 73.67930603,
+    "lat": 15.412551126
+   },
+   "contextField": [
+    "STGOA",
+    "IN",
+    "CTGOI",
+    "RGGOI"
+   ],
+   "centre": {
+    "lng": 73.9830029,
+    "lat": 15.5163112
+   },
+   "contextId": {
+    "city": "CTGOI"
+   },
+   "ne": {
+    "lng": 74.027931213,
+    "lat": 15.800212022
+   },
+   "name": "North Goa",
+   "tagline": "Goa's party central",
+   "countryName": "India",
+   "locType": "locality",
+   "htlCount": 7687,
+   "altAccoCount": 6321,
+   "nonAltAccoCount": 1366,
+   "maxAltAccoPropertyType": "Villa",
+   "maxAltAccoPropertyCount": 2535,
+   "hostelCount": 153
+  },
+  {
+   "cityCode": "CTGOI",
+   "displayName": "South Goa, Goa",
+   "timezone": {
+    "offset": 19800,
+    "name": "Asia/Calcutta"
+   },
+   "type": "area",
+   "htype": "Area",
+   "cityName": "Goa",
+   "countryCode": "IN",
+   "hierarchical": true,
+   "iconType": "Area",
+   "context": {
+    "name": "Goa",
+    "id": "CTGOI",
+    "type": "city"
+   },
+   "id": "ARSOU",
+   "searchRegion": "in",
+   "sw": {
+    "lng": 73.78264,
+    "lat": 14.89566
+   },
+   "contextField": [
+    "STGOA",
+    "IN",
+    "CTGOI",
+    "RGGOI"
+   ],
+   "centre": {
+    "lng": 74.123996,
+    "lat": 15.11766
+   },
+   "contextId": {
+    "city": "CTGOI"
+   },
+   "ne": {
+    "lng": 74.32191,
+    "lat": 15.41875
+   },
+   "name": "South Goa",
+   "tagline": "Preferred by families in Goa",
+   "countryName": "India",
+   "locType": "locality",
+   "htlCount": 1433,
+   "altAccoCount": 1065,
+   "nonAltAccoCount": 368,
+   "maxAltAccoPropertyType": "Apartment",
+   "maxAltAccoPropertyCount": 454,
+   "hostelCount": 27
+  }
+ ],
+ "suggest_dubai": [
+  {
+   "cityCode": "CTDUB",
+   "displayName": "Dubai, United Arab Emirates",
+   "timezone": {
+    "offset": 14400,
+    "name": "Asia/Dubai"
+   },
+   "type": "city",
+   "htype": "City",
+   "cityName": "Dubai",
+   "stateName": "Dubai",
+   "countryCode": "UNI",
+   "hierarchical": true,
+   "iconType": "City",
+   "context": {
+    "name": "Dubai",
+    "id": "CTDUB",
+    "type": "city"
+   },
+   "id": "CTDUB",
+   "searchRegion": "in",
+   "sw": {
+    "lng": 54.8871182,
+    "lat": 24.7939811
+   },
+   "contextField": [
+    "UNI",
+    "STDUBA"
+   ],
+   "centre": {
+    "lng": 55.22037,
+    "lat": 25.0615787
+   },
+   "contextId": {
+    "city": "CTDUB"
+   },
+   "isTest": false,
+   "ne": {
+    "lng": 55.63336,
+    "lat": 25.3799756
+   },
+   "name": "Dubai",
+   "stateCode": "STDUBA",
+   "countryName": "United Arab Emirates",
+   "breakable": true,
+   "isPivot": false,
+   "htlCount": 6221,
+   "altAccoCount": 4619,
+   "nonAltAccoCount": 1602,
+   "maxAltAccoPropertyType": "Apartment",
+   "maxAltAccoPropertyCount": 4187,
+   "hostelCount": 98
+  },
+  {
+   "searchRegion": "in",
+   "sw": {
+    "lng": 55.11750192827755,
+    "lat": 25.06477737
+   },
+   "cityCode": "CTDUB",
+   "displayName": "Dubai Marina & JBR, Dubai",
+   "timezone": {
+    "offset": 14400,
+    "name": "Asia/Dubai"
+   },
+   "contextField": [
+    "UNI",
+    "STDUBA",
+    "CTDUB"
+   ],
+   "centre": {
+    "lng": 55.1390411,
+    "lat": 25.0794222
+   },
+   "contextId": {
+    "city": "CTDUB"
+   },
+   "type": "area",
+   "htype": "Area",
+   "cityName": "Dubai",
+   "countryCode": "UNI",
+   "iconType": "Area",
+   "ne": {
+    "lng": 55.1556551280534,
+    "lat": 25.10098839
+   },
+   "context": {
+    "name": "Dubai",
+    "id": "CTDUB",
+    "type": "city"
+   },
+   "name": "Dubai Marina & JBR",
+   "id": "ARDUBAIMA",
+   "countryName": "United Arab Emirates",
+   "locType": "locality",
+   "htlCount": 896,
+   "altAccoCount": 743,
+   "nonAltAccoCount": 153,
+   "maxAltAccoPropertyType": "Apartment",
+   "maxAltAccoPropertyCount": 672,
+   "hostelCount": 42
+  },
+  {
+   "cityCode": "CTDUB",
+   "displayName": "Bur Dubai, Dubai",
+   "timezone": {
+    "offset": 14400,
+    "name": "Asia/Dubai"
+   },
+   "type": "area",
+   "htype": "Area",
+   "cityName": "Dubai",
+   "countryCode": "UNI",
+   "hierarchical": true,
+   "iconType": "Area",
+   "context": {
+    "name": "Dubai",
+    "id": "CTDUB",
+    "type": "city"
+   },
+   "id": "ARBURDUB",
+   "searchRegion": "in",
+   "sw": {
+    "lng": 55.2656269,
+    "lat": 25.1985558
+   },
+   "contextField": [
+    "UNI",
+    "STDUBA",
+    "CTDUB"
+   ],
+   "centre": {
+    "lng": 55.3125239,
+    "lat": 25.2348156
+   },
+   "contextId": {
+    "city": "CTDUB"
+   },
+   "ne": {
+    "lng": 55.3470167,
+    "lat": 25.2769621
+   },
+   "name": "Bur Dubai",
+   "tagline": "Popular area with historic markets & Indian food",
+   "countryName": "United Arab Emirates",
+   "locType": "locality",
+   "htlCount": 464,
+   "altAccoCount": 192,
+   "nonAltAccoCount": 272,
+   "maxAltAccoPropertyType": "Apartment",
+   "maxAltAccoPropertyCount": 158,
+   "hostelCount": 9
+  }
+ ],
+ "suggest_taj_mahal": [
+  {
+   "cityCode": "CTDEL",
+   "displayName": "Taj Mahal, New Delhi, Delhi",
+   "timezone": {
+    "offset": 19800,
+    "name": "Asia/Calcutta",
+    "dstOffset": 0
+   },
+   "isHoliday": false,
+   "type": "hotel",
+   "pareaId": "ARMANSI",
+   "srating": "5",
+   "htype": "Hotel",
+   "cityName": "Delhi",
+   "countryCode": "IN",
+   "hotelAttributes": [
+    "PREMIUM"
+   ],
+   "context": {
+    "name": "New Delhi and NCR",
+    "id": "RGNCR",
+    "type": "region"
+   },
+   "id": "200901081318281435",
+   "attribute": "independent_property",
+   "testHotel": false,
+   "prewarmInfo": {
+    "mlos": 1,
+    "available": true,
+    "advanceDays": 90
+   },
+   "searchRegion": "in",
+   "contextField": [
+    "STDEL",
+    "IN",
+    "RGNCR",
+    "CTDEL"
+   ],
+   "isAbso": false,
+   "centre": {
+    "lng": 77.22334,
+    "lat": 28.604914
+   },
+   "contextId": {
+    "region": "RGNCR"
+   },
+   "pareaName": "Man Singh Road Area",
+   "name": "Taj Mahal, New Delhi",
+   "luxury": true,
+   "countryName": "India",
+   "specialFlag": false
+  },
+  {
+   "searchRegion": "in",
+   "cityCode": "CTAGR",
+   "displayName": "Taj Mahal, Agra",
+   "timezone": {
+    "offset": 19800,
+    "name": "Asia/Calcutta"
+   },
+   "contextField": [
+    "RGAGR",
+    "IN",
+    "ARTAJ",
+    "STUP",
+    "CTAGR"
+   ],
+   "centre": {
+    "lng": 78.0421422,
+    "lat": 27.1751448
+   },
+   "contextId": {
+    "city": "CTAGR"
+   },
+   "type": "poi",
+   "htype": "Tourist Attraction",
+   "cityName": "Agra",
+   "countryCode": "IN",
+   "hierarchical": true,
+   "iconType": "TOURIST_ATTRACTION",
+   "context": {
+    "name": "Agra",
+    "id": "CTAGR",
+    "type": "city"
+   },
+   "name": "Taj Mahal",
+   "id": "POI65100",
+   "countryName": "India",
+   "htlCount": 757,
+   "altAccoCount": 259,
+   "nonAltAccoCount": 498,
+   "maxAltAccoPropertyType": "Homestay",
+   "maxAltAccoPropertyCount": 152,
+   "hostelCount": 17
+  },
+  {
+   "cityCode": "CTLKO",
+   "displayName": "Taj Mahal, Lucknow , Lucknow, Uttar Pradesh",
+   "timezone": {
+    "offset": 19800,
+    "name": "Asia/Calcutta",
+    "dstOffset": 0
+   },
+   "isHoliday": false,
+   "type": "hotel",
+   "pareaId": "ARGOM",
+   "srating": "5",
+   "htype": "Hotel",
+   "cityName": "Lucknow",
+   "countryCode": "IN",
+   "hotelAttributes": [
+    "PREMIUM"
+   ],
+   "context": {
+    "name": "Lucknow",
+    "id": "CTLKO",
+    "type": "city"
+   },
+   "id": "200901081319572990",
+   "attribute": "independent_property",
+   "testHotel": false,
+   "prewarmInfo": {
+    "mlos": 1,
+    "available": true,
+    "advanceDays": 90
+   },
+   "searchRegion": "in",
+   "contextField": [
+    "IN",
+    "CTLKO",
+    "STUP",
+    "RGLKO"
+   ],
+   "isAbso": false,
+   "centre": {
+    "lng": 80.973434,
+    "lat": 26.851595
+   },
+   "contextId": {
+    "city": "CTLKO"
+   },
+   "pareaName": "Gomti Nagar",
+   "name": "Taj Mahal, Lucknow ",
+   "luxury": true,
+   "countryName": "India",
+   "specialFlag": false
+  },
+  {
+   "cityCode": "CTBOM",
+   "displayName": "The Taj Mahal Palace, Mumbai, Mumbai, Maharashtra",
+   "timezone": {
+    "offset": 19800,
+    "name": "Asia/Calcutta"
+   },
+   "isHoliday": false,
+   "type": "hotel",
+   "pareaId": "ARCOLA",
+   "srating": "5",
+   "htype": "Hotel",
+   "cityName": "Mumbai",
+   "countryCode": "IN",
+   "hotelAttributes": [
+    "PREMIUM"
+   ],
+   "context": {
+    "name": "Mumbai Region",
+    "id": "RGBOM",
+    "type": "region"
+   },
+   "id": "201709071828297454",
+   "attribute": "independent_property",
+   "testHotel": false,
+   "prewarmInfo": {
+    "mlos": 1,
+    "available": true,
+    "advanceDays": 90
+   },
+   "searchRegion": "in",
+   "contextField": [
+    "IN",
+    "CTBOM",
+    "STMHRA",
+    "RGBOM"
+   ],
+   "isAbso": false,
+   "centre": {
+    "lng": 72.83303,
+    "lat": 18.92173
+   },
+   "contextId": {
+    "region": "RGBOM"
+   },
+   "pareaName": "Colaba",
+   "name": "The Taj Mahal Palace, Mumbai",
+   "luxury": true,
+   "countryName": "India",
+   "specialFlag": false
+  }
+ ],
+ "suggest_nothing": [],
+ "akamai_denied_www": "<HTML><HEAD>\n<TITLE>Access Denied</TITLE>\n</HEAD><BODY>\n<H1>Access Denied</H1>\n \nYou don't have permission to access \"http&#58;&#47;&#47;www&#46;makemytrip&#46;com&#47;\" on this server.<P>\nReference&#32;&#35;18&#46;2af01502&#46;1790289556&#46;149232a8\n<P>https&#58;&#47;&#47;errors&#46;edgesuite&#46;net&#47;18&#46;2af01502&#46;1790289556&#46;149232a8</P>\n</BODY>\n</HTML>\n",
+ "akamai_denied_api": "<HTML><HEAD>\n<TITLE>Access Denied</TITLE>\n</HEAD><BODY>\n<H1>Access Denied</H1>\n \nYou don't have permission to access \"http&#58;&#47;&#47;mapi&#46;makemytrip&#46;com&#47;clientbackend&#47;cg&#47;search&#45;hotels&#47;DESKTOP&#47;2&#63;\" on this server.<P>\nReference&#32;&#35;18&#46;496a645f&#46;1790289715&#46;9ffaa17\n<P>https&#58;&#47;&#47;errors&#46;edgesuite&#46;net&#47;18&#46;496a645f&#46;1790289715&#46;9ffaa17</P>\n</BODY>\n</HTML>\n",
+ "akamai_decoy": "<html><head><meta name=\"color-scheme\" content=\"light dark\"><meta charset=\"utf-8\"></head><body><pre>200-OK</pre><div class=\"json-formatter-container\"></div></body></html>",
+ "chrome_error_page": "<html dir=\"ltr\" lang=\"en\"><head><title>www.makemytrip.com</title></head><body id=\"t\"><div id=\"main-frame-error\" class=\"interstitial-wrapper\"></div><script>var loadTimeData={\"errorCode\":\"ERR_HTTP2_PROTOCOL_ERROR\"};</script></body></html>",
+ "landing_served": "<!DOCTYPE html><html lang=\"en\" dir=\"ltr\" class=\"webp\" style=\"--font-scale: 1;\"><head><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/captchafox/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/mt_captcha/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/turnstile/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/turnstile/hunter.js\" data-ts-input=\"cf-turnstile-response\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/amazon_waf/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/yandex/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/lemin/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/arkoselabs/hunter.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/arkoselabs/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/recaptcha/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/recaptcha/hunter.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/keycaptcha/hunter.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/geetest_v4/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/geetest/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/communication_helpers.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/core_helpers.js\"></script> <script>window.__NON_CACHED_DATA__ = { isFreshUser: false,fScale: \"0px\", geoHeaders: \"georegion=104,country_code=IN,region_code=MH,city=MUMBAI,lat=18.98,long=72.83,timezone=GMT+5.50,continent=AS,throughput=vhigh,bw=5000,asnum=45916,location_id=0\", webView: \"false\"  };</script>   <script>window.__HOME_DATA__={\"headerConfig\":{\"status\":\"fulfilled\",\"value\":{\"info\":{\"profile\":\"B2C\",\"userType\":\"PERSONAL\"},\"renderConfigurations\":{\"authorization\":\"h4nhc9jcgpAGIjp\",\"businessCookieMap\":{\"BUSINESS\":\"b2b\",\"CTA\":\"myPartner\",\"PERSONAL\":\"b2c\"},\"defaultAuthorization\":true,\"defaultTNCUrls\":true,\"displayWelcomeOffer\":true,\"languageListMap\":{\"eng\":\"English\",\"hin\":\"हिंदी\",\"tam\":\"தமிழ்\"},\"listYourPropertyLink\":\"https://in.goibibo.com/newextranet/login?cmp=mmthomepage\",\"menuList\":[\"Flights\",\"Hotels\",\"Homestays\",\"Holidays\",\"Trains\",\"Buses\",\"Cabs\",\"Tours\",\"Visa\",\"Cruise\",\"Forex\",\"Travel Insurance\",\"MORE_INDIA\"],\"showLanguageSwitcher\":true,\"showListYourProperty\":true,\"showLoginChanges\":true,\"showLoginOtionInSubModal\":true,\"showLoginSignupPersuasion\":true,\"showMMTBlack\":true,\"showMyBizFormSwitcher\":true,\"showMyBizIcon\":true,\"showMyBizSwitcher\":true,\"showProfileLogout\":false,\"showWalletAmount\":true,\"showWalletIcon\":false,\"showWhatsAppLoginConsent\":true,\"topCountriesList\":[\"us\",\"ae\",\"sa\",\"in\"],\"vendorProfileType\":\"\"}}},\"applicationConfig\":{\"status\":\"fulfilled\"},\"empeiria\":{\"status\":\"fulfilled\",\"value\":{\"cardSequence\":{\"HOTELX_DT_T1\":{\"cardId\":\"HOTEL_XSELL_DT_B2C_IN_DEF\",\"priority\":0},\"COMING_SOON_TEMPLATE\":{\"cardId\":\"COMING_SOON_HTL_DT_IN\",\"priority\":1},\"RECENT_SEARCH_V2\":{\"cardId\":\"RECENT_SEARCH_DESKTOP_B2C_IN_DEF\",\"priority\":2},\"SUPER_OFFERS_TEMPLATE1\":{\"cardId\":\"OFFERS_LISTING_DESKTOP_B2C_IN_NEW_USER\",\"priority\":3},\"MMT_LUXE_TEMPLATE\":{\"cardId\":\"MMT_LUXE_PWA_DESKTOP_VARIANT\",\"priority\":4},\"STATIC_T4\":{\"cardId\":\"ADTECH_VARIANT_DESKTOP_B2C_IN\",\"priority\":5},\"WEEKEND_GETAWAY_DESKTOP\":{\"cardId\":\"WEEKEND_GETAWAY_DT_IN\",\"priority\":6},\"ADTECH_BRAND_STORE_DT\":{\"cardId\":\"ADTECH_BRAND_STORE_GRID_DT\",\"priority\":7},\"HTL_PAY\":{\"cardId\":\"HPV2_HOTEL_PAY_NOW_B2C_IN_DEF\",\"_TIMESTAMP=1790291955604</script><script src=\"https://assets.adobedtm.com/a4d1854113f4/2f183a80c856/launch-4aefa0b9df82.min.js\" async=\"\"></script>\n        \n  <link rel=\"preconnect\" href=\"https://jsak.mmtcdn.com\">\n  <link rel=\"preconnect\" href=\"https://go-assets.ibcdn.com\">\n  <link rel=\"preconnect\" href=\"https://platforms.makemytrip.com\">\n  <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"\">\n  <link rel=\"dns-prefetch\" href=\"https://imgak.mmtcdn.com\">\n\n        <link rel=\"preload\" fetchpriority=\"high\" as=\"image\" href=\"https://imgak.mmtcdn.com/pwa_v3/pwa_commons_assets/desktop/bg4.jpg\">\n\t\t\t\t\n        \n\t\t\t\t\n\t\t<meta charset=\"utf-8\">\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no\">\n\t\t<meta http-equiv=\"cache-control\" content=\"max-age=0\">\n\t\t<meta http-equiv=\"cache-control\" content=\"no-cache\">\n\t\t<meta http-equiv=\"expires\" content=\"0\">\n\t\t<meta http-equiv=\"expires\" content=\"Tue, 01 Jan 1980 1:00:00 GMT\">\n\t\t<meta http-equiv=\"pragma\" content=\"no-cache\">\n\t\t<meta name=\"application-name\" content=\"MakeMyTrip\">\n\t\t<meta name=\"theme-color\" content=\"#FFF\">\n\t\t<meta name=\"msapplication-navbutton-color\" content=\"#4a4a4a\">\n\t\t<meta name=\"msapplication-starturl\" content=\"/\">\n    <meta name=\"view-transition\" content=\"same-origin\">\n    \n\t\n\n\t\t\n\t\t<meta name=\"ROBOTS\" content=\"INDEX, FOLLOW\">\n    <title>MakeMyTrip.com: Save upto 60% on Hotel Booking 4,442,00+ Hotels Worldwide</title>\n    <meta content=\"Looking for Online Hotel Booking? FREE Cancellation, Book @Rs.1 online hotel bookings all over the world. Book cheap, budget and luxury hotels at best price from leading hotel booking site.\" name=\"description\">\n\t  <meta content=\"hotel reservation, online hotel booking, accommodation deals, hotel deals, discount hotels, cheap hotels, international hotel deals, best hotel deals, discount hotel reservation, discount accommodation, international hotels, online discount hotel reservations, MakeMyTrip India\" name=\"keywords\">\n    <link rel=\"canonical\" href=\"https://www.makemytrip.com/hotels/\">\n    \n<link rel=\"alternate\" href=\"https://www.makemytrip.global/hotels/\" hreflang=\"x-default\">\n<link rel=\"alternate\" href=\"https://ae.makemytrip.global/hotels/\" hreflang=\"en-ae\">\n<link rel=\"alternate\" href=\"https://ae.makemytrip.global/hotels?lang=ara\" hreflang=\"ar-ae\">\n<link rel=\"alternate\" href=\"https://sa.makemytrip.global/hotels/\" hreflang=\"ar-sa\">\n<link rel=\"alternate\" href=\"https://sa.makemytrip.global/hotels?lang=eng\" hreflang=\"en-sa\">\n<link rel=\"alternate\" href=\"https://www.makemytrip.global/hotels/?cc=am\" hreflang=\"en-us\">\n<link rel=\"alternate\" href=\"https://www.makemytrip.com/hotels/\" hreflang=\"en-in\">\n<link rel=\"alternate\" href=\"https://www.makemytrip.global/hotels/?cc=sg\" hreflang=\"en-sg\">\n<link rel=\"alternate\" href=\"https://www.makemytrip.global/hotels/?cc=au\" hreflang=\"en-au\">\n<link rel=\"alternate\" href=\"https://www.makemytrip.global/hotels/?cc=om\" hreflang=\"en-om\">\n<link rel=\"alternate\" href=\"https://www.makemytrip.global/hotels/?cc=kw\" hreflang=\"en-kw\">\n<link rel=\"alternate\" href=\"https://www.makemytrip.global/hotels/?cc=bh\" hreflang=\"en-bh\">\n<link rel=\"alternate\" href=\"https://www.makemytrip.global/hotels/?cc=qa\" hreflang=\"en-qa\">\n<link rel=\"alternate\" href=\"https://www.makemytrip.global/hotels/?cc=bd\" hreflang=\"en-bd\">\n<link rel=\"alternate\" href=\"https://www.makemytrip.global/hotels/?cc=my\" hreflang=\"en-my\">\n<link rel=\"alternate\" href=\"https://www.makemytrip.global/hotels/?cc=np\" hreflang=\"en-np\">\n<link rel=\"alternate\" href=\"https://www.makemytrip.global/hotels/?cc=lk\" hreflang=\"en-lk\">\n<link rel=\"alternate\" href=\"https://www.makemytrip.global/hotels/?cc=th\" hreflang=\"en-th\">\n<link rel=\"alternate\" href=\"https://www.makemytrip.global/hotels/?cc=uk\" hreflang=\"en-gb\">\n<link rel=\"alternate\" href=\"https://www.makemytrip.global/hotels/?cc=nz\" hreflang=\"en-nz\">\n\n    \n    \n\n\t\n        \n\t<style>\n\t@font-face{font-family:LatoFallback;src:local(\"Arial\"),local(\"Helvetica Neue\"),local(\"sans-serif\");size-adjust:97.4%;ascent-override:92%;descent-override:22%;line-gap-override:0%}\n\thtml,body,button,input,select,textarea{font-family:Lato,LatoFallback,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif}\n\t</style>\n\t<link id=\"mmtLatoFonts\" rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,900&amp;display=swap\" media=\"all\" crossorigin=\"anonymous\">\n\t<script>(function(){var l=document.getElementById(\"mmtLatoFonts\");if(!l)return;var d=function(){l.media=\"all\"};if(l.sheet){d();}else{l.addEventListener(\"load\",d);}})();</script>\n\t<noscript><link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,900&display=swap\" crossorigin=\"anonymous\"/></noscript>\n\n\t\t\t\t\n\t\t\t\t\n  \t<link rel=\"icon\" type=\"image/png\" sizes=\"256x256\" href=\"//imgak.mmtcdn.com/pwa/assets/img/mmt_launcher_192x192.png\">\n  \t\n\t\t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"//imgak.mmtcdn.com/pwa_v3/pwa_commons_assets/favicon.ico\">\n\t\t\t<link rel=\"preload\" as=\"image\" href=\"//imgak.mmtcdn.com/pwa_v3/pwa_header_assets/loginPersuassionRoad.jpg\">\n      <link rel=\"preload\" as=\"image\" h",
+ "ssr_listing_goa": "<html><head></head><body><script>window.__INITIAL_STATE__ = {\"searchHotels\": {\"personalizedSections\": [{\"name\": \"RECOMMENDED_HOTELS\", \"heading\": \"Showing Properties in Goa\", \"hotelCardType\": \"default\", \"orientation\": \"V\", \"hotelCount\": 5, \"hotels\": [{\"id\": \"202410211734063978\", \"name\": \"Ginger Goa, Candolim\", \"maskedPropertyName\": false, \"propertyType\": \"Hotel\", \"propertyLabel\": \"Hotel\", \"stayType\": \"Hotel\", \"starRating\": 4, \"halalFoodAvailable\": false, \"starRatingType\": \"STAR\", \"highSellingAltAcco\": false, \"spotlightApplicable\": true, \"soldOut\": false, \"showCallToBook\": false, \"hotelMediaCount\": 1943, \"showSimilarChainProperty\": false, \"lmnbProperty\": false, \"groupBookingHotel\": false, \"groupBookingPrice\": false, \"isAltAcco\": false, \"totalImageCount\": 23, \"travellerImageCount\": 1865, \"categories\": [\"Chain\", \"Couple Friendly\", \"wow_weekend26\", \"DERBY_SPECIAL\", \"GCDC_Tag\", \"Flyer Deal\", \"Mid_High_DH_DTB\", \"VKO_26\"], \"locationPersuasion\": [\"Candolim\", \"8 minutes walk to Candolim Beach\"], \"media\": [{\"url\": \"https://r1imghtlak.mmtcdn.com/0f00d12b-9701-420b-b944-7cf35bc4d064.jpg?output-format=jpg&downsize=720:*\", \"mediaType\": \"IMAGE\"}], \"priceDetail\": {\"displayPrice\": 6369, \"price\": 6999, \"priceWithTax\": 7979, \"discountedPrice\": 6369, \"discountedPriceWithTax\": 7349, \"totalTax\": 980, \"coupon\": {\"code\": \"MMTSMARTDEAL\", \"description\": \"Great Discounts for You. Get INR630 Off\", \"promoIcon\": \"https://promos.makemytrip.com/Growth/Images/B2C/generic_offer_icon_dh.png\", \"specialPromo\": false, \"type\": \"ECOUPON\", \"couponAmount\": 630, \"autoApplicable\": false, \"bnplAllowed\": false, \"disabled\": false, \"bankOffer\": false, \"binCheckEnabledOffer\": false, \"noCostEmiApplicable\": false, \"giftCardAllowed\": false}, \"pricingKey\": \"DEFAULT\", \"ratePlanCode\": \"990581161650\", \"discountedPriceWithTaxAndFees\": 7349, \"totalTaxWithFees\": 980, \"totalAdditionalFees\": 0}, \"partnerDetails\": {\"price\": 6999, \"priceWithTax\": 7979, \"discountedPrice\": 6369, \"discountedPriceWithTax\": 7349}, \"reviewSummary\": {\"source\": \"MMT\", \"cumulativeRating\": 4.2, \"totalReviewCount\": 1962, \"totalRatingCount\": 3941, \"chatGPTSummaryExists\": false, \"ratingText\": \"Very Good\", \"preferredOTA\": true, \"showUpvote\": false, \"mmtReviewCount\": 0, \"recentReview\": false, \"formattedRatingText\": \"3.9K Ratings\"}, \"locationDetail\": {\"id\": \"CTGOI\", \"name\": \"Goa\", \"type\": \"city\", \"countryId\": \"IN\", \"countryName\": \"India\"}, \"geoLocation\": {\"latitude\": 15.52459, \"longitude\": 73.76756}, \"detailDeeplinkUrl\": \"https://www.makemytrip.com/hotels/hotel-details?hotelId=202410211734063978&checkin=11102026&checkout=11112026&country=IN&city=CTGOI&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTGOI&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false\", \"isABO\": false, \"shortList\": false, \"totalRoomCount\": 1, \"sponsored\": false, \"newType\": false, \"similarHotelsRequired\": false, \"isABSO\": false, \"isRTB\": false, \"isMLOS\": false, \"myBizAssured\": false, \"hotelType\": \"HOTEL\", \"showMlosPrice\": false, \"priceDisplayMsg\": \"Per Night\", \"lovedByIndians\": false, \"serviceApartment\": false, \"oneCircleProperty\": false, \"isWishListed\": false, \"isSafetyStandard\": false, \"starRatingCss\": \"ratingFour\", \"countryCode\": \"IN\", \"countryName\": \"India\", \"cityName\": \"Goa\", \"cityCode\": \"CTGOI\", \"formattedUserRating\": 4.2, \"isMMTAssuredHotel\": false, \"htlCorrelationKey\": \"7bf7fa7e-d589-4c94-8495-723e78141fa6\"}, {\"id\": \"200801291751075638\", \"name\": \"DoubleTree by Hilton Hotel Goa-Arpora- Baga\", \"maskedPropertyName\": false, \"propertyType\": \"Hotel\", \"propertyLabel\": \"Hotel\", \"stayType\": \"Hotel\", \"starRating\": 5, \"halalFoodAvailable\": false, \"starRatingType\": \"STAR\", \"highSellingAltAcco\": false, \"spotlightApplicable\": false, \"soldOut\": false, \"showCallToBook\": false, \"hotelMediaCount\": 554, \"showSimilarChainProperty\": false, \"lmnbProperty\": false, \"groupBookingHotel\": false, \"groupBookingPrice\": false, \"isAltAcco\": false, \"totalImageCount\": 21, \"travellerImageCount\": 473, \"categories\": [\"Chain\", \"Couple Friendly\", \"Special Sale\"], \"locationPersuasion\": [\"Arpora\", \"4 km drive to Baga Beach\"], \"media\": [{\"url\": \"https://r1imghtlak.mmtcdn.com/e407fdbeee9011eab93f0242ac110005.jpg?output-format=jpg&downsize=720:*\", \"mediaType\": \"IMAGE\"}], \"priceDetail\": {\"displayPrice\": 12112, \"price\": 12112, \"priceWithTax\": 14292, \"discountedPrice\": 12112, \"discountedPriceWithTax\": 14292, \"totalTax\": 2180, \"pricingKey\": \"DEFAULT\", \"ratePlanCode\": \"990581766318\", \"discountedPriceWithTaxAndFees\": 14292, \"totalTaxWithFees\": 2180, \"totalAdditionalFees\": 0}, \"partnerDetails\": {\"price\": 12112, \"priceWithTax\": 14292, \"discountedPrice\": 12112, \"discountedPriceWithTax\": 14292}, \"reviewSummary\": {\"source\": \"MMT\", \"cumulativeRating\": 4.1, \"totalReviewCount\": 426, \"totalRatingCount\": 970, \"chatGPTSummaryExists\": false, \"ratingText\": \"Very Good\", \"preferredOTA\": true, \"showUpvote\": false, \"mmtReviewCount\": 0, \"recentReview\": false, \"formattedRatingText\": \"970 Ratings\"}, \"locationDetail\": {\"id\": \"CTGOI\", \"name\": \"Goa\", \"type\": \"city\", \"countryId\": \"IN\", \"countryName\": \"India\"}, \"geoLocation\": {\"latitude\": 15.57555, \"longitude\": 73.76176}, \"detailDeeplinkUrl\": \"https://www.makemytrip.com/hotels/hotel-details?hotelId=200801291751075638&checkin=11102026&checkout=11112026&country=IN&city=CTGOI&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTGOI&locusType=city&region=in&viewType=PREMIUM&funnelName=HOTELS&rsc=1e2e&mpn=false\", \"isABO\": false, \"shortList\": false, \"totalRoomCount\": 1, \"trackingInfo\": {\"ad_id\": \"1\", \"campaign_id\": \"145675\", \"advertiser_id\": \"18339\", \"request_id\": \"P4MMCK6UMYHNM_dHJhY2tlcixTTCxsaW5lSXRlbUlkOzE0NTY3NSxhZEl0ZW1JZDtudWxsLDYyMTM0NTM1MA==\", \"tracking_reqd\": true, \"tracking_node\": {\"click_url\": \"https://adenginehsl.makemytrip.com/ext/user/track?type=CLICK&trackingId=P4MMCK6UMYHNM_dHJhY2tlcixTTCxsaW5lSXRlbUlkOzE0NTY3NSxhZEl0ZW1JZDtudWxsLDYyMTM0NTM1MA==\", \"view_url\": \"https://adenginehsl.makemytrip.com/ext/user/track?type=VIEW&trackingId=P4MMCK6UMYHNM_dHJhY2tlcixTTCxsaW5lSXRlbUlkOzE0NTY3NSxhZEl0ZW1JZDtudWxsLDYyMTM0NTM1MA==\", \"viewTrckgReqd\": true, \"clickTrckgReqd\": true}, \"metadata\": {\"tagType\": \"SPONSORED\"}}, \"sponsored\": true, \"newType\": false, \"mmtHotelCategory\": \"PREMIUM\", \"calendarCriteria\": {\"available\": true, \"maxDate\": \"2026-12-24\", \"advanceDays\": 90, \"mlos\": 1}, \"similarHotelsRequired\": false, \"isABSO\": false, \"isRTB\": false, \"isMLOS\": true, \"myBizAssured\": false, \"hotelType\": \"HOTEL\", \"showMlosPrice\": false, \"priceDisplayMsg\": \"Per Night\", \"lovedByIndians\": false, \"serviceApartment\": false, \"oneCircleProperty\": false, \"isWishListed\": false, \"isSafetyStandard\": false, \"starRatingCss\": \"ratingFive\", \"countryCode\": \"IN\", \"countryName\": \"India\", \"cityName\": \"Goa\", \"cityCode\": \"CTGOI\", \"formattedUserRating\": 4.1, \"isMMTAssuredHotel\": false, \"htlCorrelationKey\": \"7bf7fa7e-d589-4c94-8495-723e78141fa6\"}, {\"id\": \"201011301738118288\", \"name\": \"Resort Primo Bom Terra Verde\", \"maskedPropertyName\": false, \"propertyType\": \"Resort\", \"propertyLabel\": \"Resort\", \"stayType\": \"Resort\", \"starRating\": 3, \"halalFoodAvailable\": false, \"starRatingType\": \"STAR\", \"highSellingAltAcco\": false, \"spotlightApplicable\": false, \"soldOut\": false, \"showCallToBook\": false, \"hotelMediaCount\": 1503, \"showSimilarChainProperty\": false, \"lmnbProperty\": false, \"groupBookingHotel\": false, \"groupBookingPrice\": false, \"isAltAcco\": false, \"totalImageCount\": 20, \"travellerImageCount\": 1344, \"categories\": [\"Couple Friendly\", \"Inmarket\"], \"locationPersuasion\": [\"Baga\", \"1.1 km drive to Baga Beach\"], \"media\": [{\"url\": \"//r1imghtlak.mmtcdn.com/aeb54e39-6c05-46b0-81a6-0a693546c81c.png?output-format=jpg&downsize=720:*\", \"mediaType\": \"IMAGE\"}], \"priceDetail\": {\"displayPrice\": 1756, \"price\": 4699, \"priceWithTax\": 4983, \"discountedPrice\": 1756, \"discountedPriceWithTax\": 2040, \"totalTax\": 284, \"coupon\": {\"code\": \"MMTMAXDROP\", \"description\": \"Best Ever Offer! Get INR 612  Off\", \"promoIcon\": \"https://promos.makemytrip.com/Growth/Images/B2C/generic_offer_icon_dh.png\", \"specialPromo\": false, \"type\": \"ECOUPON\", \"couponAmount\": 612, \"autoApplicable\": false, \"bnplAllowed\": false, \"disabled\": false, \"bankOffer\": false, \"binCheckEnabledOffer\": false, \"noCostEmiApplicable\": false, \"giftCardAllowed\": false}, \"pricingKey\": \"DEFAULT\", \"ratePlanCode\": \"990579686956\", \"discountedPriceWithTaxAndFees\": 2040, \"totalTaxWithFees\": 284, \"totalAdditionalFees\": 0}, \"partnerDetails\": {\"price\": 4699, \"priceWithTax\": 4983, \"discountedPrice\": 1756, \"discountedPriceWithTax\": 2040}, \"reviewSummary\": {\"source\": \"MMT\", \"cumulativeRating\": 3.9, \"totalReviewCount\": 1781, \"totalRatingCount\": 3678, \"chatGPTSummaryExists\": false, \"ratingText\": \"Very Good\", \"preferredOTA\": true, \"showUpvote\": false, \"mmtReviewCount\": 0, \"recentReview\": false, \"formattedRatingText\": \"3.7K Ratings\"}, \"locationDetail\": {\"id\": \"CTGOI\", \"name\": \"Goa\", \"type\": \"city\", \"countryId\": \"IN\", \"countryName\": \"India\"}, \"geoLocation\": {\"latitude\": 15.55682, \"longitude\": 73.7608}, \"detailDeeplinkUrl\": \"https://www.makemytrip.com/hotels/hotel-details?hotelId=201011301738118288&checkin=11102026&checkout=11112026&country=IN&city=CTGOI&openDetail=true&currency=INR&roomStayQualifier=2e0e&locusId=CTGOI&locusType=city&region=in&funnelName=HOTELS&rsc=1e2e&mpn=false\", \"isABO\": false, \"shortList\": false, \"totalRoomCount\": 1, \"sponsored\": false, \"newType\": false, \"calendarCriteria\": {\"available\": true, \"maxDate\": \"2026-12-24\", \"advanceDays\": 90, \"mlos\": 1}, \"similarHotelsRequired\": true, \"isABSO\": false, \"isRTB\": false, \"isMLOS\": true, \"myBizAssured\": false, \"hotelType\": \"HOTEL\", \"showMlosPrice\": false, \"priceDisplayMsg\": \"Per Night\", \"oneCircleLoyaltyDetails\": {\"oneCircleApplicable\": true, \"earnDetails\": {\"points\": 236, \"enabled\": true, \"selected\": false}, \"balance\": 0}, \"lovedByIndians\": false, \"serviceApartment\": false, \"oneCircleProperty\": true, \"isWishListed\": false, \"isSafetyStandard\": false, \"starRatingCss\": \"ratingThree\", \"countryCode\": \"IN\", \"countryName\": \"India\", \"cityName\": \"Goa\", \"cityCode\": \"CTGOI\", \"formattedUserRating\": 3.9, \"isMMTAssuredHotel\": false, \"htlCorrelationKey\": \"7bf7fa7e-d589-4c94-8495-723e78141fa6\"}], \"showMore\": false, \"cardInsertionAllowed\": true, \"premium\": false, \"showIndex\": false, \"sponsored\": false}], \"locationDetail\": {\"id\": \"CTGOI\", \"name\": \"Goa\", \"type\": \"city\", \"countryId\": \"IN\", \"countryName\": \"India\", \"cityCode\": \"CTGOI\", \"cityName\": \"Goa\", \"countryCode\": \"IN\"}, \"sortCriteria\": {\"field\": \"S_hsq910_Q\", \"order\": \"asc\", \"accessPoint\": false}, \"lastFetchedWindowInfo\": \"000000000000000#0#15#false\", \"searchHotelsCurrency\": \"INR\"}}</script></body></html>",
+ "cdp_extension_injection": "<html><head><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/captchafox/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/mt_captcha/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/turnstile/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/turnstile/hunter.js\" data-ts-input=\"cf-turnstile-response\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/amazon_waf/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/yandex/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/lemin/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/arkoselabs/hunter.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/arkoselabs/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/recaptcha/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/recaptcha/hunter.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/keycaptcha/hunter.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/geetest_v4/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/captcha/geetest/interceptor.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/communication_helpers.js\"></script><script src=\"chrome-extension://kjmkgkdkpedkejedfhmfcenooemhbpbo/content/core_helpers.js\"></script><captcha-widgets></captcha-widgets></head><body></body></html>"
+}

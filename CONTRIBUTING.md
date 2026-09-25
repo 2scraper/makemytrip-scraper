@@ -40,28 +40,33 @@ not the check caught it.
 
 ## Reporting a site change
 
-Binance changing its API is the normal way this stops working, and it has
-its own issue template. The parser reads no HTML at all: every row comes out
-of one of three JSON endpoints the site's own front end calls
-(`product_parser.py` names them). So there are only four things that can
+MakeMyTrip changing its listing API is the normal way this stops working, and
+it has its own issue template. The parser reads no HTML for its rows: every
+row comes out of one JSON endpoint the site's own front end calls,
+`POST mapi.makemytrip.com/clientbackend/cg/search-hotels/DESKTOP/2`
+(`product_parser.py` documents it). So there are only four things that can
 break, and each is loud or guarded:
 
-1. **The envelope.** Every endpoint answers `{"code": "000000", "data": …}`.
-   A non-success code is classified `rejected` and the run stops naming the
-   site's own complaint. It is not retried and not counted as blocked.
-2. **A parameter the endpoint stops accepting.** Same path: `rejected`, with
-   the site's message. The first place to look is the allowlists at the top
-   of `product_parser.py`, which exist because the API accepts several wrong
-   values SILENTLY (see "Pull requests" below).
-3. **A record's own field names** (`adv.price`, `advertiser.nickName`,
-   `roi`, `leadPortfolioId`, `releaseDate`, ...). This is the one that can be
-   QUIET: the row still writes, with that column null. `page_flow.CORE_FIELDS`
-   is the guard, a coverage floor of 99% on the columns every captured record
-   carried.
-4. **The endpoints going behind AWS WAF.** Every HTML page on the site
-   already is. If the endpoints follow, the README's central claim (no key,
-   no proxy) stops being true, and the canary will say so, because it runs
-   with no secrets from a GitHub runner.
+1. **The request body.** The endpoint answers a field it no longer accepts
+   with HTTP 200 and an error code (400108 "field name is not supported", for
+   one). That is classified `rejected`, the run stops naming the site's own
+   complaint with exit 5, and it is not retried or counted as blocked.
+2. **The experiment string.** Without the front end's `expData` in the body
+   (`product_parser.EXP_DATA`) the API still answers, with hotels and NO
+   prices. That is the quiet one; the price-coverage floor in
+   `page_flow.CORE_FIELDS` and the canary are what catch it. If prices go
+   null on every row, copy the current value out of the site's own request.
+3. **A record's own field names** (`name`, `priceDetail`, `starRating`,
+   `geoLocation`, the cursor's `lastHotelId` and `lastFetchedWindowInfo`,
+   ...). The row still writes, with that column null, or pagination stops
+   after page 1. `page_flow.CORE_FIELDS` is the guard, a coverage floor of
+   99% on the columns every captured record carried.
+4. **Akamai changing what it refuses.** Everything on the site is already
+   behind Akamai Bot Manager, and what was measured to get through
+   (2026-09-24) is the Scraping Browser API with a `country-in` profile. If
+   that stops being served, the refusal is reported as exit 3 with
+   `blocked_akamai` or `blocked_akamai-reset`, and the dispatch-only canary
+   job says so.
 
 If you are reporting a break, say which of those four it is, and attach the
 `--dump-html` output: the exact JSON the parser was given, on success as well
@@ -85,13 +90,14 @@ history needs a decision, not a red check on every push.
 
 Then the rest of the presentation, in the order that matters:
 
-1. `python3 smoke_test.py` green, and the canary dispatched at least once.
-   It runs daily with no secrets at all and is expected to be green, because
-   no mode needs a credential and a green badge there is exactly the claim
-   the README makes. Its first dispatch (2026-09-24) was served in all
-   three modes from a GitHub-hosted runner with no proxy. If a later run
-   is refused for the runner's address, the canary's `BINANCE_PROXY`
-   secret (an exit elsewhere) is the fix, with no workflow edit.
+1. `python3 smoke_test.py` green, and the canary dispatched at least once,
+   both halves. The daily job needs no secrets: it runs from a GitHub runner
+   (a datacentre address) and asserts that Akamai's refusal is reported as
+   exit 3, not as an empty or a crashed run, and if the runner is ever
+   served it checks the rows strictly instead. The second job is
+   dispatch-only and goes through a Scraping Browser profile (the
+   `MAKEMYTRIP_CDP_ENDPOINT` secret) to check a 3-page Goa run. A profile's
+   credentials last about a day, so refresh the secret before dispatching.
 2. The repo description, homepage and topics set (see the family notes on
    what those should say).
 3. Only then the row in the org profile README — and check it with an
@@ -110,64 +116,67 @@ Six properties in this repo exist because they were measured against
 expectation and cost real time. Tests pin all six, so a PR that breaks one
 fails rather than silently regressing:
 
-- **Every query parameter is allowlisted, because the API does not validate.**
-  An unknown copy-trading `dataType` returns a full list under some OTHER
-  ordering; `pageSize` above 30 is silently capped at 30; an unknown P2P
-  `payTypes` entry returns an empty result for a market full of adverts.
-  Each of those turns a typo into a run that looks healthy. `--pay-type` is
-  therefore checked against the site's own list for the fiat before the
-  search runs.
-- **The P2P side is inverted in the data.** A `buy` query returns adverts
-  whose `tradeType` is `SELL`, because an advert carries the maker's side.
-  Rows keep both, as `side` (what was asked) and `advertiser_side`.
-- **A refused parameter is `rejected`, not blocked.** The announcements
-  endpoint answers a page size outside {1, 2, 5, 10, 15, 20, 50} with HTTP 400
-  and an EMPTY body. Classified as a block, that would send a reader to buy a
-  proxy for a typo.
-- **Pages are planned from page 1's total**, and a page past the end is an
-  answer, not an error: all three endpoints return an empty list there. P2P
-  also reports `total: 0` on that page, which is why only page 1's total is
-  ever read.
-- **The listings are live**, so a multi-page run can see a row twice. The
-  dedupe drops it and the log says so. A non-zero count there is the site
-  moving, not a bug.
-- **AWS WAF: the token that clears the CAPTCHA is `existing_token` on the
-  registrable domain.** A `captcha_voucher` set as the cookie on the page's
-  own host left the page on "Human Verification". `captcha_solver` and
-  `page_flow.cookie_domain` pin the version that was measured to work.
+- **A wrong city code returns ANOTHER town's hotels.** `cityCode=CTLEH` was
+  answered as "Lehra", with 7 properties in Patran under a section the site
+  calls `NEARBY_HOTELS`, in an HTTP 200 that looks like any other page. Rows
+  therefore carry `section`, the run warns when a page is nothing but
+  substitutes, and `--city` is resolved by name through the site's own
+  autosuggest. A name it matches to no city is exit 2.
+- **Prices are per night in INR, whatever the city.** Dubai comes back in
+  INR, with the city tax stated in AED and folded into `price_with_fees`.
+  The currency is what the site states; nothing converts it.
+- **The site's country codes are not ISO.** The UAE is `UNI`, and that is
+  what `country_code` carries.
+- **The listing is paged by a cursor** (`lastHotelId` plus
+  `lastFetchedWindowInfo`), so page N cannot be requested before page N-1
+  and `--concurrency` above 1 is refused, not clamped. Under
+  `--sort price-asc` pages overlap at the cursor: 4 of 30 on Mumbai's page 2
+  were repeats (2026-09-24). The dedupe drops them and the log says so.
+- **Zero is not a rating.** `starRating: 0` (hostels, homestays) and a
+  rating of 0 with 0 ratings both become null, counts together.
+- **A refused parameter is `rejected`, not blocked**, and "No Hotels Found"
+  (error 400814) is `empty`, exit 4. Classified as a block, either would
+  send a reader to buy an exit for a typo.
 
 Plus the family's own invariants, which are not negotiable:
 
 - **A run that finds nothing writes nothing.** It must not replace a good
   output file with `[]`. `--allow-empty` is the opt-out.
 - **Exit codes are a contract**, not decoration: `0` ok, `1` crash, `2` bad
-  usage, `3` blocked, `4` zero rows — including a query that genuinely
-  matched nothing, which is a correct answer — `5` remote API error, `6`
-  partial. A pipeline branches on these.
+  usage, `3` blocked, `4` zero rows — including a city with genuinely
+  nothing for those dates, which is a correct answer — `5` the data never
+  arrived (a timeout, a refused parameter, an expired or locked Scraping
+  Browser profile), `6` partial. A pipeline branches on these.
 - **An EMPTY page is never retried and never counted as blocked.** A query
   that matched nothing was served exactly as asked.
 - **Credentials never reach argv or a log, and an exception message is a
   log.** The masker is global rather than first-occurrence: a Playwright
   connection error repeats the endpoint five times.
-- **Merge in page order, not arrival order**, so concurrency cannot change
-  the output.
+- **Merge in page order, not arrival order**, so a retried page cannot
+  change the output.
 
 ### If your change needs a live run
 
 Most do not: the suite covers the parser, the writers, the classifier and
 the CLI contract against real, trimmed responses. If yours genuinely needs
-binance.com, say in the PR what you ran (engine, mode, query), from which
-exit, and what you got, including the sidecar's `total_results`.
+makemytrip.com, say in the PR what you ran (engine, city, dates, sort), from
+which exit, and what you got, including the sidecar's `stop_reason`.
 
-Two things about running this live that are specific to Binance:
+Two things about running this live that are specific to MakeMyTrip:
 
-* **No mode needs an exit, a key or an account.** The endpoints answered a
-  datacentre VPS normally, so "it worked from my laptop" is reproducible
-  here in a way it is not on most sibling repos.
-* **Binance's terms exclude some jurisdictions, the United States among
-  them** (binance.us is a separate exchange). What an address there is
-  answered with has not been measured by this repo. If a run from one is
-  refused, that is the terms, not a bug.
+* **A datacentre address is refused whatever the client.** Measured
+  2026-09-24: curl got Akamai's "Access Denied", real Chromium (headless and
+  headful) got `net::ERR_HTTP2_PROTOCOL_ERROR`, Selenium's Chrome got an
+  HTTP 200 whose body is `200-OK` (a decoy), and the Scraper API on its own
+  exits got 403. Three 2Captcha residential exits also got the protocol
+  error; that is recorded as not measured to work, not as broken. What was
+  served is the Scraping Browser API with a `country-in` profile
+  (`--cdp-endpoint`, or `MAKEMYTRIP_CDP_ENDPOINT` in `.env`): 4 of 6 fresh
+  connections first try, the other two cleared by reconnecting.
+* **Selenium cannot use that path**, because chromedriver cannot
+  authenticate a remote CDP endpoint. So a successful Selenium run has not
+  been measured; a PR touching `selenium_scraper.py` should say what it was
+  verified against.
 
 **Run more than the primary engine.** "Mirror them exactly" is a design
 rule, not a verification. The fetch loop is shared (`page_flow.run_pages`),
@@ -175,14 +184,15 @@ but each engine's driver plumbing is its own, and only running it proves it.
 
 ## Scope
 
-This repo reads **public data** on binance.com: the P2P advert list, the
-public copy-trading leaderboard and the announcement catalogues, exactly as
-the site's own front end fetches them for an anonymous visitor.
+This repo reads **public data** on makemytrip.com: the hotel listing for a
+city, dates and guests, exactly as the site's own front end fetches it for
+an anonymous visitor.
 
-Out of scope: anything behind a login, anything that places an order,
-opens a P2P trade, copies a portfolio or submits any other form, and
-anything that defeats a protection rather than passing it the way an
-ordinary browser does.
+Out of scope: anything behind a login, anything that books, holds or pays
+for a stay or submits any other form, and anything that defeats a
+protection rather than passing it the way an ordinary browser does. Flights
+are not implemented: their results are a server-sent event stream that
+failed through the Scraping Browser 3 of 3 times (2026-09-24).
 
 ## Licence
 

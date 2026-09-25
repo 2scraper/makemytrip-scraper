@@ -3,15 +3,15 @@ captcha_solver.py
 ------------------
 Shared helper used by all three scrapers (Playwright / Selenium / Puppeteer).
 
-Detection runs after EVERY page navigation in the main loop of all three
-scrapers, regardless of what URL was requested (category hub, product page,
-sign-in, checkout, anything) — this is deliberate, not scoped to any one
-page. If Transfermarkt renders a reCAPTCHA/Turnstile challenge anywhere —
-this fires. Live research for this repo (2026-09-10, one proxied fetch each
-of a ranking page, a player profile, a squad page and a transfer list, all
-served without any challenge or 403) found none, but that is a much smaller
-sample than the family's other members ran before writing this note — see
-the closing section of this file for what that does and does not license.
+On this site detection runs on the LANDING, the one page every engine
+navigates to (www.makemytrip.com/hotels/), and only when page_flow has
+classified it as a `challenge`: a captcha loader on a page the site did not
+otherwise serve. No captcha was met on makemytrip.com (2026-09-24: 0
+reCAPTCHA, hCaptcha or Turnstile markers and no sitekey on any page served
+through the Scraping Browser, once its own extension's injected scripts are
+set aside), and Akamai's refusals there carry no widget. So this module is
+the family's broad detection kept as insurance, and has had nothing to solve
+on this site.
 
 Flow:
   1. Both detectors run and are reconciled (see reconcile_detections) to decide
@@ -917,31 +917,17 @@ solve_recaptcha_v3 = solve_recaptcha
 # ===========================================================================
 # What is deliberately NOT here
 # ===========================================================================
-# No first-party image captcha or custom widget is ported here: nothing in
-# this family's other members' bespoke solvers (a JPEG-of-distorted-text
-# form is one example) was ever observed on Transfermarkt, and porting one
-# on spec would be dead code with no fixture to test it against.
+# No first-party image captcha or custom widget is ported here: none was
+# observed on makemytrip.com, and porting one on spec would be dead code with
+# no fixture to test it against. What stood between a datacentre and the
+# site was Akamai dropping the connection, answering "Access Denied", or
+# serving a `200-OK` decoy, none of which carries anything to solve; see
+# product_parser.detect_bot_challenge for how those are told apart from a
+# captcha.
 #
-# What was measured, on 2026-09-10 from this repo's own build/test
-# environment: neither a direct `requests` call nor a local Playwright
-# browser could reach www.transfermarkt.com at all — both failed at the
-# TCP/TLS layer, and a plain `requests.get` through the sandbox's own egress
-# proxy came back with the proxy's OWN "403 Forbidden" on the CONNECT
-# tunnel, never reaching the site. That is this sandbox's outbound
-# allowlist refusing the destination, not Transfermarkt refusing the
-# request — confirmed by ruling it out, not assumed. A PROXIED fetch of the
-# same URLs (through 2captcha's own fetch infrastructure, which sits
-# outside this sandbox) returned normal 200 pages every time with no
-# challenge and no captcha markers. So the only live evidence this repo has
-# is: Transfermarkt served every page it was asked for, without a captcha,
-# over a working proxied path. What was NOT established is how the site
-# treats a bare datacentre IP with no proxy at all, or what a real user's
-# browser sees on a residential connection — this repo's build sandbox
-# cannot test either. Do not port the OTHER family members' "datacentre
-# addresses get refused" conclusion onto Transfermarkt without measuring it
-# here; it was true for them and is simply unknown for this site. See
-# product_parser.detect_bot_challenge for how a real captcha, once observed,
-# would be told apart from a network-level refusal.
+# The AWS WAF task (AmazonTask) above is family core, carried unchanged from
+# the repo this one was bootstrapped from, where it was measured. It is not
+# reached by any path in this repo.
 #
 # The reCAPTCHA / hCaptcha / Turnstile machinery above IS kept, and that is a
 # deliberate asymmetry rather than an inconsistency. Detection stays broad

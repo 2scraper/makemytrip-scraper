@@ -126,11 +126,12 @@ def dedupe_by_key(rows: Sequence[Any], seen: Set[str], key: str = "sku") -> List
     `seen` is mutated in place, so callers thread the same set across pages.
 
     The listing is paged by a CURSOR the server hands back (the last hotel
-    id and a window marker), so a page does not overlap the one before it
-    by construction: 0 duplicates across 34 hotels on four chained pages,
-    2026-09-24. The dedupe stays because a cursor is the server's promise,
-    not ours, and a repeated id in the output would be worse than a dropped
-    duplicate logged here.
+    id and a window marker), and whether pages overlap depends on the
+    ordering. Measured 2026-09-24: 0 duplicates across 90 Goa properties on
+    three pages of the default ordering, and 4 of 30 on page 2 of Mumbai
+    under `price-asc`, where properties at the same price straddle the
+    cursor. The duplicates are dropped here and the count is logged, so a
+    `price-asc` page can hold fewer than 30 new rows.
 
     A row with no key is always kept: there is nothing to check a duplicate
     against, and dropping it would be a silent data loss.

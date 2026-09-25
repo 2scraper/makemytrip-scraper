@@ -11,13 +11,9 @@
 # the exact output shape without installing anything.
 !sample_output.json
 !sample_output.csv
-!sample_output_copytrading.json
-!sample_output_copytrading.csv
-!sample_output_announcements.json
-!sample_output_announcements.csv
 !fixtures_generated.json
-binance_rows.*
-binance_rows_*.*
+makemytrip_hotels.*
+makemytrip_hotels_*.*
 
 # --- the live-test harness's working directory ---------------------------
 live_results/

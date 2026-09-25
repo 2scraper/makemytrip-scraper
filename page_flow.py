@@ -28,7 +28,9 @@ from dataclasses import dataclass, field
 from typing import Callable, List, Optional, Tuple
 
 from output_writer import dedupe_by_key, finish_run, SOURCE_DEFAULT
-from product_parser import (MAX_PAGES, ORIGIN_URL, Cursor, Query, Room,
+from proxy_pool import ROTATE_MODES
+from product_parser import (DEFAULT_SORT, MAX_PAGES, ORIGIN_URL, SORTS,
+                            Cursor, Query, Room,
                             api_error, currency_of, default_dates,
                             detect_page_state, is_location_code, listing_ended,
                             listing_url, location_of, next_cursor,
@@ -282,6 +284,138 @@ def build_query(args, error: Callable[[str], None]) -> Query:
     if args.pages > MAX_PAGES:
         error("--pages is capped at %d" % MAX_PAGES)
     return query
+
+
+
+
+def add_arguments(p, engine: str = "playwright") -> None:
+    """The CLI the three engines share, so their flag sets agree by
+    construction (§17 check #2). An engine adds only what is genuinely its
+    own (pyppeteer's --chromium-path, Selenium's --chromedriver) after
+    calling this, and the suite pins those differences."""
+    p.add_argument("--mode", choices=["hotels"], default="hotels",
+                   help="hotels (the only mode): a city's hotel listing. "
+                        "Flights are not implemented by this repo.")
+    p.add_argument("--url", default=None,
+                   help="A hotel listing address to read the query from "
+                        "instead of the flags: "
+                        "https://www.makemytrip.com/hotels/hotel-listing/"
+                        "?checkin=MMDDYYYY&checkout=MMDDYYYY&city=CTGOI"
+                        "&locusId=CTGOI&locusType=city&country=IN"
+                        "&roomStayQualifier=2e0e. Only the query in it is read. "
+                        "Also read from MAKEMYTRIP_URL.")
+    g = p.add_argument_group("the search")
+    g.add_argument("--city", default=None,
+                   help="A city by NAME (Goa, Mumbai, Dubai), looked up "
+                        "through the site's own autosuggest, or by the site's "
+                        "location code (CTGOI). The name is safer: a code the "
+                        "site half-knows is answered with ANOTHER town's "
+                        "hotels.")
+    g.add_argument("--checkin", default=None, metavar="YYYY-MM-DD",
+                   help="Check-in date. Default: 30 days from today.")
+    g.add_argument("--checkout", default=None, metavar="YYYY-MM-DD",
+                   help="Check-out date (default: the night after --checkin). "
+                        "At most 30 nights. Prices are per night either way.")
+    g.add_argument("--adults", type=int, default=None,
+                   help="Adults in the first room (default 2).")
+    g.add_argument("--child-age", type=int, action="append", default=None,
+                   metavar="AGE", help="A child in the first room, by age "
+                                       "(0-17). Repeatable.")
+    g.add_argument("--rooms", type=int, default=None,
+                   help="Rooms (default 1). Rooms after the first get one "
+                        "adult each, as the site's own form fills them.")
+    p.add_argument("--sort", choices=list(SORTS), default=None,
+                   help="Ordering (default %s, the site's own). Not cosmetic: "
+                        "a run capped by --pages holds the first N properties "
+                        "by this key, so it decides WHICH properties are in "
+                        "the file. The site's `starRating` and `userRating` "
+                        "keys are refused by its API, so neither is offered."
+                        % DEFAULT_SORT)
+    p.add_argument("--category", default=None,
+                   help="Kept for the family's flag contract; this site has no "
+                        "category to pick. A value is refused.")
+    p.add_argument("--pages", type=int, default=1,
+                   help="Pages to fetch, 30 properties each. The site states "
+                        "no total; a run ends early, complete, when it says "
+                        "nothing follows.")
+    p.add_argument("--delay", type=float, default=1.0,
+                   help="Delay between pages, seconds (default %(default)s)")
+    p.add_argument("--concurrency", type=int, default=1, metavar="N",
+                   help="Kept for the family's contract, and refused above 1: "
+                        "the listing is paged by a cursor each page hands to "
+                        "the next.")
+    p.add_argument("--retries", type=int, default=3,
+                   help="Attempts per page on a transport failure (default 3). "
+                        "The pause doubles each time. A request the endpoint "
+                        "REFUSED is not retried: its parameters would be "
+                        "refused again.")
+    p.add_argument("--retry-delay", type=float, default=2.0,
+                   help="Seconds before the first retry, doubling thereafter.")
+    p.add_argument("--format", choices=["json", "csv", "both"], default="both")
+    p.add_argument("--out", default="makemytrip_hotels", help="Output file prefix")
+    p.add_argument("--locale", default="en-IN",
+                   help="Browser locale (default en-IN). The API is asked for "
+                        "English whatever the browser claims.")
+    p.add_argument("--proxy", default=None,
+                   help="Proxy URL, e.g. http://ACCOUNT:PASSWORD@HOST:9999 "
+                        "(2captcha.com/proxy). Not measured to work on this "
+                        "site; see .env.example.")
+    p.add_argument("--proxy-file", default=None,
+                   help="File with one proxy URL per line to rotate across. "
+                        "Wins over --proxy.")
+    p.add_argument("--proxy-rotate", choices=list(ROTATE_MODES), default="per-run",
+                   help="per-run (default): one exit for the whole run. "
+                        "per-page: a new exit, and a fresh browser, per page.")
+    p.add_argument("--proxy-shuffle", action="store_true",
+                   help="Shuffle the pool at startup.")
+    p.add_argument("--proxy-block-retries", type=int, default=2,
+                   help="When a page is refused (Akamai's 403 or a dropped "
+                        "connection), retry it from this many OTHER exits "
+                        "(default 2). Needs a pool of more than one.")
+    p.add_argument("--twocaptcha-key", default=None, help="2captcha.com API key")
+    p.add_argument("--allow-empty", action="store_true",
+                   help="Write output files even when 0 rows were found.")
+    p.add_argument("--fingerprint", action="store_true",
+                   help="Apply a browser fingerprint from 2captcha's "
+                        "Fingerprint API. Needs --twocaptcha-key. Ignored with "
+                        "--cdp-endpoint.")
+    p.add_argument("--fp-tags", default="Windows",
+                   help="ONE OS-family tag for the fingerprint filter: "
+                        "Windows, Microsoft Windows or Android. NOT a list — "
+                        "Chrome, Desktop and Mobile are each rejected by the "
+                        "API with 400. (default: Windows)")
+    p.add_argument("--fp-country", default=None,
+                   help="Fingerprint country, ISO 3166-1 alpha-2. Match it to "
+                        "your proxy's exit country.")
+    p.add_argument("--captcha-api", choices=["v2", "v1"], default="v2",
+                   help="Which 2captcha solver API to use (v2: createTask).")
+    p.add_argument("--solve-captcha", choices=["when-blocked", "always"],
+                   default="when-blocked",
+                   help="when-blocked (default): solve a captcha only when it "
+                        "stands between the run and the data. No captcha was "
+                        "met on this site, so 'always' behaves the same.")
+    p.add_argument("--min-score", type=float, default=0.7,
+                   help="reCAPTCHA v3 minimum score (0.3, 0.7 or 0.9).")
+    if engine == "selenium":
+        cdp_help = ("A bare host:port of a Chrome you started with "
+                    "--remote-debugging-port. chromedriver's debuggerAddress "
+                    "has nowhere to put a password, so the Scraping Browser "
+                    "API's authenticated ws:// endpoint cannot be used from "
+                    "this engine; use Playwright or pyppeteer for it.")
+    else:
+        cdp_help = ("Connect to an already-running browser over CDP instead "
+                    "of launching Chromium, e.g. the Scraping Browser API "
+                    "endpoint ws://user:pass@host:port with `country-in` in "
+                    "the login — the path measured to work from a "
+                    "datacentre. --proxy and --headless/--headful are "
+                    "ignored.")
+    p.add_argument("--cdp-endpoint", default=None, help=cdp_help)
+    p.add_argument("--dump-html", default=None, metavar="PATH",
+                   help="Save the exact response the parser is given, on "
+                        "success as well as failure. It is JSON; the flag "
+                        "keeps the family's name.")
+    p.add_argument("--headless", action="store_true", default=True)
+    p.add_argument("--headful", dest="headless", action="store_false")
 
 
 def query_summary(query: Query) -> dict:

@@ -12,23 +12,22 @@ body:
 
         A few things answer most reports faster than we can:
 
-        - **Exit 3 from a US address?** Binance's terms exclude some
-          jurisdictions, the United States among them (binance.us is a
-          separate exchange). Try an exit elsewhere, and say in the report
-          what the sidecar's `stop_reason` was: this repo has not measured
-          what such an address is answered with.
-        - **Exit 3 with `blocked_aws-waf`?** The site's AWS WAF challenged
-          the session. The data endpoints were not gated when this repo was
-          written, so this is news worth reporting, together with the exit
-          you used. A residential `--proxy`, or `TWOCAPTCHA_KEY` for the WAF's
-          CAPTCHA (AmazonTask), are the two answers.
-        - **Exit 4, zero rows?** The query may genuinely match nothing, for
-          example a P2P market with no adverts for that payment method. That is
-          a correct answer. See
+        - **Exit 3 with `blocked_akamai` or `blocked_akamai-reset`?** From a
+          datacentre address that is the expected answer: Akamai refused
+          every client measured on 2026-09-24, real Chromium included. What
+          was measured to work is the Scraping Browser API with a
+          `country-in` profile (`--cdp-endpoint`). Say in the report which
+          exit you used and what the sidecar's `stop_reason` was.
+        - **Exit 5 naming HTTP 401?** The Scraping Browser profile expired;
+          its credentials last about a day.
+        - **Exit 4, zero rows?** The site answered "No Hotels Found" for
+          that city and those dates. That is a correct answer. See
           [TROUBLESHOOTING.md](../blob/main/TROUBLESHOOTING.md).
-        - **Every advert says `sell` on a buy query?** That is the site's
-          own convention: an advert carries the maker's side. `side` says
-          what you asked for; `advertiser_side` is the advert's.
+        - **Hotels from another town?** A wrong city code is answered with
+          the site's substitutes; those rows carry a `section` other than
+          `RECOMMENDED_HOTELS`. Pass `--city` by name.
+        - **Prices in INR for Dubai?** That is the site: prices are per
+          night in INR whatever the city.
 
   - type: dropdown
     id: engine
@@ -62,8 +61,9 @@ body:
       label: Exit code
       description: >-
         `echo $?` straight after the run. These mean specific things: 3 is a
-        refusal (WAF, 403 or 451), 4 is "ran fine, found nothing", 5 is "the
-        data never arrived". The table is in the README.
+        refusal (Akamai's Access Denied, its dropped connection or its
+        `200-OK` decoy), 4 is "ran fine, found nothing", 5 is "the data
+        never arrived". The table is in the README.
       placeholder: "4"
     validations:
       required: true
@@ -75,9 +75,9 @@ body:
       description: With credentials replaced by `***`.
       render: shell
       placeholder: |
-        python3 playwright_scraper.py \
-          --asset USDT --fiat EUR --side buy \
-          --pages 3 --out usdt_eur
+        python3 playwright_scraper.py --cdp-endpoint "$MAKEMYTRIP_CDP_ENDPOINT" \
+          --city Goa --checkin 2026-11-10 --checkout 2026-11-12 \
+          --pages 3 --out goa
     validations:
       required: true
 
@@ -97,7 +97,7 @@ body:
     attributes:
       label: What you expected instead
       placeholder: >-
-        60 adverts over 3 pages, as the site shows ~200 for USDT/EUR.
+        90 properties over 3 pages, all priced, as the site shows for Goa.
     validations:
       required: true
 

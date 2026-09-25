@@ -1,5 +1,5 @@
 name: Site changed / API broke
-description: binance.com changed an endpoint and the parser no longer matches.
+description: makemytrip.com changed its listing API and the parser no longer matches.
 labels: ["site-change"]
 body:
   - type: markdown
@@ -7,24 +7,27 @@ body:
       value: |
         This is the most common way a scraper stops working, and it is worth
         its own report because the fix is different from a code bug:
-        something on binance.com moved.
+        something on makemytrip.com moved.
 
-        Useful to know before filing: this repo reads NO HTML. Every row comes
-        from one of three JSON endpoints the site's own front end calls
-        (`product_parser.py` lists them), so a break is almost always a
-        renamed field, a new required parameter, or an endpoint going behind
-        the site's AWS WAF.
+        Useful to know before filing: this repo reads no HTML for its rows.
+        Every row comes from one JSON endpoint the site's own front end calls
+        (`POST mapi.makemytrip.com/clientbackend/cg/search-hotels/DESKTOP/2`,
+        documented in `product_parser.py`), so a break is almost always a
+        renamed field, a request field the endpoint stopped accepting, a new
+        experiment string (`expData`) without which prices come back null,
+        or Akamai refusing what used to be served.
 
   - type: dropdown
     id: what_broke
     attributes:
       label: What stopped matching
       options:
-        - The run stops with "The endpoint refused this request (code ...)"
-        - 0 rows on a query that visibly has results on the site
+        - The run stops with "The endpoint refused this request (...)"
+        - 0 rows ("No Hotels Found") on a city that visibly has hotels on the site
+        - Every price is null
         - A specific column is null or wrong on every row
-        - Every run is blocked by aws-waf, even from a residential exit
-        - Pagination stops early or repeats rows
+        - Every run is blocked by akamai, even through a country-in Scraping Browser profile
+        - Pagination stops after page 1 or repeats rows
         - Something else
     validations:
       required: true
@@ -32,9 +35,9 @@ body:
   - type: input
     id: query
     attributes:
-      label: Mode and query
-      description: The mode and flags (or --url), and the country your exit IP was in.
-      placeholder: "--mode p2p --asset USDT --fiat EUR --side buy (exit IP: DE residential)"
+      label: Query
+      description: The flags (or --url), and how the run reached the site.
+      placeholder: "--city Goa --checkin 2026-11-10 --checkout 2026-11-12 --pages 3 (via --cdp-endpoint country-in)"
     validations:
       required: true
 

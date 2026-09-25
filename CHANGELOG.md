@@ -9,35 +9,52 @@ said so at the top of its release notes.
 
 ## [0.1.0] — 2026-09-24
 
-First release. Three modes over binance.com's own JSON endpoints, three
-browser engines over one shared fetch loop, and the 2Captcha Scraper API for
-the one mode it can reach.
+First release. makemytrip.com's hotel listings, read from the site's own
+listing API, through three browser engines over one shared fetch loop, and
+the 2Captcha Scraper API for the first five properties of a listing page.
+
+> **Read before running from a server.** From a datacentre address the site
+> served nothing to any client in testing, real Chromium included, and no
+> captcha was involved: Akamai drops the connection. The one path measured
+> to work is the Scraping Browser API with a `country-in` profile
+> (`--cdp-endpoint`, or `MAKEMYTRIP_CDP_ENDPOINT` in `.env`).
 
 ### Added
 
-- `--mode p2p`: the P2P order book for an asset/fiat pair. One row per
-  advert: price, per-order limits, payment methods, time limit, and the
-  advertiser's 30-day orders, completion and feedback. Both sides of the
-  trade are kept (`side` is what was asked, `advertiser_side` is what the
-  advert says, and they are always opposite).
-- `--mode copytrading`: Futures copy-trading lead portfolios, one row per
-  portfolio: ROI, PnL, max drawdown, win rate, AUM, copier PnL, Sharpe,
-  copiers and seats, badge, the period and the ordering.
-- `--mode announcements`: one announcement catalogue (new listings,
-  delistings, news, activities, maintenance, API updates, airdrops), one row
-  per article, with the site's canonical `/detail/{code}` address.
-- `--url` reads the query from a P2P trade page, the copy-trading page or an
-  announcement catalogue address; the page itself is never fetched.
-- Every query parameter is allowlisted, and `--pay-type` is checked against
-  the site's own list for the fiat, because the API answers several wrong
-  values with a plausible response instead of an error.
-- Pages are planned from the total page 1 states; the sidecar records
-  `total_results`, `pages_available` and the query.
-- AWS WAF: its CAPTCHA is solved with AmazonTask / AmazonTaskProxyless, and
-  the solution's `existing_token` is set as `aws-waf-token` on the
-  registrable domain, the arrangement measured to clear it.
-- `diff_runs.py` diffs two runs of one mode by `sku`, over columns derived
-  from the row class rather than listed by hand.
-- An offline suite over real, scrubbed API responses, including an
-  end-to-end run of the shared fetch loop with a fake browser, and a daily
-  canary of all three modes with no secrets.
+- `--mode hotels` (the only mode): one row per property on a city's hotel
+  listing, 41 columns: the price per night after the site's discount, with
+  taxes, and with the fees paid at the property; the struck-through price
+  and the discount computed from it; the coupon the site applied; stars, the
+  guest rating with its counts and its SOURCE; property type, locality,
+  coordinates, categories, sold-out and sponsored flags; the listing block
+  it came from; and the query it was read for.
+- `--city` by name, resolved through the site's own autosuggest (what its
+  search box does), or by the site's location code. `--checkin`,
+  `--checkout`, `--adults`, `--child-age`, `--rooms`, and `--sort`
+  (`popular`, `price-asc`, `price-desc`, `rating`: the four orderings
+  measured to change the list).
+- `--url` reads the query from the site's own hotel-listing address.
+- The listing is paged by the server's cursor, one page after another;
+  `--concurrency` above 1 is refused with that reason. A run ends early, and
+  complete, when the site says nothing follows.
+- Akamai's three refusals are exit 3 in all three engines: its "Access
+  Denied" page (matched in both the raw and the browser spelling), its
+  dropped connection (`ERR_HTTP2_PROTOCOL_ERROR` and relatives), and an
+  HTTP 200 whose whole body is `200-OK`. A refused connection is retried
+  from a fresh browser, which over the Scraping Browser is a fresh exit.
+- `scraper_api_client.py`: the Scraper API, routed through a Scraping
+  Browser session, reads the first five properties a listing page renders
+  on the server. `--pages` above 1 is refused: everything after them is a
+  POST.
+- `diff_runs.py` compares two runs of the same query by `sku`, and refuses
+  runs for different dates, guests or orderings.
+- A canary in two parts: daily with no secrets from a GitHub runner,
+  asserting a datacentre refusal is reported as exit 3; and on dispatch,
+  through a Scraping Browser profile, a real three-page Goa scrape.
+
+### Not implemented
+
+- Flights. Their results arrive as a server-sent event stream, which failed
+  through the Scraping Browser on every attempt (3 of 3). This repo does not
+  implement them.
+- Locality, area and hotel-chain listings (`locusType` other than `city`).

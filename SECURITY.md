@@ -11,7 +11,7 @@ public from the moment you press submit.
 
 If private reporting is unavailable to you, mail support@2captcha.com. That is
 2Captcha's general support address rather than a security-only one, so put
-**"binance-scraper security"** in the subject — otherwise it lands in a queue
+**"makemytrip-scraper security"** in the subject — otherwise it lands in a queue
 about API keys and billing and takes longer to reach the right person.
 
 **What helps most:** the version you are on (commit hash), the exact command,
@@ -38,12 +38,14 @@ In scope:
   can run `ps`. A path we have missed — a log line, an exception message, a
   written file, a request to a third party — is a real bug and we want to know.
 - **Anything that makes a scraped page dangerous to parse.** The parser is
-  handed HTML from a site we do not control. Remote code execution, path
+  handed JSON and HTML from a site we do not control. Remote code execution, path
   traversal via a crafted URL or filename, or a catastrophic regex backtrack
   that a page can trigger deliberately all count.
-- **Injection into a page we drive.** Values fetched from an API are
-  JSON-encoded before they are interpolated into an init script, so that a
-  string cannot break out of it. A place where that is not true is in scope.
+- **Injection into a page we drive.** Each page's API request (city,
+  dates, the cursor a previous response handed back) is passed to the
+  page's `fetch()` as an argument of the driver's evaluate call, not
+  interpolated into script text, so that a string cannot break out of it. A
+  place where that is not true is in scope.
 - **A dependency vulnerability that is actually reachable** through the way this
   code uses the library. Say which call path reaches it.
 - **`.gitignore` failing to cover something this project writes** that could
@@ -53,10 +55,10 @@ In scope:
 
 Not because these do not matter, but because they belong somewhere else:
 
-- **Bypassing Binance's bot protection.** This scraper drives an ordinary
-  browser and passes challenges the way a browser does. Anything about how
-  AWS WAF behaves is not a vulnerability in this repository.
-- **The scraper stopped working.** Binance changing its API is expected —
+- **Bypassing MakeMyTrip's bot protection.** This scraper drives an ordinary
+  browser and is served or refused the way a browser is. Anything about how
+  Akamai Bot Manager behaves is not a vulnerability in this repository.
+- **The scraper stopped working.** MakeMyTrip changing its API is expected —
   file it as a normal issue, there is a template for exactly that.
 - **Anything about 2Captcha's services** — the solver API, the Scraping Browser
   API, proxies, fingerprints, billing, quotas. This repository is only a client

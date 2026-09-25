@@ -162,6 +162,16 @@ API_HEADERS = {
 }
 
 
+# The front end's experiment flags, sent verbatim as the site sends them
+# (captured 2026-09-24). NOT optional: without this string the endpoint
+# returns every property with no `priceDetail` at all. Measured on one Goa
+# request, same session: 30 of 30 priced with it, 0 of 30 without, and
+# neither the full `featureFlags` nor the full `requestDetails` brought the
+# prices back. A first live run without it produced 81 rows with every
+# price null, which the core-field floor in page_flow reported at once.
+EXP_DATA = '{APE:10,PAH:5,PAH5:T,WPAH:F,BNPL:T,MRS:T,PDO:PN,MCUR:T,ADDON:T,CHPC:T,AARI:T,NLP:Y,RCPN:T,PLRS:T,MMRVER:V3,BLACK:T,IAO:F,BNPL0:T,EMIDT:1,HAFC:T,CRI:T,ALC:T,LSTNRBY:T,PLV2:T,HIS:DEFAULT,HFC:T,VIDEO:0,MLOS:T,CV2:T,SOU:T,APT:T,AIP:T,PERNEW:T,RTBC:T,PCCE:T,FLTRPRCBKT:T,UGCV2:T,CRF:T,GALLERYV2:T}'
+
+
 @dataclass
 class ApiRequest:
     """One call to the site's API: what an engine sends.
@@ -401,6 +411,7 @@ def request_for(query: Query, page: int, cursor: Optional[Cursor] = None) -> Api
                           "tagTypes": ["BASE", "WHAT_GUESTS_SAY"]},
         "filterCriteria": [],
         "sortCriteria": SORTS.get(query.sort),
+        "expData": EXP_DATA,
     }
     params = {"cityCode": query.city_code, "requestId": request_id,
               "language": "eng", "region": "in", "currency": "INR",
@@ -535,10 +546,30 @@ CAPTCHA_WIDGET_MARKERS = ("recaptcha/api.js", "recaptcha/enterprise.js",
 EMPTY_ERROR_CODES = ("400814",)
 
 
+# Akamai's THIRD answer: HTTP 200 and a body of exactly `200-OK`. Measured
+# 2026-09-24 from a datacentre with Selenium's Chrome once its User-Agent
+# was overridden over CDP (Network.setUserAgentOverride): 2 of 2 loads of
+# /hotels/ came back as this 169-byte document, where the same Chrome
+# without the override got its connection dropped. Counted 0 times on every
+# served page and every API response captured. A browser wraps the raw text
+# in its own `<pre>`, so the check is on the visible text of a short
+# document, not on the bytes.
+AKAMAI_DECOY_TEXT = "200-OK"
+_TAG_RE = re.compile(r"<[^>]*>")
+
+
+def _is_akamai_decoy(text: str) -> bool:
+    if not text or len(text) > 2_000:
+        return False
+    return _TAG_RE.sub(" ", text).strip() == AKAMAI_DECOY_TEXT
+
+
 def detect_bot_challenge(html: Optional[str], url: str = "") -> Optional[str]:
     """The vendor whose refusal this is, or None."""
     head = html_lib.unescape((html or "")[:20_000])
     if any(m in head for m in AKAMAI_DENY_MARKERS) or _AKAMAI_REF_RE.search(head):
+        return "akamai"
+    if _is_akamai_decoy(head):
         return "akamai"
     return None
 
@@ -826,6 +857,44 @@ def parse_page(payload: Any, query: Query, page: int = 1) -> List[Hotel]:
                 if row:
                     rows.append(row)
     return rows
+
+
+# ---------------------------------------------------------------------------
+# The server-rendered listing (the Scraper API's path)
+# ---------------------------------------------------------------------------
+
+_INITIAL_STATE_RE = re.compile(r"window\.__INITIAL_STATE__\s*=\s*")
+
+
+def initial_state_listing(html: Optional[str]) -> Optional[Dict[str, Any]]:
+    """The listing a served listing PAGE carries in its own markup, in the
+    API's envelope (`{"response": ...}`), or None if the page holds none.
+
+    The page server-renders its first properties into
+    `window.__INITIAL_STATE__.searchHotels`, in exactly the listing API's
+    record shape: 5 properties, all priced, on two Goa pages fetched on
+    2026-09-24 (one through the Scraping Browser, one through the Scraper
+    API). That is the only data a client that can make no POST can read,
+    and it is page 1's first five and nothing more: the cursor for anything
+    after them is answered by the POST endpoint alone.
+    """
+    m = _INITIAL_STATE_RE.search(html or "")
+    if not m:
+        return None
+    try:
+        state, _end = json.JSONDecoder().raw_decode(html, m.end())
+    except ValueError:
+        return None
+    listing = state.get("searchHotels") if isinstance(state, dict) else None
+    if not isinstance(listing, dict) or not isinstance(listing.get("personalizedSections"), list):
+        return None
+    listing = dict(listing)
+    # The server-rendered copy names its currency `searchHotelsCurrency`
+    # where the API says `currency` (INR on both Goa pages). Read, not
+    # defaulted: a page that states neither leaves the column null.
+    if not listing.get("currency") and listing.get("searchHotelsCurrency"):
+        listing["currency"] = listing["searchHotelsCurrency"]
+    return {"response": listing}
 
 
 def default_dates(today: Optional[date] = None, ahead_days: int = 30) -> Tuple[date, date]:

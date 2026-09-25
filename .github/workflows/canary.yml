@@ -1,137 +1,142 @@
-# One real run of each mode against binance.com, daily. tests.yml
-# (deliberately) never touches the site.
+# Real runs against makemytrip.com. tests.yml (deliberately) never touches
+# the site.
 #
-# No secrets are needed, and that is the point of running it: the README's
-# central claim is "no key, no proxy, no account", and an ungated scheduled
-# canary is that sentence under test every morning (CLAUDE.md §21, §24). All
-# three data endpoints answered a datacentre address normally when this repo
-# was written (2026-09-24); a GitHub runner is a datacentre address too.
+# Two jobs, because the site has two answers and both are claims the README
+# makes:
 #
-# Measured on its first dispatch (2026-09-24): a GitHub-hosted runner with
-# no proxy was served in all three modes (60 of 238 adverts, 90 of 8,917
-# portfolios, 150 of 2,269 announcements, all complete). The runner's region
-# was not checked. If a later run is refused for its address, set the proxy
-# secret (an exit in a country Binance serves) and the canary uses it with
-# no edit here:
+#   datacentre        no secrets, daily. A GitHub runner is a datacentre
+#                     address, and from one (a netcup VPS, 2026-09-24) Akamai
+#                     refused every client, real Chromium included, by
+#                     dropping the connection. The job asserts the engine
+#                     REPORTS that correctly: exit 3, a refusal, never 1, 4
+#                     or 5. If the runner is served instead (exit 0), the
+#                     rows are checked as strictly as the other job's, and
+#                     the README's datacentre sentence is due a re-measure.
 #
-#     gh secret set BINANCE_PROXY --repo 2scraper/binance-scraper
+#   scraping-browser  the path measured to work: a Scraping Browser profile
+#                     with an Indian exit. Dispatch-only, not scheduled: a
+#                     profile's credentials last about a day, so a scheduled
+#                     job would be red every morning for a secret that had
+#                     expired, not for the site (CLAUDE.md §19). SKIPS with a
+#                     notice when the secret is not set (§11).
 #
-# It goes through the ENVIRONMENT, not a --proxy line: env_config.py reads
-# exactly that variable, an unset secret arrives as an empty string which the
-# loader treats as unset, and the credential never reaches a command line.
+#     gh secret set MAKEMYTRIP_CDP_ENDPOINT --repo 2scraper/makemytrip-scraper
+#     gh workflow run canary.yml --repo 2scraper/makemytrip-scraper
+#
+# The secret goes through the ENVIRONMENT, not a flag: env_config.py reads
+# exactly that variable, an unset secret arrives as an empty string which
+# the loader treats as unset, and the credential never reaches a command
+# line.
 
 name: canary
 
 on:
   schedule:
-    # 05:40 UTC. Not on the hour: every scheduled workflow fires at :00.
-    - cron: "40 5 * * *"
+    # 05:50 UTC. Not on the hour: every scheduled workflow fires at :00.
+    - cron: "50 5 * * *"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  run:
-    name: ${{ matrix.mode }}
+  datacentre:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          # USDT/EUR had ~190-200 adverts on 2026-09-24, so three pages of 20
-          # are full; the floor leaves room for a thin morning.
-          - mode: p2p
-            args: "--asset USDT --fiat EUR --side buy"
-            floor: 40
-          - mode: copytrading
-            args: "--mode copytrading --time-range 30D --sort-by roi"
-            floor: 60
-          - mode: announcements
-            args: "--mode announcements --category new-listings"
-            floor: 100
-    env:
-      BINANCE_PROXY: ${{ secrets.BINANCE_PROXY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
       - name: Install
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt -r requirements-playwright.txt
           playwright install --with-deps chromium
-
-      # >= 3 pages, because with one page pagination is never exercised (§11).
       - name: Run
         id: run
         run: |
           set +e   # `run:` is `bash -e`; without this a non-zero exit aborts
                    # the step before the echo below records it.
-          python playwright_scraper.py ${{ matrix.args }} --pages 3 \
+          python playwright_scraper.py --city CTGOI --pages 3 \
             --out canary --format both --dump-html canary_dump.json
           echo "exit_code=$?" >> "$GITHUB_OUTPUT"
-
       - name: Interpret
+        id: interpret
+        run: |
+          code="${{ steps.run.outputs.exit_code }}"
+          echo "exit code: $code"
+          case "$code" in
+            3) echo "::notice::Refused by Akamai from a GitHub runner, and reported as the refusal it is (exit 3). This is the README's datacentre measurement holding." ;;
+            0) echo "::warning::SERVED from a GitHub runner. The README says a datacentre is refused; re-measure it."; echo "served=1" >> "$GITHUB_OUTPUT" ;;
+            1) echo "::error::A crash. See the log."; exit 1 ;;
+            4) echo "::error::Zero rows, reported as an EMPTY listing. Goa is never empty: a refusal or a payload change was misread."; exit 1 ;;
+            5) echo "::error::Reported as 'never obtained' (exit 5). A datacentre refusal should be exit 3: the reset or Access Denied was not recognised."; exit 1 ;;
+            *) echo "::error::Unexpected exit $code."; exit 1 ;;
+          esac
+      - name: Assert
+        if: steps.interpret.outputs.served == '1'
+        run: python .github/canary_assert.py canary 60
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: canary-datacentre
+          path: |
+            canary.json
+            canary.csv
+            canary.meta.json
+            canary_dump.json*
+            canary_page*_debug.html
+          if-no-files-found: ignore
+
+  scraping-browser:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      MAKEMYTRIP_CDP_ENDPOINT: ${{ secrets.MAKEMYTRIP_CDP_ENDPOINT }}
+    steps:
+      - name: Skip without a Scraping Browser endpoint
+        if: env.MAKEMYTRIP_CDP_ENDPOINT == ''
+        run: echo "::notice::MAKEMYTRIP_CDP_ENDPOINT is not set, so the Scraping Browser run is skipped. It is the one path measured to get past Akamai from a datacentre; set the secret (a profile with country-in) and dispatch again."
+      - uses: actions/checkout@v4
+        if: env.MAKEMYTRIP_CDP_ENDPOINT != ''
+      - uses: actions/setup-python@v5
+        if: env.MAKEMYTRIP_CDP_ENDPOINT != ''
+        with:
+          python-version: "3.12"
+      - name: Install
+        if: env.MAKEMYTRIP_CDP_ENDPOINT != ''
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-playwright.txt
+      # >= 3 pages, because with one page pagination is never exercised (§11).
+      - name: Run
+        if: env.MAKEMYTRIP_CDP_ENDPOINT != ''
+        id: run
+        run: |
+          set +e
+          python playwright_scraper.py --city Goa --pages 3 \
+            --out canary --format both --dump-html canary_dump.json
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+      - name: Interpret
+        if: env.MAKEMYTRIP_CDP_ENDPOINT != ''
         run: |
           code="${{ steps.run.outputs.exit_code }}"
           echo "exit code: $code"
           case "$code" in
             0) ;;
-            3) echo "::error::Blocked. If the log names aws-waf, the WAF has moved in front of the data endpoints, which is the README's central claim failing. If it names http-403 or geo-451, the runner's address was refused: set the BINANCE_PROXY secret (see the header)."; exit 1 ;;
-            4) echo "::error::Zero rows from a listing that is never empty. The endpoint's shape has moved; see canary_dump.json."; exit 1 ;;
-            5) echo "::error::The data never arrived, or the endpoint REFUSED the parameters (the log names the site's own complaint)."; exit 1 ;;
-            *) echo "::error::Unexpected exit $code."; exit 1 ;;
+            3) echo "::error::Refused through the Scraping Browser. That is the README's central claim failing; see the log for which refusal."; exit 1 ;;
+            5) echo "::error::Never obtained. A 401 in the log means the profile's credentials expired (they last about a day): set a fresh secret."; exit 1 ;;
+            *) echo "::error::Exit $code."; exit 1 ;;
           esac
-
       - name: Assert
-        run: |
-          python - <<'EOF'
-          import json, sys
-          meta = json.load(open("canary.meta.json"))
-          rows = json.load(open("canary.json"))
-          mode, floor = "${{ matrix.mode }}", ${{ matrix.floor }}
-          problems = []
-          if meta["status"] != "complete":
-              problems.append("status %r (%s)" % (meta["status"], meta["stop_reason"]))
-          if meta["pages_completed"] != 3:
-              problems.append("pages_completed %r, not 3" % meta["pages_completed"])
-          if len(rows) < floor:
-              problems.append("%d rows, floor %d" % (len(rows), floor))
-          if not meta.get("total_results"):
-              problems.append("no total_results in the sidecar")
-          if {r["mode"] for r in rows} != {mode}:
-              problems.append("rows name modes %r" % {r["mode"] for r in rows})
-          pairs = [(r["page"], r["position"]) for r in rows]
-          if len(set(pairs)) != len(pairs):
-              problems.append("page+position is not unique")
-          if mode == "p2p":
-              priced = sum(1 for r in rows if isinstance(r["price"], float))
-              if priced != len(rows):
-                  problems.append("%d of %d rows have a price" % (priced, len(rows)))
-              if {r["advertiser_side"] for r in rows} != {"sell"}:
-                  problems.append("a buy query's adverts are not all 'sell': %r"
-                                  % {r["advertiser_side"] for r in rows})
-          if mode == "copytrading":
-              if any(r["roi_pct"] is None for r in rows):
-                  problems.append("a portfolio without ROI")
-          if mode == "announcements":
-              bad = [r["url"] for r in rows if "/support/announcement/detail/" not in r["url"]]
-              if bad:
-                  problems.append("non-canonical url: %s" % bad[0])
-          if problems:
-              print("canary FAILED: " + "; ".join(problems))
-              sys.exit(1)
-          print("canary OK: %d %s rows of %s, complete" % (len(rows), mode, meta["total_results"]))
-          EOF
-
+        if: env.MAKEMYTRIP_CDP_ENDPOINT != ''
+        run: python .github/canary_assert.py canary 60
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && env.MAKEMYTRIP_CDP_ENDPOINT != ''
         with:
-          name: canary-${{ matrix.mode }}
+          name: canary-scraping-browser
           path: |
             canary.json
             canary.csv
