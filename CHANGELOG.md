@@ -7,6 +7,28 @@ toolkit can: a patch release means **fixes**, not that every flag and
 default is frozen. A default that changes behaviour for an existing user is
 said so at the top of its release notes.
 
+## [0.1.1] — 2026-09-25
+
+### Fixed
+
+- **pyppeteer with a credentialled `--proxy` died before its first
+  navigation**, with "'Network.setRequestInterception' wasn't found":
+  pyppeteer's `page.authenticate` relies on a CDP method current Chromium
+  removed. The engine now answers the proxy's challenge itself through the
+  `Fetch` domain, giving the credentials only to a proxy's challenge.
+  Measured after the fix: ipify answered through the proxy on 4 of 4 runs.
+
+### Measured
+
+- Through pyppeteer, the 2Captcha residential exits got makemytrip.com's
+  page on 2 of 3 tries, and then the listing API refused the exit (its
+  answer carried no CORS permission). So the proxy path still returns no
+  rows, and the README and `.env.example` say so in those terms. The
+  Scraping Browser with `country-in` remains the one path measured to work.
+- The canary's first runs from a GitHub runner: refused by Akamai and
+  reported as exit 3, as the README says of a datacentre; and through a
+  Scraping Browser profile, 90 of 90 rows priced over three pages.
+
 ## [0.1.0] — 2026-09-24
 
 First release. makemytrip.com's hotel listings, read from the site's own

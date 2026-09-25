@@ -21,7 +21,8 @@ Two things to know before choosing this engine:
     Playwright. It is here for parity, and for anyone who already has it.
   * Unlike the Selenium engine, it CAN authenticate a remote CDP endpoint
     (`browserWSEndpoint` takes a full `ws://user:pass@host:port`) and a
-    proxy (`page.authenticate`).
+    proxy (through the CDP `Fetch` domain, since pyppeteer's own
+    `page.authenticate` no longer works on current Chromium).
 
 Usage
 -----
@@ -267,8 +268,8 @@ class _Ops:
         credentials = None
         if self.pool:
             exit_url = self.pool.current
-            # Credentials go through page.authenticate(), never onto the
-            # command line: --proxy-server= is part of the browser's argv,
+            # Credentials are answered over CDP (_authenticate_proxy), never
+            # put on the command line: --proxy-server= is part of the browser's argv,
             # readable by anything that can run `ps` (§8).
             scrubbed, credentials = split_credentials(exit_url)
             launch_args.append(f"--proxy-server={scrubbed}")
@@ -287,9 +288,50 @@ class _Ops:
         if self.args.fingerprint:
             self._apply_fingerprint()
         if credentials:
-            self.bridge.run(self.page.authenticate(
-                {"username": credentials[0], "password": credentials[1]}))
+            self._authenticate_proxy(*credentials)
         return self
+
+    def _authenticate_proxy(self, username: str, password: str):
+        """Answer the proxy's 407 through the CDP `Fetch` domain.
+
+        pyppeteer's own `page.authenticate` is built on
+        `Network.setRequestInterception`, which current Chromium no longer
+        has. Measured here on 2026-09-25 with Playwright's Chromium under
+        --chromium-path: "'Network.setRequestInterception' wasn't found",
+        and the run died before its first navigation, so a credentialled
+        proxy never worked through this engine. `Fetch.enable` with
+        `handleAuthRequests` is what replaced it (and what Playwright
+        uses); the approach was worked out in a sibling repo the same day.
+
+        Every request is paused and continued unchanged; only an auth
+        challenge FROM THE PROXY is answered with its credentials, which
+        never leave this process's memory (§8). A site's own challenge gets
+        the browser's default answer.
+        """
+        async def _enable():
+            session = await self.page.target.createCDPSession()
+
+            def _paused(event):
+                asyncio.ensure_future(session.send(
+                    "Fetch.continueRequest", {"requestId": event["requestId"]}))
+
+            def _auth(event):
+                source = (event.get("authChallenge") or {}).get("source")
+                response = ({"response": "ProvideCredentials",
+                             "username": username, "password": password}
+                            if source == "Proxy" else {"response": "Default"})
+                asyncio.ensure_future(session.send(
+                    "Fetch.continueWithAuth",
+                    {"requestId": event["requestId"],
+                     "authChallengeResponse": response}))
+
+            session.on("Fetch.requestPaused", _paused)
+            session.on("Fetch.authRequired", _auth)
+            await session.send("Fetch.enable", {"handleAuthRequests": True,
+                                                "patterns": [{"urlPattern": "*"}]})
+            return session
+
+        self._auth_session = self.bridge.run(_enable(), timeout=30)
 
     def _enable_autosolve(self):
         """The Scraping Browser API's own CAPTCHA domain, as the Playwright

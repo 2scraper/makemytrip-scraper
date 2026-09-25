@@ -44,7 +44,8 @@ datacentre VPS (netcup, AS197540):
 | real Chromium, headless **and** headful | `net::ERR_HTTP2_PROTOCOL_ERROR`, every page |
 | Chrome under Selenium with its User-Agent overridden | HTTP 200 and a body of `200-OK`: a decoy, not the page |
 | the listing API itself (`mapi.makemytrip.com`) | HTTP 403, Akamai "Access Denied" |
-| three 2Captcha residential exits (eu, na, and one with `-region-in`) | `net::ERR_HTTP2_PROTOCOL_ERROR` |
+| three 2Captcha residential exits (eu, na, and one with `-region-in`), Playwright | `net::ERR_HTTP2_PROTOCOL_ERROR` |
+| the same exits, pyppeteer (2026-09-25) | the page on 2 of 3 tries, then the listing API **refused** the exit: its answer carried no CORS permission, the shape Akamai's 403 has from a page |
 | the 2Captcha Scraper API on its own exits | HTTP 403, Akamai "Access Denied" |
 | **the Scraping Browser with an Indian exit (`country-in`)** | **HTTP 200, the full listing** |
 
@@ -62,8 +63,9 @@ the service served the reconnect from a different Indian exit. The engines
 do that reconnect by themselves.
 
 The residential proxies above are recorded as **not measured to work**, not
-as broken: whether it was those exits or this machine's own Chromium being
-scored was not separated. A home connection in India has not been tried.
+as broken: through pyppeteer they got past the page and were refused by the
+API, and why Playwright's browser was refused earlier on the same exits was
+not separated. A home connection in India has not been tried.
 
 ---
 
@@ -169,7 +171,7 @@ counts together, so an average over the column means something.
 | | |
 |---|---|
 | `playwright_scraper.py` | **Primary.** Authenticates a proxy and a remote CDP endpoint. Run live, above. |
-| `puppeteer_scraper.py` | pyppeteer is effectively unmaintained; here for parity. Run live through the Scraping Browser, above. `--chromium-path` points it at another browser. A credentialled `--proxy` is known NOT to authenticate through it on current Chromium (`page.authenticate` relies on a CDP method Chromium removed; found in a sibling repo, 2026-09-24) and is not fixed here, since no proxy was measured to help on this site anyway. |
+| `puppeteer_scraper.py` | pyppeteer is effectively unmaintained; here for parity. Run live through the Scraping Browser, above. `--chromium-path` points it at another browser. It answers a proxy's credentials over CDP (`Fetch.authRequired`): pyppeteer's own `page.authenticate` relies on a method current Chromium removed, and until v0.1.1 this engine died on any credentialled proxy before its first navigation. |
 | `selenium_scraper.py` | Drives a Chrome you have. **Cannot authenticate a remote CDP endpoint** (`debuggerAddress` is a bare `host:port`), so it refuses the Scraping Browser with exit 2, and that is the one path measured to work. From a datacentre it is therefore refused on every run, and reports it as exit 3: verified live against the `200-OK` decoy this engine's Chrome is served, and against a captured copy of Chrome's own error page, which Selenium reports under the REQUESTED address. A successful Selenium run has not been measured. |
 | `scraper_api_client.py` | No local browser: the 2Captcha Scraper API fetches the listing PAGE, routed through a Scraping Browser session (`cdpurl`), and this client reads the page's server-rendered state. That is **the listing's first five properties, and nothing more**: everything after them is a POST endpoint, and the Scraper API fetches URLs. `--pages` above 1 is refused for that reason. |
 
