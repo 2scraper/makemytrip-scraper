@@ -1257,6 +1257,24 @@ def check_selenium_reads_chromes_own_error_page():
           "location.href" in src and "current_url" not in src.split('"""')[-1])
 
 
+def check_pyppeteer_answers_proxy_auth_over_cdp():
+    """pyppeteer's page.authenticate relies on Network.setRequestInterception,
+    which current Chromium removed: measured, the engine died before its
+    first navigation with any credentialled proxy. The engine answers the
+    proxy's challenge through the Fetch domain instead, and only a PROXY's."""
+    src = open(os.path.join(HERE, "puppeteer_scraper.py"), encoding="utf-8").read()
+    tree = ast.parse(src)
+    called = {n.func.attr for n in ast.walk(tree)
+              if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)}
+    check("the engine never CALLS page.authenticate", "authenticate" not in called)
+    check("...it enables Fetch with handleAuthRequests",
+          '"Fetch.enable", {"handleAuthRequests": True' in src)
+    check("...answers Fetch.authRequired, continues every paused request",
+          "Fetch.authRequired" in src and "Fetch.continueRequest" in src)
+    check("...and gives the credentials only to a Proxy challenge",
+          'if source == "Proxy"' in src)
+
+
 def check_credentials_never_reach_a_log():
     for module in ENGINES:
         engine = _import_engine(module)

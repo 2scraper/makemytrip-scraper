@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "makemytrip-scraper"
-version = "0.1.0"
+version = "0.1.1"
 description = "makemytrip.com hotel listing scraper: prices before and after taxes, star and guest ratings, property type, location, from the site's own listing API (Playwright, Selenium or pyppeteer)."
 readme = "README.md"
 license = "MIT"
