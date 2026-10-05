@@ -5,7 +5,7 @@
 [![canary](https://github.com/2scraper/makemytrip-scraper/actions/workflows/canary.yml/badge.svg)](https://github.com/2scraper/makemytrip-scraper/actions/workflows/canary.yml)
 ![python](https://img.shields.io/badge/python-3.9%20%7C%203.12-blue)
 [![licence](https://img.shields.io/badge/licence-MIT-green)](LICENSE)
-![engines](https://img.shields.io/badge/engines-playwright%20%7C%20selenium%20%7C%20pyppeteer-lightgrey)
+![engines](https://img.shields.io/badge/engines-playwright%20%7C%20pyppeteer%20via%20CDP%20%7C%20selenium%20local%20only-lightgrey)
 ![account](https://img.shields.io/badge/makemytrip%20account-not%20needed-brightgreen)
 
 Scrapes [makemytrip.com](https://www.makemytrip.com)'s **hotel listings**
@@ -116,6 +116,14 @@ Measured through a `country-in` Scraping Browser profile, 2026-09-24:
 | Mumbai, `price-asc`, 2 pages | pyppeteer | 56 of 60 kept | 4 duplicates across the page boundary (trap 4) |
 | Goa `--url`, `--sort rating` | Playwright | 30 | 4.9, 5.0, 4.9, 4.8, 4.8 at the top |
 | Goa, one page | Scraper API + `cdpurl` | 5 | the page's server-rendered five; $0.0005 |
+
+**Last live checks on file** (this line goes stale; the dates are the point):
+a served three-page run through the Scraping Browser, 90 of 90 priced,
+2026-09-24 (the canary's own first run); pyppeteer through residential
+proxies, no rows, 2026-09-25; and from a datacentre address with no
+endpoint, the run reported Akamai's refusal as exit 3 and wrote nothing,
+2026-10-05, on Python 3.13 (the `datacentre` canary job's claim, re-checked
+by hand). No served run has been measured since 2026-09-24.
 
 ---
 
