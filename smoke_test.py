@@ -128,7 +128,7 @@ def check_fixture_corpus_is_real_and_scrubbed():
 
 
 # ---------------------------------------------------------------------------
-# The parser, asserted on VALUES rather than on coverage (§10)
+# The parser, asserted on VALUES rather than on coverage
 # ---------------------------------------------------------------------------
 
 def check_goa_listing_parses_to_the_captured_values():
@@ -166,7 +166,7 @@ def check_goa_listing_parses_to_the_captured_values():
 
 
 def check_unrated_properties_carry_no_zero_rating():
-    """§21: zero is not a rating. Taken from a real record with its rating
+    """Zero is not a rating. Taken from a real record with its rating
     counts zeroed, which is how the site writes an unrated property."""
     import product_parser as P
     payload = copy.deepcopy(FIXTURES["search_goa_p1"])
@@ -182,7 +182,7 @@ def check_unrated_properties_carry_no_zero_rating():
             for row in _rows(name, code="CTDUB" if name == "search_dubai" else "CTGOI")]
     check("no row anywhere carries a 0 rating or 0 stars",
           not any(row.rating == 0 or row.star_rating == 0 for row in rows))
-    check("no row has an original price at or below its price (§4's canary)",
+    check("no row has an original price at or below its price",
           not any(row.original_price is not None and row.original_price <= row.price
                   for row in rows))
 
@@ -257,7 +257,7 @@ def check_position_counts_emitted_rows():
     hotels = payload["response"]["personalizedSections"][0]["hotels"]
     hotels.insert(1, {"name": "no id"})       # a record the parser drops
     rows = P.parse_page(json.dumps(payload), _q(), 1)
-    equal("a dropped record does not shift later positions (§24)",
+    equal("a dropped record does not shift later positions",
           [r.position for r in rows], [1, 2, 3, 4])
 
 
@@ -432,11 +432,11 @@ def check_page_states_on_real_captures():
         equal("%s (HTTP %s) is %s" % (name, status, want),
               P.detect_page_state(fx(name), status), want)
     raw = fx("akamai_denied_www")
-    check("the raw refusal is entity-escaped (not vacuous, §20)",
+    check("the raw refusal is entity-escaped (not vacuous)",
           "errors&#46;edgesuite&#46;net" in raw)
     equal("...and the BROWSER's spelling of it is caught too",
           P.detect_bot_challenge(html_lib.unescape(raw)), "akamai")
-    check("Chrome's error page wears the site's hostname as its title (§18)",
+    check("Chrome's error page wears the site's hostname as its title",
           "www.makemytrip.com" in fx("chrome_error_page"))
     equal("an unknown 403 is blocked", P.detect_page_state("<html></html>", 403), "blocked")
     equal("a 429 is throttled", P.detect_page_state("", 429), "throttled")
@@ -456,7 +456,7 @@ def check_the_decoy_marker_is_exact():
 
 
 def check_markers_do_not_match_a_page_the_scraping_browser_served():
-    """§24: the Scraping Browser's extension injects captcha hunters into
+    """The Scraping Browser's extension injects captcha hunters into
     EVERY page. The marker set must score zero against that injection
     WITHOUT any strip, or the strip is load-bearing."""
     import product_parser as P
@@ -478,7 +478,7 @@ def check_a_widget_only_counts_on_a_page_the_site_did_not_serve():
     loader = '<script src="https://www.google.com/recaptcha/api.js"></script>'
     equal("a widget loader on a bare page is a challenge",
           P.detect_page_state("<html>%s</html>" % loader, 200), "challenge")
-    equal("the same loader on a SERVED page guards nothing (§8)",
+    equal("the same loader on a SERVED page guards nothing",
           P.detect_page_state(fx("landing_served") + loader, 200), "content")
 
 
@@ -496,7 +496,7 @@ def check_state_policy():
     check("blocked and reset: retried from a fresh browser, blocked, never solved",
           all(F.should_retry(s) and F.counts_as_blocked(s) and not F.should_solve(s)
               for s in ("blocked", "reset")))
-    check("throttled: retried, NOT blocked (§24)",
+    check("throttled: retried, NOT blocked",
           F.should_retry("throttled") and not F.counts_as_blocked("throttled"))
     check("challenge: solved", F.should_solve("challenge"))
     equal("at most one solve per page", F.SOLVES_PER_PAGE, 1)
@@ -509,14 +509,15 @@ def check_state_policy():
                  "net::ERR_CONNECTION_RESET", "net::ERR_SSL_PROTOCOL_ERROR"):
         check("%s is Akamai hanging up" % text.split("::")[1].split()[0], F.is_reset(text))
     check("a timeout is not a reset", not F.is_reset("Timeout 60000ms exceeded."))
-    check("a CDP 401 is explained as expired credentials",
-          "expired" in F.cdp_connect_hint("WebSocket error: 401 Unauthorized"))
+    hint = F.cdp_connect_hint("WebSocket error: 401 Unauthorized")
+    check("a CDP 401 is explained as refused credentials, without guessing "
+          "a lifetime", "refused" in hint and "about a day" not in hint, hint)
     check("...and a 500 as a held pid", "pid" in F.cdp_connect_hint("HTTP 500"))
     check("--concurrency 1 is not refused", F.concurrency_refusal(1) is None)
 
 
 def check_policy_constants_have_a_consumer():
-    """§17: a policy constant nothing reads is the same defect as dead code."""
+    """A policy constant nothing reads is the same defect as dead code."""
     src = open(os.path.join(HERE, "page_flow.py"), encoding="utf-8").read()
     engines = "".join(open(os.path.join(HERE, m + ".py"), encoding="utf-8").read()
                       for m in ENGINES)
@@ -615,7 +616,7 @@ def check_the_shared_loop_end_to_end():
     equal("...complete, stopped because the plan was done",
           (meta["status"], meta["stop_reason"]), ("complete", "completed"))
     equal("...rows in page order", [r["page"] for r in rows], [1, 1, 1, 1, 2, 2, 2])
-    check("...page+position unique across the run (§18)",
+    check("...page+position unique across the run",
           len({(r["page"], r["position"]) for r in rows}) == len(rows))
     equal("the browser landed ONCE for the run", ops.gotos, 1)
     sent = ops.bodies[1]["searchCriteria"]
@@ -663,7 +664,7 @@ def check_the_shared_loop_end_to_end():
     equal("...at the SAME exit (no relaunch)", ops.relaunches, 0)
     rc, meta, rows, ops = _run({1: [(429, ""), (200, fx("search_goa_p1"))]},
                                pages=1, retries=1)
-    equal("a throttle wait spends its OWN budget, not --retries (§24): "
+    equal("a throttle wait spends its OWN budget, not --retries: "
           "with --retries 1 the page still arrives", rc, 0)
 
     dup = {1: [(200, fx("search_goa_p1"))], 2: [(200, fx("search_goa_p1"))]}
@@ -742,7 +743,7 @@ def check_a_remote_relaunch_is_a_new_connection():
 def check_row_schema():
     from output_writer import Hotel, Product, ROW_CLASS_BY_MODE, UNIQUE_BY_SKU_MODES
     names = [f.name for f in fields(Hotel)]
-    equal("the family prefix is byte-identical and in order (§9)", names[:8],
+    equal("the family prefix is byte-identical and in order", names[:8],
           ["source", "scraped_at", "url", "sku", "title", "price",
            "original_price", "currency"])
     check("the run-describing tail is present",
@@ -783,7 +784,7 @@ def check_exit_codes():
     equal("3 blocked / 4 empty / 5 never obtained / 6 partial",
           (O.EXIT_BLOCKED, O.EXIT_NO_PRODUCTS, O.EXIT_FETCH_FAILED, O.EXIT_PARTIAL),
           (3, 4, 5, 6))
-    check("end_of_listing is a COMPLETE stop reason (§24)",
+    check("end_of_listing is a COMPLETE stop reason",
           "end_of_listing" in O.COMPLETE_STOP_REASONS)
     check("api_rejected is NOT complete", "api_rejected" not in O.COMPLETE_STOP_REASONS)
 
@@ -842,7 +843,7 @@ def check_sidecar_shape():
 
 
 # ---------------------------------------------------------------------------
-# The engines — the checks CLAUDE.md §17 says to steal
+# The engines: signature binding, flag parity, undefined names
 # ---------------------------------------------------------------------------
 
 def check_engines_import_their_driver_at_module_level():
@@ -859,9 +860,9 @@ def check_engines_import_their_driver_at_module_level():
 
 
 def check_shared_calls_bind_against_the_real_signature():
-    """§17's check #1. Every call from an engine (and the Scraper API client,
+    """Every call from an engine (and the Scraper API client,
     diff_runs and page_flow itself) into a shared module is bound against the
-    callee's real signature. A name that does not exist FAILS (§22). A name
+    callee's real signature. A name that does not exist FAILS. A name
     bound in the calling file shadows a same-named module."""
     import captcha_solver
     import output_writer
@@ -950,8 +951,8 @@ def _engine_flags(module_name):
     return flags, bool(m)
 
 
-# The family's flag contract (CLAUDE.md §9, including the five it omitted
-# for months), plus this repo's own query flags.
+# The flag contract every scraper in this family shares, plus this repo's
+# own query flags.
 CONTRACT_FLAGS = {
     "--url", "--pages", "--category", "--format", "--out", "--delay",
     "--retries", "--retry-delay", "--concurrency", "--proxy", "--proxy-file",
@@ -965,7 +966,7 @@ SITE_FLAGS = {"--city", "--checkin", "--checkout", "--adults", "--child-age",
 
 
 def check_engine_flag_sets():
-    """§17's check #2: against the contract AND against each other, both
+    """Engine flags: against the contract AND against each other, both
     ways. The exception list IS the documentation."""
     sets = {}
     for module in ENGINES:
@@ -997,7 +998,7 @@ def check_banned_and_removed_flags():
 
 
 def check_undefined_names_in_every_module():
-    """§10: compileall proves a file PARSES, not that its names RESOLVE.
+    """compileall proves a file PARSES, not that its names RESOLVE.
     Kept COARSE (pooled bindings) so it under-reports rather than invents."""
     import builtins
     for filename in sorted(f for f in os.listdir(HERE) if f.endswith(".py")):
@@ -1077,7 +1078,8 @@ def check_dockerfile_copies_everything_the_entrypoint_imports():
 def check_env_example_documents_exactly_what_the_loader_reads():
     import env_config
     text = open(os.path.join(HERE, ".env.example"), encoding="utf-8").read()
-    documented = set(re.findall(r"^([A-Z][A-Z0-9_]+)=", text, re.M))
+    # A variable shipped commented out (`# NAME=value`) is still documented.
+    documented = set(re.findall(r"^(?:# ?)?([A-Z][A-Z0-9_]+)=", text, re.M))
     read = set(env_config.ENV_KEYS)
     equal("the example and the loader name the same variables",
           sorted(documented), sorted(read))
@@ -1091,6 +1093,9 @@ def check_a_copied_env_example_reads_as_UNSET():
     import env_config
     text = open(os.path.join(HERE, ".env.example"), encoding="utf-8").read()
     values = dict(re.findall(r"^([A-Z][A-Z0-9_]+)=(.*)$", text, re.M))
+    examples = dict(re.findall(r"^# ?([A-Z][A-Z0-9_]+)=(.*)$", text, re.M))
+    check("MAKEMYTRIP_URL ships commented out, so a copied .env sets no URL",
+          "MAKEMYTRIP_URL" not in values and "MAKEMYTRIP_URL" in examples)
     credentials = {"TWOCAPTCHA_KEY", "MAKEMYTRIP_CDP_ENDPOINT", "MAKEMYTRIP_PROXY"}
     before = dict(os.environ)
     try:
@@ -1108,7 +1113,7 @@ def check_a_copied_env_example_reads_as_UNSET():
         os.environ.clear()
         os.environ.update(before)
     import product_parser as P
-    q, why = P.query_from_url(values["MAKEMYTRIP_URL"])
+    q, why = P.query_from_url(examples.get("MAKEMYTRIP_URL", ""))
     check("the example's MAKEMYTRIP_URL is an address this repo reads", q is not None, why or "")
 
 
@@ -1116,7 +1121,7 @@ def check_credential_scan_is_one_implementation_invoked_from_both():
     script = os.path.join(HERE, ".github", "ci_checks.py")
     if not os.path.isdir(os.path.join(HERE, ".github")):
         # Inside the Docker image, which copies no .github at all. Triggered
-        # by the WHOLE directory being absent, never by one file in it (§22).
+        # by the WHOLE directory being absent, never by one file in it.
         skip("ci_checks", "no .github directory (the image)")
         return
     check("the credential scan exists as a script", os.path.exists(script))
@@ -1167,8 +1172,8 @@ def check_the_hex_exemption_is_one_context_only():
 
 
 # Assembled from pieces, so this file can be scanned like every other rather
-# than exempted (§22: the file most likely to acquire a stray phrase is the
-# one a wholesale exemption never reads).
+# than exempted (the file most likely to acquire a stray phrase is the one
+# a wholesale exemption never reads).
 BANNED_WORDING = (
     "cloud" + " browser", "anti" + "detect browser", "2scraper " + "Anti" + "detect Browser",
     "gate." + "2prx.com", "ANTI" + "DETECT_LOCAL_API",
@@ -1176,7 +1181,7 @@ BANNED_WORDING = (
 
 
 def check_banned_wording():
-    """§12, enforced by this test rather than by review."""
+    """Banned product wording, enforced by this test rather than by review."""
     scanned = 0
     for root, dirs, files in os.walk(HERE):
         dirs[:] = [d for d in dirs if d not in (".git", "__pycache__", ".pytest_cache",
@@ -1211,7 +1216,7 @@ def check_fingerprint_kwargs_are_ones_the_driver_accepts():
 
 
 def check_engines_do_not_evaluate_a_string_in_the_browser():
-    """§18: wait_for_function evaluates a string, which a CSP without
+    """wait_for_function evaluates a string, which a CSP without
     unsafe-eval kills. page.evaluate with a real function is fine."""
     for module in ENGINES:
         tree = ast.parse(open(os.path.join(HERE, module + ".py"), encoding="utf-8").read())
@@ -1346,7 +1351,7 @@ def check_scraper_api_client():
 
 
 def check_captcha_capability_claims_match_the_code():
-    """§19: the most expensive bug this family can ship is a SENTENCE."""
+    """The most expensive bug this family can ship is a SENTENCE."""
     readme = open(os.path.join(HERE, "README.md"), encoding="utf-8").read()
     # Whitespace-normalised: Markdown wraps a sentence wherever it likes,
     # and a phrase split across two lines is still the phrase.
@@ -1360,7 +1365,7 @@ def check_captcha_capability_claims_match_the_code():
 
 
 def check_readme_numbers_are_not_stale():
-    """§17's check #4: a count claimed in the README is the code's."""
+    """A count claimed in the README is the code's."""
     readme = open(os.path.join(HERE, "README.md"), encoding="utf-8").read()
     from output_writer import Hotel
     import product_parser as P
@@ -1443,6 +1448,298 @@ def _retries_validation_problems():
 def check_retries_is_validated_in_every_entry_point():
     problems = _retries_validation_problems()
     check("--retries is validated in every entry point, so 0 is a usage error", not problems, "; ".join(problems))
+
+
+# ---------------------------------------------------------------------------
+# Output files: atomic replacement, file modes, formula-safe CSV
+# ---------------------------------------------------------------------------
+
+def check_a_failed_write_keeps_the_previous_good_files():
+    """A failure halfway through a write must leave the previous file whole.
+    `open(path, "w")` truncates first, and a run that died inside json.dump
+    used to replace yesterday's good output with a 10-byte fragment."""
+    import output_writer as O
+    rows = _rows("search_goa_p1")
+    with tempfile.TemporaryDirectory() as tmp:
+        prefix = os.path.join(tmp, "out")
+        O.write_json(rows, prefix + ".json")
+        O.write_csv(rows, prefix + ".csv")
+        O.write_run_meta(prefix, {"status": "complete"})
+        before = {ext: open(prefix + ext, "rb").read()
+                  for ext in (".json", ".csv", ".meta.json")}
+        real_dump, real_writer = O.json.dump, O.csv.DictWriter
+
+        def broken_dump(obj, f, **kw):
+            f.write('[{"sku": ')
+            raise OSError("disk full (planted)")
+
+        class BrokenWriter(real_writer):
+            def writerow(self, row):
+                raise OSError("disk full (planted)")
+
+        O.json.dump, O.csv.DictWriter = broken_dump, BrokenWriter
+        raised = []
+        try:
+            for name, call in (("json", lambda: O.write_json(rows, prefix + ".json")),
+                               ("csv", lambda: O.write_csv(rows, prefix + ".csv")),
+                               ("meta", lambda: O.write_run_meta(prefix, {"status": "x"}))):
+                try:
+                    call()
+                except OSError:
+                    raised.append(name)
+        finally:
+            O.json.dump, O.csv.DictWriter = real_dump, real_writer
+        equal("each planted failure surfaced (not vacuous)", raised, ["json", "csv", "meta"])
+        for ext, data in before.items():
+            equal("a failed write left the previous %s byte-identical" % ext,
+                  open(prefix + ext, "rb").read(), data)
+        equal("...and no temporary file behind",
+              sorted(os.listdir(tmp)), ["out.csv", "out.json", "out.meta.json"])
+
+
+def check_output_files_get_the_mode_open_would_give():
+    """A temp file is created 0600 and os.replace keeps that, so a naive
+    atomic writer makes every output owner-only. A new file gets
+    0o666 & ~umask; an existing one keeps its own mode."""
+    import output_writer as O
+    rows = _rows("search_goa_p1")
+    old = os.umask(0o022)
+    try:
+        for umask in (0o022, 0o002, 0o077):
+            os.umask(umask)
+            with tempfile.TemporaryDirectory() as tmp:
+                path = os.path.join(tmp, "out.json")
+                O.write_json(rows, path)
+                equal("a new file under umask %03o is %03o" % (umask, 0o666 & ~umask),
+                      oct(os.stat(path).st_mode & 0o777), oct(0o666 & ~umask))
+                os.chmod(path, 0o640)
+                O.write_json(rows, path)
+                equal("...and a rewritten one keeps its own mode (umask %03o)" % umask,
+                      oct(os.stat(path).st_mode & 0o777), oct(0o640))
+    finally:
+        os.umask(old)
+
+
+def check_csv_cells_that_a_spreadsheet_would_execute_are_escaped():
+    import output_writer as O
+    from output_writer import Hotel
+    row = Hotel(sku="1", title="=HYPERLINK(\"http://x\")", locality="+cmd",
+                categories=["@SUM(1)", "ok"], coupon_code="\tTAB",
+                latitude=-15.5, longitude=73.8, price=4000.0)
+    with tempfile.TemporaryDirectory() as tmp:
+        prefix = os.path.join(tmp, "out")
+        rc = O.finish_run([row], prefix, "both", False, blocked=False,
+                          stop_reason="completed", pages_requested=1,
+                          pages_completed=1, start_url="u", final_url="u",
+                          mode="hotels", extra={"csv_cells_escaped": "site fact wins"})
+        equal("a run with formula-shaped cells still exits 0", rc, 0)
+        cells = dict(zip(*list(csv.reader(open(prefix + ".csv", encoding="utf-8")))))
+        equal("a leading = is escaped", cells["title"], "'=HYPERLINK(\"http://x\")")
+        equal("a leading + is escaped", cells["locality"], "'+cmd")
+        equal("a joined list is escaped AFTER joining", cells["categories"], "'@SUM(1) | ok")
+        equal("a leading tab is escaped", cells["coupon_code"], "'\tTAB")
+        equal("a negative NUMBER is left a number", cells["latitude"], "-15.5")
+        loaded = json.load(open(prefix + ".json", encoding="utf-8"))[0]
+        equal("JSON keeps the site's bytes", loaded["title"], "=HYPERLINK(\"http://x\")")
+        meta = json.load(open(prefix + ".meta.json", encoding="utf-8"))
+        equal("the caller's extra wins a collision with the housekeeping count",
+              meta["csv_cells_escaped"], "site fact wins")
+        O.finish_run([row], prefix, "both", False, blocked=False,
+                     stop_reason="completed", pages_requested=1,
+                     pages_completed=1, start_url="u", final_url="u", mode="hotels")
+        meta = json.load(open(prefix + ".meta.json", encoding="utf-8"))
+        equal("the sidecar counts the escaped cells", meta.get("csv_cells_escaped"), 4)
+
+
+# ---------------------------------------------------------------------------
+# Paid solves: one allowance per page, whatever lands again
+# ---------------------------------------------------------------------------
+
+class _SolvingOps(_FakeOps):
+    """A landing that stays a captcha, and a solver that always 'succeeds'."""
+
+    def solve_captcha(self):
+        self.solves += 1
+        if self.solves > 20:
+            # A loop with no allowance at all would never end; fail loudly.
+            raise RuntimeError("the solver was asked %d times for one run"
+                               % self.solves)
+        return True
+
+
+CAPTCHA_LANDING = ('<html><head><script src="https://www.google.com/recaptcha/'
+                   'api.js"></script></head><body></body></html>')
+
+
+def _solve_count(query=None, **extra):
+    import page_flow
+    with tempfile.TemporaryDirectory() as tmp:
+        args = types.SimpleNamespace(
+            pages=1, retries=3, retry_delay=0, delay=0, proxy_block_retries=2,
+            out=os.path.join(tmp, "out"), format="json", allow_empty=False,
+            dump_html=None, url=None, cdp_endpoint=None, concurrency=1)
+        for k, v in extra.items():
+            setattr(args, k, v)
+        ops = _SolvingOps({}, landing=CAPTCHA_LANDING)
+        rc = page_flow.run_pages(lambda: ops, lambda o: None, args, None,
+                                 query or _q())
+    return rc, ops.solves
+
+
+def check_one_page_buys_at_most_one_solve():
+    import page_flow
+    from product_parser import Query
+    equal("the planted landing really classifies as a captcha (not vacuous)",
+          page_flow.classify(CAPTCHA_LANDING, 200, page_flow.ORIGIN_URL), "challenge")
+    rc, solves = _solve_count()
+    equal("a page whose captcha survives the token: exit 3", rc, 3)
+    equal("...and ONE solve bought across every relaunch, not one per landing",
+          solves, page_flow.SOLVES_PER_PAGE)
+    q = Query(city="Goa", checkin=date(2026, 10, 15), checkout=date(2026, 10, 16))
+    rc, solves = _solve_count(query=q)
+    equal("a run by city NAME: the lookup spends page 1's allowance", solves,
+          page_flow.SOLVES_PER_PAGE)
+
+
+# ---------------------------------------------------------------------------
+# A served page whose properties the parser loses is a failure
+# ---------------------------------------------------------------------------
+
+def _renamed_ids(name):
+    """A real page with every hotel's `id` renamed: the site's shape moving."""
+    data = copy.deepcopy(FIXTURES[name])
+    for section in data["response"]["personalizedSections"]:
+        for hotel in section.get("hotels") or []:
+            hotel["hotelIdRenamed"] = hotel.pop("id")
+    return json.dumps(data)
+
+
+def check_a_served_page_that_parses_to_nothing_is_a_parser_failure():
+    import product_parser as P
+    broken = _renamed_ids("search_goa_p1")
+    check("the broken page still states its properties (not vacuous)",
+          P.count_rows(broken) > 0 and P.detect_page_state(broken, 200) == "content")
+    equal("...and parses to nothing", len(P.parse_page(broken, _q(), 1)), 0)
+    rc, meta, rows, ops = _run({1: [(200, broken)]}, pages=1)
+    equal("page 1 served and lost: exit 5, not 4 (an empty listing)", rc, 5)
+    rc, meta, rows, ops = _run({1: [(200, broken)]}, pages=3)
+    equal("...also at --pages 3", rc, 5)
+    rc, meta, rows, ops = _run({1: [(200, fx("search_goa_p1"))],
+                                2: [(200, _renamed_ids("search_goa_p2"))]}, pages=3)
+    equal("page 2 lost after a good page 1: exit 6, not a complete run", rc, 6)
+    equal("...partial, named, with the page listed",
+          (meta["status"], meta["stop_reason"], meta["pages_failed"]),
+          ("partial", "parser_found_nothing", [2]))
+    rc, meta, rows, ops = _run({1: [(200, fx("search_no_hotels"))]})
+    equal("'No Hotels Found' is still exit 4", rc, 4)
+
+
+# ---------------------------------------------------------------------------
+# Flags: .env defaults, and values that cannot be meant
+# ---------------------------------------------------------------------------
+
+def _parse_cli(argv, env=None):
+    """add_arguments -> parse_args -> typed_url -> env_config.apply ->
+    build_query, exactly as every engine's parse_args does it."""
+    import env_config
+    import page_flow
+    p = argparse.ArgumentParser()
+    page_flow.add_arguments(p)
+    saved = {k: os.environ.get(k) for k in env_config.ENV_KEYS}
+    try:
+        for k in env_config.ENV_KEYS:
+            os.environ.pop(k, None)
+        os.environ.update(env or {})
+        try:
+            args = p.parse_args(argv)
+            args.typed_url = args.url
+            env_config.apply(args, quiet=True)
+            return page_flow.build_query(args, p.error), None
+        except SystemExit as e:
+            return None, e.code
+    finally:
+        for k, v in saved.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+
+
+def check_an_env_url_does_not_veto_typed_query_flags():
+    import io
+    import contextlib
+    text = open(os.path.join(HERE, ".env.example"), encoding="utf-8").read()
+    found = re.search(r"^# ?MAKEMYTRIP_URL=(.*)$", text, re.M)
+    check(".env.example carries a MAKEMYTRIP_URL example", found is not None)
+    example = found.group(1).strip() if found else (
+        "https://www.makemytrip.com/hotels/hotel-listing/?checkin=11102026"
+        "&checkout=11112026&city=CTGOI&locusId=CTGOI&locusType=city"
+        "&country=IN&roomStayQualifier=2e0e")
+    env = {"MAKEMYTRIP_URL": example}
+    with contextlib.redirect_stderr(io.StringIO()):
+        q, code = _parse_cli(["--city", "Goa"], env)
+        check("MAKEMYTRIP_URL in .env, then the README's `--city Goa`: a query",
+              q is not None and q.city == "Goa", "exit %r" % code)
+        q, code = _parse_cli([], env)
+        check("...and with no flags the .env URL is the default",
+              q is not None and q.city_code == "CTGOI", "exit %r" % code)
+        q, code = _parse_cli(["--url", example, "--city", "Goa"])
+        equal("a TYPED --url with --city is still refused", code, 2)
+
+
+def check_negative_counts_and_delays_are_usage_errors():
+    import io
+    import contextlib
+    for argv in (["--delay", "-1"], ["--retry-delay", "-0.5"],
+                 ["--proxy-block-retries", "-1"], ["--retries", "0"],
+                 ["--pages", "0"]):
+        err = io.StringIO()
+        with contextlib.redirect_stderr(err):
+            q, code = _parse_cli(["--city", "CTGOI"] + argv)
+        check("%s %s is exit 2, naming the flag" % tuple(argv),
+              code == 2 and argv[0] in err.getvalue(), err.getvalue()[-160:])
+    q, code = _parse_cli(["--city", "CTGOI", "--delay", "0", "--proxy-block-retries", "0"])
+    check("0 is still a legal delay and block-retry count", q is not None, "exit %r" % code)
+
+
+# ---------------------------------------------------------------------------
+# Shipped files cite nothing a reader cannot open
+# ---------------------------------------------------------------------------
+
+# Assembled from pieces so this file does not match itself.
+PRIVATE_CITATIONS = re.compile(
+    "|".join([re.escape("CLAUDE" + ".md"), re.escape("claude" + "_2scraper"),
+              re.escape("2scraper" + "_repo_rules"), "§" + r"\s*\d",
+              r"\b[Pp]lay" + r"book\b", "family" + " note"]))
+
+
+def check_no_private_citations_in_shipped_files():
+    """Comments, docs and the CHANGELOG state their rules in this repo's own
+    words. A pointer into notes the public cannot open reads as a reference
+    nobody can follow."""
+    import subprocess
+    try:
+        listed = subprocess.run(["git", "ls-files"], cwd=HERE, capture_output=True,
+                                text=True, check=True).stdout.split()
+    except (OSError, subprocess.CalledProcessError):
+        listed = [os.path.relpath(os.path.join(d, f), HERE)
+                  for d, _, fs in os.walk(HERE) if "/." not in d + "/"
+                  for f in fs]
+    hits, scanned = [], 0
+    for rel in listed:
+        path = os.path.join(HERE, rel)
+        if not os.path.isfile(path) or rel.endswith((".png", ".jpg", ".gz")):
+            continue
+        try:
+            text = open(path, encoding="utf-8").read()
+        except UnicodeDecodeError:
+            continue
+        scanned += 1
+        for n, line in enumerate(text.splitlines(), 1):
+            if PRIVATE_CITATIONS.search(line.replace("CLAUDE_CODE", "")):
+                hits.append("%s:%d" % (rel, n))
+    check("the citation scan read the repo (not vacuous)", scanned >= 20, str(scanned))
+    check("no shipped file cites private notes", not hits, ", ".join(hits[:10]))
 
 
 CHECKS = [v for k, v in sorted(globals().items()) if k.startswith("check_")]

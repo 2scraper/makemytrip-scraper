@@ -1,6 +1,7 @@
 .git/
 .github/
 .env
+.env.*
 *.log
 *.key
 secrets*
@@ -11,7 +12,9 @@ __pycache__/
 .venv/
 venv/
 env/
-binance_rows.*
+makemytrip_hotels.*
+canary*.json
+*.page[0-9]*
 *_debug.html
 *_debug.png
 live_results/

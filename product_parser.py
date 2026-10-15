@@ -1,7 +1,7 @@
 """
 product_parser.py
 -----------------
-Everything this repo knows about makemytrip.com lives here (CLAUDE.md §1).
+Everything this repo knows about makemytrip.com lives here.
 
 One mode, the front end's own listing API
 -----------------------------------------
@@ -39,7 +39,7 @@ the front end's header set it returned 170 KB).
 No captcha was met anywhere on this site
 ----------------------------------------
 Every served page was counted for captcha markers after removing what the
-Scraping Browser's auto-solve extension injects (§24): 0 reCAPTCHA, 0
+Scraping Browser's auto-solve extension injects: 0 reCAPTCHA, 0
 hCaptcha, 0 Turnstile, 0 sitekeys, 0 GeeTest. Akamai refuses by dropping the
 connection or by its 400-byte "Access Denied" page, and neither carries a
 widget. So the solver path is the family's broad DETECTION, kept as
@@ -332,7 +332,7 @@ class Cursor:
     The listing is not addressed by page number. Each response names the
     last hotel it returned and a window marker, and the next request sends
     both back with a running count. So page N cannot be fetched before page
-    N-1 (§7, §18), and --concurrency is refused.
+    N-1, and --concurrency is refused.
     """
     last_hotel_id: str = ""
     window: str = ""
@@ -513,10 +513,10 @@ def query_from_url(url: str) -> Tuple[Optional[Query], Optional[str]]:
 # bytes, titled "Access Denied", with a reference id and a link to
 # errors.edgesuite.net. Raw bytes entity-escape the punctuation
 # (`errors&#46;edgesuite&#46;net`) while a browser's DOM spells it plainly,
-# so markers are matched after html.unescape over a bounded prefix (§20).
+# so markers are matched after html.unescape over a bounded prefix.
 AKAMAI_DENY_MARKERS = ("errors.edgesuite.net", "You don't have permission to access")
 # The reference id's own shape, whitespace-tolerant: Akamai has been seen to
-# write it with two spaces on a sibling site (§24).
+# write it with two spaces on a sibling site.
 _AKAMAI_REF_RE = re.compile(r"Reference\s+#\s*\d+\.[0-9a-f]+\.\d+\.[0-9a-f]+")
 
 # A page the site actually SERVED is built from its own assets. Counted
@@ -525,7 +525,7 @@ _AKAMAI_REF_RE = re.compile(r"Reference\s+#\s*\d+\.[0-9a-f]+\.\d+\.[0-9a-f]+")
 # Chromium's own error page reference it 0 times. So a served page is
 # positively identified rather than inferred from the absence of a marker,
 # which also catches Chromium's network-error page wearing the site's
-# hostname (§18).
+# hostname.
 OWN_ASSET_MARKER = "mmtcdn.com"
 OWN_ASSET_MIN = 3
 
@@ -535,7 +535,7 @@ OWN_ASSET_MIN = 3
 # Browser: 0 of each. The bare words `captcha`, `recaptcha` and
 # `cf-turnstile` are NOT markers: the Scraping Browser's auto-solve
 # extension injects 16 hunter scripts that say them 21, 2 and 1 times on
-# every page it loads (§24), and none of them loads one of these paths.
+# every page it loads, and none of them loads one of these paths.
 CAPTCHA_WIDGET_MARKERS = ("recaptcha/api.js", "recaptcha/enterprise.js",
                           "recaptcha/api2/anchor", "hcaptcha.com/1/api.js",
                           "challenges.cloudflare.com/turnstile")
@@ -611,7 +611,7 @@ def detect_page_state(text: Optional[str], status: Optional[int] = None,
         throttled  429
         unknown    anything else
 
-    Signals are ordered by what they PROVE (§17): the API's own envelope
+    Signals are ordered by what they PROVE: the API's own envelope
     first, since no interstitial carries it; then Akamai's page; then the
     status; the asset count last. `waf_action` is accepted for the family's
     call signature and unused: this site's refusals carry no WAF header.
@@ -629,7 +629,7 @@ def detect_page_state(text: Optional[str], status: Optional[int] = None,
     if own_assets < OWN_ASSET_MIN and any(m in (text or "") for m in CAPTCHA_WIDGET_MARKERS):
         # A widget on a page the site did not otherwise serve. On a SERVED
         # page a widget guards nothing this repo reads (a login form, say),
-        # and solving it would be paying for nothing (§8).
+        # and solving it would be paying for nothing.
         return "challenge"
     if status == 403:
         return "blocked"
@@ -843,7 +843,7 @@ def parse_page(payload: Any, query: Query, page: int = 1) -> List[Hotel]:
 
     `position` counts the rows EMITTED on this page, not the slots in the
     payload, so a record the parser drops cannot shift every later
-    position (§24).
+    position.
     """
     p = _as_dict(payload)
     currency = currency_of(p)

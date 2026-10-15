@@ -3,7 +3,7 @@
 
 A separate script rather than a heredoc in canary.yml, and it reads only the
 run's own output files: a workflow that imports the repo's modules inline is
-red on the first push and invisible to every local run (CLAUDE.md §26).
+red on the first push and invisible to every local run.
 
 The thresholds are measured: a three-page Goa run through the Scraping
 Browser returned 90 rows, 90 priced, all in INR, all RECOMMENDED_HOTELS, on

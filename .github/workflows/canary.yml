@@ -4,21 +4,26 @@
 # Two jobs, because the site has two answers and both are claims the README
 # makes:
 #
-#   datacentre        no secrets, daily. A GitHub runner is a datacentre
-#                     address, and from one (a netcup VPS, 2026-09-24) Akamai
-#                     refused every client, real Chromium included, by
-#                     dropping the connection. The job asserts the engine
-#                     REPORTS that correctly: exit 3, a refusal, never 1, 4
-#                     or 5. If the runner is served instead (exit 0), the
-#                     rows are checked as strictly as the other job's, and
-#                     the README's datacentre sentence is due a re-measure.
+#   datacentre        DATACENTRE REFUSAL EXPECTED. No secrets, daily. A
+#                     GitHub runner is a datacentre address, and from one
+#                     (a netcup VPS, 2026-09-24, and every scheduled run of
+#                     this job since) Akamai refused every client, real
+#                     Chromium included, by dropping the connection. The job
+#                     asserts the engine REPORTS that correctly: exit 3, a
+#                     refusal, never 1, 4 or 5. If the runner is served
+#                     instead (exit 0), the rows are checked as strictly as
+#                     the other job's, and the README's datacentre sentence
+#                     is due a re-measure. This job does NOT test extraction;
+#                     the next one does.
 #
-#   scraping-browser  the path measured to work: a Scraping Browser profile
-#                     with an Indian exit. Dispatch-only, not scheduled: a
-#                     profile's credentials last about a day, so a scheduled
-#                     job would be red every morning for a secret that had
-#                     expired, not for the site (CLAUDE.md §19). SKIPS with a
-#                     notice when the secret is not set (§11).
+#   scraping-browser  the path measured to work, and the one that reads real
+#                     rows: a Scraping Browser profile with an Indian exit,
+#                     on the same schedule. It FAILS, with an error naming
+#                     the secret, when MAKEMYTRIP_CDP_ENDPOINT is not set,
+#                     and it fails on a refusal, on "never obtained" (a 401
+#                     is a refused endpoint: set a fresh secret) and on too
+#                     few rows. A green canary therefore means a real
+#                     three-page listing was read and parsed.
 #
 #     gh secret set MAKEMYTRIP_CDP_ENDPOINT --repo 2scraper/makemytrip-scraper
 #     gh workflow run canary.yml --repo 2scraper/makemytrip-scraper
@@ -90,29 +95,26 @@ jobs:
           if-no-files-found: ignore
 
   scraping-browser:
-    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
       MAKEMYTRIP_CDP_ENDPOINT: ${{ secrets.MAKEMYTRIP_CDP_ENDPOINT }}
     steps:
-      - name: Skip without a Scraping Browser endpoint
+      - name: Require a Scraping Browser endpoint
         if: env.MAKEMYTRIP_CDP_ENDPOINT == ''
-        run: echo "::notice::MAKEMYTRIP_CDP_ENDPOINT is not set, so the Scraping Browser run is skipped. It is the one path measured to get past Akamai from a datacentre; set the secret (a profile with country-in) and dispatch again."
+        run: |
+          echo "::error::The MAKEMYTRIP_CDP_ENDPOINT secret is not set, so nothing tested the site. It is the one path measured to get past Akamai from a datacentre; set it to a Scraping Browser endpoint with country-in in the login."
+          exit 1
       - uses: actions/checkout@v4
-        if: env.MAKEMYTRIP_CDP_ENDPOINT != ''
       - uses: actions/setup-python@v5
-        if: env.MAKEMYTRIP_CDP_ENDPOINT != ''
         with:
           python-version: "3.12"
       - name: Install
-        if: env.MAKEMYTRIP_CDP_ENDPOINT != ''
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt -r requirements-playwright.txt
-      # >= 3 pages, because with one page pagination is never exercised (§11).
+      # >= 3 pages, because with one page pagination is never exercised.
       - name: Run
-        if: env.MAKEMYTRIP_CDP_ENDPOINT != ''
         id: run
         run: |
           set +e
@@ -120,21 +122,21 @@ jobs:
             --out canary --format both --dump-html canary_dump.json
           echo "exit_code=$?" >> "$GITHUB_OUTPUT"
       - name: Interpret
-        if: env.MAKEMYTRIP_CDP_ENDPOINT != ''
         run: |
           code="${{ steps.run.outputs.exit_code }}"
           echo "exit code: $code"
           case "$code" in
             0) ;;
             3) echo "::error::Refused through the Scraping Browser. That is the README's central claim failing; see the log for which refusal."; exit 1 ;;
-            5) echo "::error::Never obtained. A 401 in the log means the profile's credentials expired (they last about a day): set a fresh secret."; exit 1 ;;
+            4) echo "::error::Zero rows, reported as an EMPTY listing. Goa is never empty."; exit 1 ;;
+            5) echo "::error::Never obtained, or served and not parsed (see stop_reason in the log). A 401 in the log means the endpoint's credentials were refused: set a fresh MAKEMYTRIP_CDP_ENDPOINT secret."; exit 1 ;;
+            6) echo "::error::A partial run: a page failed after rows were gathered. See stop_reason in the log."; exit 1 ;;
             *) echo "::error::Exit $code."; exit 1 ;;
           esac
       - name: Assert
-        if: env.MAKEMYTRIP_CDP_ENDPOINT != ''
         run: python .github/canary_assert.py canary 60
       - uses: actions/upload-artifact@v4
-        if: always() && env.MAKEMYTRIP_CDP_ENDPOINT != ''
+        if: always()
         with:
           name: canary-scraping-browser
           path: |

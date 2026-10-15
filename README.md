@@ -187,9 +187,9 @@ One key, four separately-billed products ([2captcha.com](https://2captcha.com)):
 
 * **The Scraping Browser API** (`--cdp-endpoint`, `MAKEMYTRIP_CDP_ENDPOINT`)
   is what makes this repo work from a datacentre: a remote browser with an
-  Indian exit. One live connection per `pid`. A profile's credentials last
-  about a day; an expired one answers HTTP 401, which the engines report as
-  exit 5 naming the expiry.
+  Indian exit. One live connection per `pid`. A profile whose credentials
+  are refused (expired, revoked or mistyped) answers HTTP 401, which the
+  engines report as exit 5 naming the status.
 * **The Scraper API** (`scraper_api_client.py`) works here only routed
   through such a session, and then reads five properties per listing.
 * **Captcha solving**: no captcha was met on this site. The family's
@@ -254,9 +254,11 @@ no city.
 
 The [canary](.github/workflows/canary.yml) runs twice over. Daily, with no
 secrets, from a GitHub runner: a datacentre, so it asserts the refusal is
-REPORTED as one (exit 3, never a crash or an "empty listing"). On dispatch,
-through a Scraping Browser profile: a real 3-page Goa scrape, checked for
-prices, currency, duplicates and zero ratings.
+REPORTED as one (exit 3, never a crash or an "empty listing"); that job
+tests the refusal path, not extraction. On the same schedule, through a
+Scraping Browser profile: a real 3-page Goa scrape, checked for prices,
+currency, duplicates and zero ratings. That job fails when its secret is
+missing or refused, so the badge is green only when real rows were read.
 
 ---
 
