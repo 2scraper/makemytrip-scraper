@@ -9,22 +9,80 @@ said so at the top of its release notes.
 
 ## [Unreleased]
 
-> **Behaviour change:** `--retries 0` is now a usage error (exit 2). It used
-> to be accepted and made the page-load loop unreachable, so nothing was
-> fetched and the engine reported the browser's own blank page as a result:
-> exit 3 or 4 with a 39-byte "capture", in tens of milliseconds. If a
-> script of yours passes 0, pass **1**: the flag counts ATTEMPTS, so 1 means
-> "try once and do not retry".
+> **Behaviour changes.**
+>
+> * `--retries 0` is now a usage error (exit 2). It used to be accepted, and
+>   the page loop (`while attempt < args.retries`, after the landing) then
+>   never sent the listing request: the run fetched no page and ended with
+>   no rows. If a script of yours passes 0, pass **1**: the flag counts
+>   ATTEMPTS, so 1 means "try once and do not retry".
+> * A page the site SERVED with properties in it that parses to no rows is
+>   now a failed page, `stop_reason: parser_found_nothing`: exit 5 when
+>   nothing was gathered, exit 6 (`partial`) after earlier pages. It used to
+>   be exit 4 ("the listing is empty") on page 1, and a complete run with
+>   exit 0 ("the listing ended") on a later page.
+> * Negative values for `--delay`, `--retry-delay` and
+>   `--proxy-block-retries` are usage errors (exit 2) naming the flag.
+> * Output files (`.json`, `.csv`, `.meta.json`) are written to a temporary
+>   file beside the target and renamed over it. A new file gets the mode
+>   `open()` would have given it (`0o666 & ~umask`); a file that already
+>   exists keeps its own mode.
+> * CSV cells that begin with `=`, `+`, `-`, `@`, a tab, CR or LF get a
+>   leading apostrophe, so a spreadsheet reads them as text. JSON is
+>   unchanged, and the sidecar records `csv_cells_escaped`.
+> * `.env.example` ships `MAKEMYTRIP_URL` commented out, and a URL from the
+>   environment no longer blocks typed query flags.
 
 ### Fixed
 
-- **`--retries 0` fetched nothing and called it a result.** The load loop is
-  `range(1, retries + 1)`, so 0 never runs it and the engine judged
-  `about:blank`. Three third-party audits of this family ran exactly that and
-  reported a working scraper as broken. `--retries` now goes through
-  `page_flow.attempts` in every entry point; a check reads the source of each
-  one and calls the validator, so a new engine declaring the flag with a
-  plain int fails the suite.
+- **`--retries 0` fetched nothing and called it a result.** `--retries` now
+  goes through `page_flow.attempts` in every entry point; a check reads the
+  source of each one and calls the validator, so a new engine declaring the
+  flag with a plain int fails the suite.
+- **A served page whose rows the parser lost read as an empty or a finished
+  listing.** With every hotel's `id` renamed in a real Goa capture, the page
+  still classified as content holding 4 properties and parsed to 0 rows;
+  `--pages 1` exited 4, and a good page 1 followed by such a page 2 exited 0
+  with `status: complete`. Both are now parser failures (see above), and the
+  response is saved as `<out>_pageN_debug.html` for the issue.
+- **The README's first run failed after `cp .env.example .env`.** The
+  example shipped a real `MAKEMYTRIP_URL`, the engines applied `.env` before
+  checking for a `--url`/`--city` conflict, and `--city Goa` exited 2 with
+  "--url already carries the query". The line is now commented out, each
+  engine records whether `--url` was typed before `.env` is applied, and an
+  environment URL gives way to typed query flags. A typed `--url` with
+  `--city` is still refused.
+- **One page could buy three captcha solves, and a run by city name five,**
+  against `SOLVES_PER_PAGE = 1`: the allowance restarted on every landing,
+  and a refused page lands again after each relaunch. Measured with the
+  solver stubbed; real spend also needs `TWOCAPTCHA_KEY` and a captcha this
+  site has not been seen to serve. Every landing for a page now spends one
+  `page_flow.SolveBudget`, checked before each purchase and never reset by a
+  retry or a rotation, and the city lookup spends page 1's.
+- **A write that failed halfway destroyed the previous good output.** A
+  failure injected inside `json.dump` left `out.json` and `out.meta.json`
+  as 10-byte fragments of invalid JSON. Writes are now atomic per file.
+- **Formula-shaped text from listings reached CSV cells unescaped** (see
+  above).
+- **A CDP 401 was always explained as credentials that "last about a
+  day".** That lifetime was not measured and is not a constant. The message,
+  README, TROUBLESHOOTING, `.env.example`, the bug template and the canary
+  now say the endpoint's credentials were refused (expired, revoked or
+  mistyped).
+- `.dockerignore` named another repo's output prefix; it now lists this
+  repo's (`makemytrip_hotels.*`), `.env.*`, canary outputs and `.pageN`
+  dumps.
+
+### Changed
+
+- **The canary's Scraping Browser job runs on the schedule** instead of on
+  dispatch only, and FAILS with an error naming `MAKEMYTRIP_CDP_ENDPOINT`
+  when that secret is missing, instead of skipping green. The datacentre
+  job still expects Akamai's refusal (exit 3) and says it does not test
+  extraction; the Scraping Browser job is the one that requires real rows.
+- Comments, docs and the suite state their reasons in this repo's own words
+  instead of pointing at section numbers in notes the public cannot read. A
+  suite check keeps it that way.
 
 ## [0.1.1] — 2026-09-25
 
