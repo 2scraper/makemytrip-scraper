@@ -83,6 +83,19 @@ said so at the top of its release notes.
 - Comments, docs and the suite state their reasons in this repo's own words
   instead of pointing at section numbers in notes the public cannot read. A
   suite check keeps it that way.
+- The README's `engines` badge no longer lists the three engines as equals:
+  it says pyppeteer is measured over CDP and Selenium locally only, which is
+  what the engine table below it already said.
+- The README dates the last live checks beside the measurements table.
+
+### Added
+
+- `.github/env_report.py`, run by both canary jobs before the scrape: it
+  prints the Python, TLS library, driver and (for the local-browser job)
+  Chromium versions, and the kind of endpoint, never the endpoint. A red
+  canary then says from its own log whether the site or the runner moved.
+  Prompted by a third-party audit that met a TLS-library warning on an
+  older Python and could not tell it from the block.
 
 ## [0.1.1] — 2026-09-25
 
