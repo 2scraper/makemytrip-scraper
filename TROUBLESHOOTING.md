@@ -55,9 +55,10 @@ an earlier good file is left alone; `--allow-empty` writes the empty file.
   same request would be rejected again, so it is not retried. If the query
   looks right, the API changed: open a "Site changed" issue with
   `--dump-html` output.
-* **"HTTP 401: the endpoint's credentials were refused"** — the Scraping
-  Browser profile has expired. Its credentials last about a day; get a
-  fresh endpoint from your 2Captcha dashboard.
+* **"HTTP 401: the endpoint's credentials were refused"** — the service
+  refused the login in the endpoint: expired, revoked or mistyped. How long
+  a profile's credentials live varies, so copy the endpoint again from your
+  2Captcha dashboard.
 * **HTTP 500 / `profile_locked`** — another run still holds this `pid`. A
   profile allows one live connection; wait for the other run, or use a
   different pid.

@@ -68,7 +68,7 @@ logger = logging.getLogger("playwright_scraper")
 
 
 # Chromium's own names for a proxy that could not be used. Distinguished
-# from a timeout because the two want opposite responses (CLAUDE.md §8).
+# from a timeout because the two want opposite responses.
 _PROXY_ERROR_MARKERS = (
     "ERR_PROXY_CONNECTION_FAILED",
     "ERR_TUNNEL_CONNECTION_FAILED",
@@ -82,11 +82,11 @@ _PROXY_ERROR_MARKERS = (
 
 # The fetch() every page goes through. It is handed to `page.evaluate` as a
 # FUNCTION, which Playwright sends through `Runtime.callFunctionOn` rather
-# than evaluating a string, so it works under any Content-Security-Policy
-# (§18). `credentials: "include"` sends the cookies Akamai's sensor set on
+# than evaluating a string, so it works under any Content-Security-Policy.
+# `credentials: "include"` sends the cookies Akamai's sensor set on
 # the landing, as the site's own front end does. The AbortController is the
-# timeout: a browser fetch() has none of its own, and §8 requires every
-# remote call to be bounded.
+# timeout: a browser fetch() has none of its own, and every remote call
+# here has to be bounded.
 FETCH_JS = """
 async ([url, method, body, headers, timeoutMs]) => {
   const ctl = new AbortController();
@@ -109,7 +109,7 @@ async ([url, method, body, headers, timeoutMs]) => {
 
 
 def _chrome_ua(chromium_version: str) -> str:
-    """A desktop-Chrome UA naming the browser's OWN real version (§8)."""
+    """A desktop-Chrome UA naming the browser's OWN real version."""
     return (f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
             f"(KHTML, like Gecko) Chrome/{chromium_version} Safari/537.36")
 
@@ -128,7 +128,7 @@ def _launch_local(pw, args, pool):
 
     A proxy rotation tears the whole browser down and calls this again:
     cookies a bot manager issued against one exit, replayed from another,
-    are a stronger signal than either address alone (§8).
+    are a stronger signal than either address alone.
     """
     launch_kwargs = {"headless": args.headless}
     proxy = to_playwright(pool.current) if pool else None
@@ -263,7 +263,7 @@ def _connect_remote(pw, args):
             break
     if browser is None:
         # The endpoint carries a password, and Playwright repeats it five
-        # times in its error text (§8). Rewritten with it masked, keeping
+        # times in its error text. Rewritten with it masked, keeping
         # host and port, which are the useful half.
         raise PWError(
             f"could not connect to --cdp-endpoint "
@@ -292,7 +292,7 @@ def _connect_remote(pw, args):
 
 # Every `scheme://user:pass@` in a string, however many times it occurs.
 # Matching GLOBALLY is the point: a Playwright connection error repeats the
-# endpoint five times (§8).
+# endpoint five times.
 _CREDENTIALS_IN_URL_RE = re.compile(r"([a-z][a-z0-9+.\-]*://)[^\s/@]+:[^\s/@]+@",
                                     re.IGNORECASE)
 
@@ -311,11 +311,11 @@ def handle_captcha_if_present(page, args) -> bool:
     site, so this path has never run against it; it is the family's broad
     detection kept as insurance. The static-HTML and live-page detectors are
     reconciled rather than short-circuited, because they can disagree about
-    the variant and the parameters for one are rejected for the other (§8).
+    the variant and the parameters for one are rejected for the other.
 
     This repo implements reCAPTCHA v2 and v3 here. Should the site ever
     render another kind, 2Captcha has task types for it and this client
-    would need the matching one added: a TODO, not a limit (§19).
+    would need the matching one added: a TODO, not a limit.
     """
     try:
         html = page.content()
@@ -340,7 +340,7 @@ def handle_captcha_if_present(page, args) -> bool:
         token = solve_recaptcha(challenge, args.twocaptcha_key,
                                 api_version=args.captcha_api,
                                 min_score=args.min_score)
-    except Exception as e:  # noqa: BLE001 — a solver error is a warning (§8)
+    except Exception as e:  # noqa: BLE001 — a solver error is a warning
         logger.error("Solving the captcha failed (%s) — continuing.",
                      _mask_credentials(str(e)))
         return False
@@ -370,6 +370,9 @@ def parse_args(argv=None):
         description="makemytrip.com hotel listing scraper (Playwright edition)")
     page_flow.add_arguments(p, engine="playwright")
     args = p.parse_args(argv)
+    # Before env_config fills anything in: a URL from .env is a default,
+    # and must not be mistaken for one the user typed.
+    args.typed_url = args.url
     env_config.apply(args)
     if args.category is not None:
         p.error("--category: this site has no category to pick; pass --city.")

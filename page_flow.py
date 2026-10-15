@@ -2,7 +2,7 @@
 page_flow.py
 ------------
 The retry / solve / blocked decision, as DATA rather than as three copies of
-an if-chain (CLAUDE.md §1), and the one fetch loop all three engines share.
+an if-chain, and the one fetch loop all three engines share.
 
 makemytrip.com answers one of this repo's requests in seven ways, and they
 want five different responses:
@@ -19,8 +19,8 @@ want five different responses:
     429                                              -> wait, same exit
     anything else                                    -> retry
 
-Nothing here imports a browser, and **no JavaScript crosses this boundary**
-(§1). Each engine spells its fetch() in its own driver's dialect.
+Nothing here imports a browser, and **no JavaScript crosses this boundary**.
+Each engine spells its fetch() in its own driver's dialect.
 """
 
 import logging
@@ -31,7 +31,7 @@ from output_writer import dedupe_by_key, finish_run, SOURCE_DEFAULT
 from proxy_pool import ROTATE_MODES
 from product_parser import (DEFAULT_SORT, MAX_PAGES, ORIGIN_URL, SORTS,
                             Cursor, Query, Room,
-                            api_error, currency_of, default_dates,
+                            api_error, count_rows, currency_of, default_dates,
                             detect_page_state, is_location_code, listing_ended,
                             listing_url, location_of, next_cursor,
                             only_substitutes, parse_date, parse_page,
@@ -48,12 +48,12 @@ log = logging.getLogger("page_flow")
 # How long one fetch() may take before the engine gives up on it. The
 # largest response measured was 374 KB (30 Dubai properties), which arrived
 # in about a second. The bound exists because a browser fetch() has no
-# timeout of its own, and CLAUDE.md §8 requires every remote call to have one.
+# timeout of its own, and every remote call here has to be bounded.
 FETCH_TIMEOUT_MS = 30_000
 
 # How long to wait at the SAME exit after a 429 before trying again. Not
 # observed on this site; the family's answer to a throttle is to slow down
-# rather than to rotate (§24).
+# rather than to rotate.
 THROTTLE_WAIT_S = 10.0
 THROTTLE_RETRIES = 2
 
@@ -68,7 +68,7 @@ def classify(html: Optional[str], status: Optional[int] = None,
     The argument ORDER is the contract: every engine calls
     `classify(html, status, url, waf_action)`. A sibling repo shipped
     `classify(html, url=...)` in two of three engines against a callee that
-    took `status` second, and both crashed on their first fetch (§17).
+    took `status` second, and both crashed on their first fetch.
     `smoke_test.py` binds every engine's call against this signature for
     that reason.
     """
@@ -91,7 +91,7 @@ STATE_POLICY = {
     "challenge":  {"retry": True,  "solve": True,  "blocked": True,  "parse": False},
     # Rate limited: wait at the same exit (THROTTLE_*). NOT counted as
     # blocked, since calling a throttle a block reports exit 3 for a page
-    # that was about to come back (§24). Not observed on this site.
+    # that was about to come back. Not observed on this site.
     "throttled":  {"retry": True,  "solve": False, "blocked": False, "parse": False},
     # Akamai's "Access Denied", or HTTP 403.
     "blocked":    {"retry": True,  "solve": False, "blocked": True,  "parse": False},
@@ -124,7 +124,7 @@ def should_parse(state: str) -> bool:
 
 
 # Whether a blocked page is worth re-fetching at all. CONSULTED by the loop,
-# so setting it False really does stop the retry loop (§17).
+# so setting it False really does stop the retry loop.
 RETRY_ON_BLOCKED = True
 
 # How many times to re-fetch a refused page when there is no proxy pool to
@@ -164,7 +164,7 @@ def is_reset(error_text: Optional[str]) -> bool:
 def concurrency_refusal(concurrency: int) -> Optional[str]:
     """Why --concurrency above 1 is refused, or None when it is 1.
 
-    Refused rather than quietly clamped (§18): page N's request carries a
+    Refused rather than quietly clamped: page N's request carries a
     cursor that only page N-1's response names, so there is nothing a
     second worker could fetch.
     """
@@ -202,6 +202,8 @@ def refusal_advice(state: str) -> str:
 
 def stop_reason_for(outcome) -> str:
     """The run's stop_reason when `outcome` is the page that ended it."""
+    if getattr(outcome, "parse_failed", False):
+        return "parser_found_nothing"
     if getattr(outcome, "rejected", None):
         return "api_rejected"
     if getattr(outcome, "blocked_by", None):
@@ -228,7 +230,7 @@ def build_query(args, error: Callable[[str], None]) -> Query:
     --url and the query flags are two ways to say the same thing. A flag the
     user typed that disagrees with the URL would silently scrape something
     neither of them named, so the combination is refused rather than merged
-    (the family's --country rule, §10). `error` is argparse's `p.error`, so
+    (the family's --country rule). `error` is argparse's `p.error`, so
     a refusal is exit 2 with the usage line, as in every engine. --sort is
     not a query flag in that sense: the site's listing address carries no
     ordering, so it applies to either.
@@ -236,6 +238,18 @@ def build_query(args, error: Callable[[str], None]) -> Query:
     refusal = concurrency_refusal(getattr(args, "concurrency", 1) or 1)
     if refusal:
         error(refusal)
+    # Whether --url was TYPED, recorded by each engine before env_config
+    # filled anything in. After `apply` a URL from MAKEMYTRIP_URL looks the
+    # same as a typed one, and treating it as typed refused `--city Goa` for
+    # everyone with that line in .env: a default must not veto a flag.
+    typed_url = getattr(args, "typed_url", args.url)
+    if args.url and not typed_url:
+        typed_flags = [flag for dest, flag in QUERY_FLAGS
+                       if getattr(args, dest, None) is not None]
+        if typed_flags:
+            log.info("Ignoring MAKEMYTRIP_URL from the environment: %s "
+                     "given on the command line.", ", ".join(typed_flags))
+            args.url = None
     if args.url:
         query, why = query_from_url(args.url)
         if query is None:
@@ -290,7 +304,7 @@ def build_query(args, error: Callable[[str], None]) -> Query:
 
 def add_arguments(p, engine: str = "playwright") -> None:
     """The CLI the three engines share, so their flag sets agree by
-    construction (§17 check #2). An engine adds only what is genuinely its
+    construction. An engine adds only what is genuinely its
     own (pyppeteer's --chromium-path, Selenium's --chromedriver) after
     calling this, and the suite pins those differences."""
     p.add_argument("--mode", choices=["hotels"], default="hotels",
@@ -338,7 +352,7 @@ def add_arguments(p, engine: str = "playwright") -> None:
                    help="Pages to fetch, 30 properties each. The site states "
                         "no total; a run ends early, complete, when it says "
                         "nothing follows.")
-    p.add_argument("--delay", type=float, default=1.0,
+    p.add_argument("--delay", type=non_negative("--delay"), default=1.0,
                    help="Delay between pages, seconds (default %(default)s)")
     p.add_argument("--concurrency", type=int, default=1, metavar="N",
                    help="Kept for the family's contract, and refused above 1: "
@@ -349,7 +363,8 @@ def add_arguments(p, engine: str = "playwright") -> None:
                         "The pause doubles each time. A request the endpoint "
                         "REFUSED is not retried: its parameters would be "
                         "refused again.")
-    p.add_argument("--retry-delay", type=float, default=2.0,
+    p.add_argument("--retry-delay", type=non_negative("--retry-delay"),
+                   default=2.0,
                    help="Seconds before the first retry, doubling thereafter.")
     p.add_argument("--format", choices=["json", "csv", "both"], default="both")
     p.add_argument("--out", default="makemytrip_hotels", help="Output file prefix")
@@ -368,7 +383,8 @@ def add_arguments(p, engine: str = "playwright") -> None:
                         "per-page: a new exit, and a fresh browser, per page.")
     p.add_argument("--proxy-shuffle", action="store_true",
                    help="Shuffle the pool at startup.")
-    p.add_argument("--proxy-block-retries", type=int, default=2,
+    p.add_argument("--proxy-block-retries",
+                   type=non_negative("--proxy-block-retries", int), default=2,
                    help="When a page is refused (Akamai's 403 or a dropped "
                         "connection), retry it from this many OTHER exits "
                         "(default 2). Needs a pool of more than one.")
@@ -433,7 +449,7 @@ def finish(args, query: Query, outcomes: List, stop_reason: str,
     """Merge the pages in PAGE order, write the output, return the exit code.
 
     One implementation for the three engines, so the merge order, the
-    dedupe and the sidecar cannot differ between them (§6).
+    dedupe and the sidecar cannot differ between them.
     """
     rows, seen = [], set()
     for oc in sorted(outcomes, key=lambda o: o.page_num):
@@ -476,7 +492,7 @@ def finish(args, query: Query, outcomes: List, stop_reason: str,
 # failure, waiting out a throttle, re-connecting on a refusal, and parsing
 # what came back. The three engines differ only in HOW they ask their
 # driver, so each passes in an object with these operations and no
-# JavaScript crosses this boundary (§1):
+# JavaScript crosses this boundary:
 #
 #     ops.goto(url)        -> (status, waf_header). Raises TransportError.
 #     ops.document_text()  -> the landing document's markup
@@ -499,7 +515,7 @@ class PageOutcome:
 
     Collected per page and merged afterwards, in page order, rather than
     folded into shared state as the loop goes, so the output cannot depend
-    on the order things finished in (§8).
+    on the order things finished in.
     """
     page_num: int
     url: str
@@ -512,11 +528,16 @@ class PageOutcome:
     cursor: Optional[Cursor] = None
     ended: bool = False
     currency: Optional[str] = None
+    # The site SERVED this page and its payload holds properties, and the
+    # parser turned none of them into rows. That is this repo's bug (or a
+    # payload shape that moved), not an empty listing and not the end of
+    # one, so the page counts as failed.
+    parse_failed: bool = False
 
     @property
     def ok(self) -> bool:
         return (not self.load_failed and self.blocked_by is None
-                and self.rejected is None)
+                and self.rejected is None and not self.parse_failed)
 
 
 # The columns the site filled on EVERY record of every capture (114
@@ -532,14 +553,49 @@ CORE_FIELDS = {
 }
 
 
-def land(ops, args) -> Tuple[str, Optional[str]]:
+class SolveBudget:
+    """The paid-solve allowance for ONE page, shared by every landing on it.
+
+    Created once per page and handed to every `land()` that page makes
+    (and, for page 1, to the city lookup that precedes it). It is checked
+    BEFORE each purchase and is never reset by a transport retry, a
+    block-retry or an exit rotation: a fresh browser or a fresh exit is a
+    reason to fetch again, not a fresh allowance.
+
+    Before this existed the allowance was a loop inside `land()`, so it
+    restarted on every landing. With the solver stubbed to succeed while
+    the page stayed challenged, one page bought 3 solves with no proxy pool,
+    and a run by city NAME bought 5, against SOLVES_PER_PAGE = 1.
+    """
+
+    def __init__(self, limit: int = SOLVES_PER_PAGE):
+        self.limit = limit
+        self.spent = 0
+
+    def spend(self, solve: Callable[[], bool]) -> bool:
+        """Call `solve` if the allowance has room; return what it returned."""
+        if self.spent >= self.limit:
+            log.warning("The captcha came back, and this page's solve "
+                        "allowance (%d) is already spent — not paying for "
+                        "another.", self.limit)
+            return False
+        self.spent += 1
+        return bool(solve())
+
+
+def land(ops, args, budget: Optional[SolveBudget] = None
+         ) -> Tuple[str, Optional[str]]:
     """Put the page on a www.makemytrip.com document that fetch() can use.
 
     Returns (state, error): state is a policy state for the landing, and
     error is a transport failure's text or None. A reset connection is a
     STATE ("reset"), not an error, because it is Akamai's answer rather than
-    a fault on the way to it.
+    a fault on the way to it. Every solve goes through `budget`, the
+    allowance of the page this landing serves; without one, nothing is
+    bought.
     """
+    if budget is None:
+        budget = SolveBudget(limit=0)
     try:
         status, waf = ops.goto(ORIGIN_URL)
     except TransportError as e:
@@ -548,13 +604,10 @@ def land(ops, args) -> Tuple[str, Optional[str]]:
             return "reset", None
         return "load_failed", str(e)
     state = classify(ops.document_text(), status, ORIGIN_URL, waf)
-    if state == "challenge" and should_solve(state):
-        for _ in range(SOLVES_PER_PAGE):
-            if not ops.solve_captcha():
-                break
-            state = classify(ops.document_text(), None, ORIGIN_URL, None)
-            if state != "challenge":
-                break
+    while state == "challenge" and should_solve(state):
+        if not budget.spend(ops.solve_captcha):
+            break
+        state = classify(ops.document_text(), None, ORIGIN_URL, None)
     ops.landed = state == "content"
     return state, None
 
@@ -573,7 +626,7 @@ def _core_field_warnings(rows: List, mode: str, page_num: int) -> None:
 
 
 def _dump(args, page_num: int, text: str) -> None:
-    """Write the exact response the parser was given, on success too (§9)."""
+    """Write the exact response the parser was given, on success too."""
     if not args.dump_html:
         return
     path = args.dump_html if args.pages == 1 else f"{args.dump_html}.page{page_num}"
@@ -592,7 +645,8 @@ def _save_debug(args, page_num: int, text: str) -> str:
 
 def fetch_one_page(ops, args, pool, query: Query, page_num: int,
                    cursor: Optional[Cursor] = None,
-                   mask: Callable[[str], str] = lambda s: s) -> PageOutcome:
+                   mask: Callable[[str], str] = lambda s: s,
+                   budget: Optional[SolveBudget] = None) -> PageOutcome:
     """Fetch and parse one page. Retries, re-connections and dumps live here.
 
     Never raises for an EXPECTED failure. A timeout, a refusal and a dead
@@ -606,6 +660,9 @@ def fetch_one_page(ops, args, pool, query: Query, page_num: int,
         args.proxy_block_retries if has_pool else BLOCK_RETRIES_WITHOUT_POOL)
     throttles = 0
     state, text, last_error, exit_failed = "unknown", "", None, None
+    # One allowance for the whole page, across every landing below.
+    if budget is None:
+        budget = SolveBudget()
 
     for block_attempt in range(block_retries + 1):
         log.info("Fetching page %d/%d: %s", page_num, args.pages, req.label)
@@ -615,7 +672,7 @@ def fetch_one_page(ops, args, pool, query: Query, page_num: int,
             attempt += 1
             text, last_error = "", None
             if not ops.landed:
-                state, last_error = land(ops, args)
+                state, last_error = land(ops, args, budget)
                 if last_error:
                     exit_failed = ops.proxy_failure(last_error) or None
                     if exit_failed:
@@ -634,7 +691,7 @@ def fetch_one_page(ops, args, pool, query: Query, page_num: int,
                     ops.landed = False
             if state == "throttled" and throttles < THROTTLE_RETRIES:
                 throttles += 1
-                attempt -= 1  # a throttle wait spends its own budget (§24)
+                attempt -= 1  # a throttle wait spends its own budget
                 pause = THROTTLE_WAIT_S * throttles
                 log.warning("Rate-limited on page %d (HTTP 429) — waiting "
                             "%.0fs at the same exit (%d/%d).", page_num, pause,
@@ -707,6 +764,20 @@ def fetch_one_page(ops, args, pool, query: Query, page_num: int,
         log.info("The site answered page %d with %s.", page_num, api_error(text))
     rows = parse_page(text, query, page_num)
     outcome.products = rows
+    stated = count_rows(text) if state == "content" else 0
+    if stated and not rows:
+        # The response holds properties and the parser made nothing of them.
+        # Reported as "the listing is empty" (exit 4) or "the listing
+        # ended" (a complete run, exit 0), this sends the reader to check
+        # the city instead of the parser. It is a failed page: exit 5 when
+        # nothing was gathered, exit 6 (partial) after earlier pages.
+        outcome.parse_failed = True
+        debug = _save_debug(args, page_num, text)
+        log.error("Page %d was served with %d propert%s and NONE parsed into "
+                  "a row — the payload shape has moved, or this is a bug. "
+                  "Saved to %s; please open an issue with it.", page_num,
+                  stated, "y" if stated == 1 else "ies", debug)
+        return outcome
     outcome.cursor = next_cursor(text, cursor)
     outcome.ended = listing_ended(text) or (bool(rows) and outcome.cursor is None)
     outcome.currency = currency_of(text)
@@ -741,7 +812,9 @@ def _check_location(text: str, query: Query) -> None:
                     loc["code"], loc["country"], query.country_code)
 
 
-def resolve_city(ops, args, query: Query) -> Tuple[Optional[str], Optional[str]]:
+def resolve_city(ops, args, query: Query,
+                 budget: Optional[SolveBudget] = None
+                 ) -> Tuple[Optional[str], Optional[str]]:
     """Fill in city_code/country_code from a city NAME, via the site's own
     autosuggest. Returns (refusal, blocked_state): a reason the run is
     refused (exit 2), or the refusal STATE that stopped the lookup, which
@@ -757,7 +830,7 @@ def resolve_city(ops, args, query: Query) -> Tuple[Optional[str], Optional[str]]
     last_block = None
     for _ in range(max(1, args.retries) + BLOCK_RETRIES_WITHOUT_POOL):
         if not ops.landed:
-            state, err = land(ops, args)
+            state, err = land(ops, args, budget)
             if not ops.landed:
                 if counts_as_blocked(state):
                     last_block = state
@@ -801,7 +874,10 @@ def run_pages(open_ops, close_ops, args, pool, query: Query,
     blocked, stop_reason = False, "completed"
     ops = open_ops()
     try:
-        refusal, refused_state = resolve_city(ops, args, query)
+        # The lookup is part of getting page 1, so it spends page 1's
+        # allowance: a landing it solved is the landing page 1 then uses.
+        first_budget = SolveBudget()
+        refusal, refused_state = resolve_city(ops, args, query, first_budget)
         if refusal:
             log.error("%s", refusal)
             return 2
@@ -822,7 +898,8 @@ def run_pages(open_ops, close_ops, args, pool, query: Query,
                 if pool and pool.rotates_per_page():
                     pool.advance(f"per-page rotation, page {page_num}")
                     ops.relaunch()
-            outcome = fetch_one_page(ops, args, pool, query, page_num, cursor, mask)
+            outcome = fetch_one_page(ops, args, pool, query, page_num, cursor, mask,
+                                     budget=first_budget if page_num == 1 else None)
             outcomes.append(outcome)
             if not outcome.ok:
                 stop_reason = stop_reason_for(outcome)
@@ -842,18 +919,18 @@ def run_pages(open_ops, close_ops, args, pool, query: Query,
 def cdp_connect_hint(error_text: str) -> str:
     """What a failed --cdp-endpoint connection means, from its status.
 
-    Two answers that want opposite fixes. Measured 2026-09-24 against four
-    Scraping Browser endpoints left in sibling repos' .env files: all four
-    answered 401 Unauthorized, because a profile's credentials last about a
-    day. The message used to explain a 500 (a pid another run still holds)
+    Two answers that want opposite fixes. A 401 is the service refusing the
+    credentials in the endpoint: expired, revoked or mistyped. How long a
+    profile's credentials live is not a constant (one endpoint was measured
+    still working after ten days), so the message does not guess which.
+    The message used to explain a 500 (a pid another run still holds)
     whatever the status was, which sent the reader to wait for a run that
     did not exist.
     """
     if "401" in (error_text or ""):
-        return ("HTTP 401: the endpoint's credentials were refused. A Scraping "
-                "Browser profile's credentials last about a day, so an "
-                "endpoint copied from an older .env has usually expired. "
-                "Get a fresh one from your 2Captcha dashboard.")
+        return ("HTTP 401: the endpoint's credentials were refused, for "
+                "example an expired, revoked or mistyped profile login. "
+                "Copy the endpoint again from your 2Captcha dashboard.")
     return ("A Scraping Browser profile allows ONE live connection at a time, "
             "so an HTTP 500 here usually means another run still holds this "
             "`pid`. Wait for it to finish, or use a different pid.")
@@ -892,26 +969,37 @@ def cdp_should_retry(error_text: str) -> bool:
 import argparse as _argparse  # noqa: E402  (kept beside its only user)
 
 
+def non_negative(flag: str, kind=float):
+    """argparse `type=` for a count or a delay that may be 0 but not less.
+
+    A negative --delay or --retry-delay is not a shorter wait, and a
+    negative --proxy-block-retries makes the page loop run no times at all,
+    so the page is never fetched. Refused with the flag's name instead.
+    """
+    def parse(value):
+        try:
+            number = kind(value)
+        except (TypeError, ValueError):
+            raise _argparse.ArgumentTypeError(
+                f"{flag} must be a number, not {value!r}")
+        if number < 0:
+            raise _argparse.ArgumentTypeError(
+                f"{flag} must be 0 or more, not {value}")
+        return number
+    parse.__name__ = "non_negative"
+    return parse
+
+
 def attempts(value) -> int:
     """argparse `type=` for --retries. Rejects anything below 1.
 
-    WHY THIS IS A USAGE ERROR AND NOT A CLAMP. The page-load loop is
-    `for attempt in range(1, retries + 1)`, so `--retries 0` makes its body
-    unreachable: nothing is fetched, and the engine then judges whatever the
-    browser holds — `about:blank`, 39 bytes of
-    `<html><head></head><body></body></html>` — and reports a block or an
-    empty result in a few dozen milliseconds. That is a confident, fast,
-    plausible answer to a question nobody asked.
-
-    Measured on 2026-10-13 against sleepnumber-scraper, from an address the
-    site genuinely does refuse, so the conclusion even looked right:
-
-        --retries 0   exit 3, 39 bytes, 36 ms    <- never left the process
-        --retries 1   exit 3, 923 bytes, 116 ms  <- the real CloudFront 403
-
-    A network round trip does not finish in 36 ms. Three third-party audits of
-    the 2scraper scrapers have now run `--retries 0`, read that output, and
-    reported a working scraper as broken or a site as unreachable.
+    WHY THIS IS A USAGE ERROR AND NOT A CLAMP. The page loop here is
+    `while attempt < args.retries`, after the landing, so with `--retries 0`
+    the listing request is never sent: the run lands on the site's origin,
+    fetches no page, and ends as "never obtained" (exit 5) with no rows.
+    That is a confident, fast, plausible answer to a question nobody asked,
+    and third-party audits of scrapers built this way have read such output
+    as a broken scraper or an unreachable site.
 
     The flag counts ATTEMPTS, not re-tries, so a caller who writes 0 almost
     certainly means "do not retry", which is 1. Clamping would hide the

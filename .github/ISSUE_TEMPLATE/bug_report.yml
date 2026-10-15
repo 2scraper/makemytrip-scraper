@@ -18,8 +18,9 @@ body:
           was measured to work is the Scraping Browser API with a
           `country-in` profile (`--cdp-endpoint`). Say in the report which
           exit you used and what the sidecar's `stop_reason` was.
-        - **Exit 5 naming HTTP 401?** The Scraping Browser profile expired;
-          its credentials last about a day.
+        - **Exit 5 naming HTTP 401?** The Scraping Browser endpoint's
+          credentials were refused (expired, revoked or mistyped); copy it
+          again from your 2Captcha dashboard.
         - **Exit 4, zero rows?** The site answered "No Hotels Found" for
           that city and those dates. That is a correct answer. See
           [TROUBLESHOOTING.md](../blob/main/TROUBLESHOOTING.md).

@@ -27,7 +27,7 @@ site the first one decides everything:
     accepts no credentials. They are stripped and a warning says so.
   * **Selenium reports no HTTP status, and does not raise on a network
     error.** Chrome renders its own error page instead, carrying the site's
-    hostname as its title (§18). `goto` therefore reads the document for
+    hostname as its title. `goto` therefore reads the document for
     Chrome's error names and raises them, so a connection Akamai dropped is
     reported as the refusal it is (exit 3), exactly as in the twins.
 
@@ -69,7 +69,7 @@ PAGE_LOAD_TIMEOUT = 60
 # script timeout cuts the call off with an exception.
 SCRIPT_TIMEOUT = page_flow.FETCH_TIMEOUT_MS // 1000 + 15
 
-# Chromium's own names for "the proxy is the problem, not the site" (§8).
+# Chromium's own names for "the proxy is the problem, not the site".
 _PROXY_ERROR_MARKERS = (
     "ERR_PROXY_CONNECTION_FAILED", "ERR_TUNNEL_CONNECTION_FAILED",
     "ERR_PROXY_AUTH_UNSUPPORTED", "ERR_PROXY_AUTH_REQUESTED",
@@ -81,7 +81,7 @@ _PROXY_ERROR_MARKERS = (
 # function BODY run by execute_async_script, with the arguments in
 # `arguments` and the result handed to the callback Selenium appends last.
 # Same request, same headers, same return shape, same AbortController
-# timeout (§8).
+# timeout.
 FETCH_JS = """
 var done = arguments[arguments.length - 1];
 var url = arguments[0], method = arguments[1], body = arguments[2];
@@ -105,7 +105,7 @@ fetch(url, init).then(function (r) {
 """
 
 
-# Every `scheme://user:pass@` in a string, however many times it occurs (§8).
+# Every `scheme://user:pass@` in a string, however many times it occurs.
 _CREDENTIALS_IN_URL_RE = re.compile(r"([a-z][a-z0-9+.\-]*://)[^\s/@]+:[^\s/@]+@",
                                     re.IGNORECASE)
 
@@ -116,7 +116,7 @@ def _mask_credentials(text: str) -> str:
 
 
 def _chrome_ua(version: str) -> str:
-    """A desktop-Chrome UA naming the installed Chrome's own version (§8)."""
+    """A desktop-Chrome UA naming the installed Chrome's own version."""
     return (f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
             f"(KHTML, like Gecko) Chrome/{version} Safari/537.36")
 
@@ -151,7 +151,7 @@ class _Ops:
     """One Chrome driver, exposed as page_flow's named operations.
 
     Same contract as playwright_scraper._Ops, including the rule that a
-    rotation means a genuinely FRESH browser (§8).
+    rotation means a genuinely FRESH browser.
     """
 
     def __init__(self, args, pool):
@@ -168,7 +168,7 @@ class _Ops:
             logger.info("Attaching to an existing browser at %s.",
                         options.debugger_address)
             # No UA, no proxy, no fingerprint on this path: the remote browser
-            # brings its own (§8).
+            # brings its own.
             self.driver = webdriver.Chrome(options=options)
             self._apply_timeouts()
             return self
@@ -208,7 +208,7 @@ class _Ops:
 
     def _apply_timeouts(self):
         # Explicit, because a driver that stops answering otherwise hangs
-        # the run (§8).
+        # the run.
         self.driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
         self.driver.set_script_timeout(SCRIPT_TIMEOUT)
 
@@ -325,7 +325,7 @@ def handle_captcha_if_present(ops, args) -> bool:
     url = ops.driver.current_url
     html_challenge = detect_recaptcha_v3(html, url)
     # execute_script takes a function BODY with an explicit return, so the
-    # discovery arrow function is wrapped and invoked (§1).
+    # discovery arrow function is wrapped and invoked.
     runtime_challenge = detect_recaptcha_in_page(
         lambda js: ops.driver.execute_script("return (%s)();" % js), page_url=url)
     challenge = reconcile_detections(html_challenge, runtime_challenge)
@@ -344,7 +344,7 @@ def handle_captcha_if_present(ops, args) -> bool:
         token = solve_recaptcha(challenge, args.twocaptcha_key,
                                 api_version=args.captcha_api,
                                 min_score=args.min_score)
-    except Exception as e:  # noqa: BLE001 — a solver error is a warning (§8)
+    except Exception as e:  # noqa: BLE001 — a solver error is a warning
         logger.error("Solving the captcha failed (%s) — continuing.",
                      _mask_credentials(str(e)))
         return False
@@ -373,6 +373,9 @@ def parse_args(argv=None):
         description="makemytrip.com hotel listing scraper (Selenium edition)")
     page_flow.add_arguments(p, engine="selenium")
     args = p.parse_args(argv)
+    # Before env_config fills anything in: a URL from .env is a default,
+    # and must not be mistaken for one the user typed.
+    args.typed_url = args.url
     env_config.apply(args)
     if args.category is not None:
         p.error("--category: this site has no category to pick; pass --city.")

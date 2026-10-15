@@ -65,8 +65,8 @@ break, and each is loud or guarded:
    behind Akamai Bot Manager, and what was measured to get through
    (2026-09-24) is the Scraping Browser API with a `country-in` profile. If
    that stops being served, the refusal is reported as exit 3 with
-   `blocked_akamai` or `blocked_akamai-reset`, and the dispatch-only canary
-   job says so.
+   `blocked_akamai` or `blocked_akamai-reset`, and the canary's Scraping
+   Browser job goes red.
 
 If you are reporting a break, say which of those four it is, and attach the
 `--dump-html` output: the exact JSON the parser was given, on success as well
@@ -94,12 +94,13 @@ Then the rest of the presentation, in the order that matters:
    both halves. The daily job needs no secrets: it runs from a GitHub runner
    (a datacentre address) and asserts that Akamai's refusal is reported as
    exit 3, not as an empty or a crashed run, and if the runner is ever
-   served it checks the rows strictly instead. The second job is
-   dispatch-only and goes through a Scraping Browser profile (the
-   `MAKEMYTRIP_CDP_ENDPOINT` secret) to check a 3-page Goa run. A profile's
-   credentials last about a day, so refresh the secret before dispatching.
-2. The repo description, homepage and topics set (see the family notes on
-   what those should say).
+   served it checks the rows strictly instead. The second job runs on the
+   same schedule through a Scraping Browser profile (the
+   `MAKEMYTRIP_CDP_ENDPOINT` secret) and checks a 3-page Goa run. It FAILS
+   when the secret is missing or refused (a 401), so a green badge always
+   means real rows were read.
+2. The repo description, homepage and topics set: the words people search
+   for (the site, hotels, scraper, the engines), not a slogan.
 3. Only then the row in the org profile README — and check it with an
    ANONYMOUS request rather than your own logged-in browser. A row pointing
    at a private repo is a 404 for every visitor, which costs more trust than
