@@ -9,6 +9,8 @@ said so at the top of its release notes.
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-10-15
+
 > **Behaviour changes.**
 >
 > * `--retries 0` is now a usage error (exit 2). It used to be accepted, and
