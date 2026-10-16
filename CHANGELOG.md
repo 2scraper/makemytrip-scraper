@@ -11,8 +11,7 @@ said so at the top of its release notes.
 
 ### Changed
 
-- CI only: the canary's paid `scraping-browser` job now runs weekly (Mondays
-  05:50 UTC) and on a manual dispatch; the free `datacentre` job still runs daily.
+- CI only: the whole canary, free and paid jobs alike, now runs weekly (Mondays 05:50 UTC) and on a manual dispatch; the daily schedule is removed.
 
 ## [0.2.0] — 2026-10-15
 

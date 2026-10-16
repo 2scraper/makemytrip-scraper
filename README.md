@@ -260,11 +260,10 @@ site's own end, a refused parameter, each of Akamai's three refusals, a
 landing that timed out, an empty listing, a throttle and a city name that is
 no city.
 
-The [canary](.github/workflows/canary.yml) runs twice over. Daily, with no
+The [canary](.github/workflows/canary.yml) runs twice over, weekly (Mondays). With no
 secrets, from a GitHub runner: a datacentre, so it asserts the refusal is
 REPORTED as one (exit 3, never a crash or an "empty listing"); that job
-tests the refusal path, not extraction. Weekly (Mondays), because each run
-bills a session, through a Scraping Browser profile: a real 3-page Goa scrape, checked for prices,
+tests the refusal path, not extraction. Through a Scraping Browser profile: a real 3-page Goa scrape, checked for prices,
 currency, duplicates and zero ratings. That job fails when its secret is
 missing or refused, so the badge is green only when real rows were read.
 
