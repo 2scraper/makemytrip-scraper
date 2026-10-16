@@ -368,8 +368,10 @@ def check_build_query():
     _, why = _build(url="https://www.makemytrip.com/hotels/hotel-listing/?checkin=10152026"
                         "&checkout=10162026&city=CTGOI", city="Goa")
     check("--url and --city together are refused", why and "--city" in why, why or "")
-    q, why = _build(url="https://www.makemytrip.com/hotels/hotel-listing/?checkin=10152026"
-                        "&checkout=10162026&city=CTGOI", sort="price-asc")
+    # A stay far in the future: a fixed date that has passed is refused
+    # before --sort is looked at.
+    q, why = _build(url="https://www.makemytrip.com/hotels/hotel-listing/?checkin=12012030"
+                        "&checkout=12022030&city=CTGOI", sort="price-asc")
     check("--sort applies to a --url (the address carries no ordering)",
           q is not None and q.sort == "price-asc", why or "")
     _, why = _build()
