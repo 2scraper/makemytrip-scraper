@@ -91,7 +91,7 @@ history needs a decision, not a red check on every push.
 Then the rest of the presentation, in the order that matters:
 
 1. `python3 smoke_test.py` green, and the canary dispatched at least once,
-   both halves. The daily job needs no secrets: it runs from a GitHub runner
+   both halves. The weekly (Monday) `datacentre` job needs no secrets: it runs from a GitHub runner
    (a datacentre address) and asserts that Akamai's refusal is reported as
    exit 3, not as an empty or a crashed run, and if the runner is ever
    served it checks the rows strictly instead. The second job runs on the

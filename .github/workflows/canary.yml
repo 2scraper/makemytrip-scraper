@@ -4,7 +4,7 @@
 # Two jobs, because the site has two answers and both are claims the README
 # makes:
 #
-#   datacentre        DATACENTRE REFUSAL EXPECTED. No secrets, daily. A
+#   datacentre        DATACENTRE REFUSAL EXPECTED. No secrets, weekly. A
 #                     GitHub runner is a datacentre address, and from one
 #                     (a netcup VPS, 2026-09-24, and every scheduled run of
 #                     this job since) Akamai refused every client, real
@@ -18,8 +18,7 @@
 #
 #   scraping-browser  the path measured to work, and the one that reads real
 #                     rows: a Scraping Browser profile with an Indian exit,
-#                     weekly (Mondays) and on dispatch, since every run
-#                     bills a session. It FAILS, with an error naming
+#                     on the same schedule. It FAILS, with an error naming
 #                     the secret, when MAKEMYTRIP_CDP_ENDPOINT is not set,
 #                     and it fails on a refusal, on "never obtained" (a 401
 #                     is a refused endpoint: set a fresh secret) and on too
@@ -39,9 +38,6 @@ name: canary
 on:
   schedule:
     # 05:50 UTC. Not on the hour: every scheduled workflow fires at :00.
-    - cron: "50 5 * * *"
-    # Mondays only: the paid job (scraping-browser) runs on this
-    # schedule (each run bills); the free jobs keep the daily one above.
     - cron: "50 5 * * 1"
   workflow_dispatch:
 
@@ -101,8 +97,6 @@ jobs:
           if-no-files-found: ignore
 
   scraping-browser:
-    # Paid path: weekly schedule or a manual dispatch only.
-    if: github.event_name != 'schedule' || github.event.schedule == '50 5 * * 1'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
