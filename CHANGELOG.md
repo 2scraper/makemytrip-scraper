@@ -9,6 +9,11 @@ said so at the top of its release notes.
 
 ## [Unreleased]
 
+### Changed
+
+- CI only: the canary's paid `scraping-browser` job now runs weekly (Mondays
+  05:50 UTC) and on a manual dispatch; the free `datacentre` job still runs daily.
+
 ## [0.2.0] — 2026-10-15
 
 > **Behaviour changes.**
