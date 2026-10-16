@@ -18,7 +18,8 @@
 #
 #   scraping-browser  the path measured to work, and the one that reads real
 #                     rows: a Scraping Browser profile with an Indian exit,
-#                     on the same schedule. It FAILS, with an error naming
+#                     weekly (Mondays) and on dispatch, since every run
+#                     bills a session. It FAILS, with an error naming
 #                     the secret, when MAKEMYTRIP_CDP_ENDPOINT is not set,
 #                     and it fails on a refusal, on "never obtained" (a 401
 #                     is a refused endpoint: set a fresh secret) and on too
@@ -39,6 +40,9 @@ on:
   schedule:
     # 05:50 UTC. Not on the hour: every scheduled workflow fires at :00.
     - cron: "50 5 * * *"
+    # Mondays only: the paid job (scraping-browser) runs on this
+    # schedule (each run bills); the free jobs keep the daily one above.
+    - cron: "50 5 * * 1"
   workflow_dispatch:
 
 permissions:
@@ -97,6 +101,8 @@ jobs:
           if-no-files-found: ignore
 
   scraping-browser:
+    # Paid path: weekly schedule or a manual dispatch only.
+    if: github.event_name != 'schedule' || github.event.schedule == '50 5 * * 1'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
