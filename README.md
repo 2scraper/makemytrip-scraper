@@ -1,4 +1,4 @@
-# makemytrip-scraper
+# MakeMyTrip Scraper — Hotel Prices and Ratings in Python
 
 [![release](https://img.shields.io/github/v/release/2scraper/makemytrip-scraper)](https://github.com/2scraper/makemytrip-scraper/releases)
 [![tests](https://github.com/2scraper/makemytrip-scraper/actions/workflows/tests.yml/badge.svg)](https://github.com/2scraper/makemytrip-scraper/actions/workflows/tests.yml)
@@ -7,6 +7,8 @@
 [![licence](https://img.shields.io/badge/licence-MIT-green)](LICENSE)
 ![engines](https://img.shields.io/badge/engines-playwright%20%7C%20pyppeteer%20via%20CDP%20%7C%20selenium%20local%20only-lightgrey)
 ![account](https://img.shields.io/badge/makemytrip%20account-not%20needed-brightgreen)
+
+**MakeMyTrip scraper** — an open-source (MIT) Python tool that reads makemytrip.com hotel listings for the city, dates and guests you give it and writes per-night prices with taxes and fees, ratings, stars and locations to JSON or CSV. Measured on 2026-09-24, makemytrip.com served nothing to a datacentre address, and what was measured to work was the Scraping Browser API with an Indian exit (`country-in`). Use it to monitor hotel prices for a stay, or compare two runs of the same query with `diff_runs.py`.
 
 Scrapes [makemytrip.com](https://www.makemytrip.com)'s **hotel listings**
 into JSON and CSV: one row per property on a city's listing, for the dates
@@ -278,3 +280,20 @@ inventory and reads nothing behind a login.
 Rate limits, terms of service and the legality of scraping in your
 jurisdiction are your responsibility as the operator. `--delay` defaults to
 1 second between pages.
+
+## Guides
+
+- [How to run the 2scraper scrapers: setup, proxies, exit codes and access modes](https://2captcha.com/h/how-to-run-2scraper-open-source-scrapers) — installation, `.env`, `.meta.json` for the whole family.
+
+## Related scrapers
+
+Same CLI conventions, same output contract (one row per item, JSON or CSV, a `.meta.json` sidecar and shared exit codes):
+
+- [Skyscanner scraper](https://github.com/2scraper/skyscanner-scraper) — Route and dates in — every itinerary with price, airline…
+- [Spinny scraper](https://github.com/2scraper/spinny-scraper) — Used-car listings and car detail pages
+- [Vrbo scraper](https://github.com/2scraper/vrbo-scraper) — Vacation rental prices, ratings and property details…
+- [Webmotors scraper](https://github.com/2scraper/webmotors-scraper) — Car and motorcycle listings from Brazil's webmotors.com.br…
+- [Zimmo scraper](https://github.com/2scraper/zimmo-scraper) — Zimmo.be sale and rent listings
+- [Autotrader scraper](https://github.com/2scraper/autotrader-scraper) — US car listings with VIN, fee-inclusive price, KBB fair…
+
+All scrapers: [github.com/2scraper](https://github.com/2scraper) · Need another site? [Open a request](https://github.com/2scraper/.github/issues/new?title=%5BScraper%20request%5D%20)
