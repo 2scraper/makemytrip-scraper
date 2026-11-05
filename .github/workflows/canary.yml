@@ -37,8 +37,8 @@ name: canary
 
 on:
   schedule:
-    # 05:50 UTC. Not on the hour: every scheduled workflow fires at :00.
-    - cron: "50 5 * * 1"
+    # 04:27 UTC. Not on the hour: every scheduled workflow fires at :00.
+    - cron: "27 4 * * 1"
   workflow_dispatch:
 
 permissions:
