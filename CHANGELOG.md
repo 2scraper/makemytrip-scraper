@@ -11,6 +11,7 @@ said so at the top of its release notes.
 
 ### Changed
 
+- CI only: the scheduled canary now starts at 04:27 UTC (Mondays) instead of 05:50, so canaries that share one Scraping Browser profile no longer start at the same time and lock each other out.
 - CI only: the whole canary, free and paid jobs alike, now runs weekly (Mondays 05:50 UTC) and on a manual dispatch; the daily schedule is removed.
 
 ## [0.2.0] — 2026-10-15
