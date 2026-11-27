@@ -11,6 +11,8 @@ said so at the top of its release notes.
 
 ### Changed
 
+- CI only: the offline-checks job runs on `ubuntu-24.04` instead of `ubuntu-latest`, which moved to Ubuntu 26.04, where `actions/setup-python` has no Python 3.9 build. 3.9 stays the supported floor.
+- Docker: the image installs `libatomic1` before Playwright. Recent Playwright releases' Node driver needs it to run `playwright install` at all, and the slim base image does not ship it, so the image build failed.
 - CI only: the scheduled canary now starts at 04:27 UTC (Mondays) instead of 05:50, so canaries that share one Scraping Browser profile no longer start at the same time and lock each other out.
 - CI only: the whole canary, free and paid jobs alike, now runs weekly (Mondays 05:50 UTC) and on a manual dispatch; the daily schedule is removed.
 
